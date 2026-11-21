@@ -275,24 +275,56 @@ def delete_song(song_id: int):
     conn.close()
     return True
 
+DEFAULT_SETTINGS = {
+    "church_name": "Remidos em Cristo",
+    "church_subtitle": "Nova Aliança",
+    "theme": "gold_dark",
+    "font_family": "'Outfit', sans-serif",
+    "font_size": "50px",
+    "text_weight": "700",
+    "text_position": "center",
+    "text_align": "center",
+    "bg_dim": "18",
+    "text_shadow": "cinematic",
+    "nvidia_api_key": "",
+    "nvidia_model": "nvidia/llama-3.1-nemotron-70b-instruct",
+    "obs_chroma_color": "#00ff00"
+}
+
 # =========================================================================
 # SETTINGS (HYBRID)
 # =========================================================================
 def get_settings():
+    settings = DEFAULT_SETTINGS.copy()
     if is_supabase_configured():
         try:
             url = f"{SUPABASE_URL}/rest/v1/settings?select=key,value"
             resp = requests.get(url, headers=get_supabase_headers(), timeout=5)
             if resp.status_code == 200:
-                return {r["key"]: r["value"] for r in resp.json()}
+                supa_data = {r["key"]: r["value"] for r in resp.json()}
+                if supa_data:
+                    settings.update(supa_data)
+                    return settings
+                else:
+                    # Seed Supabase with defaults if empty
+                    headers = get_supabase_headers()
+                    headers["Prefer"] = "resolution=merge-duplicates"
+                    for k, v in DEFAULT_SETTINGS.items():
+                        requests.post(f"{SUPABASE_URL}/rest/v1/settings", headers=headers, json={"key": k, "value": str(v)}, timeout=3)
+                    return settings
         except Exception as e:
             print(f"[Supabase] get_settings fallback: {e}")
 
-    conn = get_app_db()
-    c = conn.cursor()
-    c.execute("SELECT key, value FROM settings")
-    settings = {row["key"]: row["value"] for row in c.fetchall()}
-    conn.close()
+    try:
+        conn = get_app_db()
+        c = conn.cursor()
+        c.execute("SELECT key, value FROM settings")
+        local_data = {row["key"]: row["value"] for row in c.fetchall()}
+        conn.close()
+        settings.update(local_data)
+    except Exception as e:
+        print(f"[Local DB] get_settings error: {e}")
+
     return settings
 
 def update_settings(new_settings: dict):

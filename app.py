@@ -1,9 +1,8 @@
 import os
 import socket
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
 
@@ -20,7 +19,7 @@ init_app_db()
 
 app = FastAPI(title="Remidos Projeção & Transmissão")
 
-BASE_DIR = os.path.dirname(__file__)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.join(BASE_DIR, "static")
 TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
 
@@ -28,7 +27,6 @@ os.makedirs(STATIC_DIR, exist_ok=True)
 os.makedirs(TEMPLATES_DIR, exist_ok=True)
 
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
-templates = Jinja2Templates(directory=TEMPLATES_DIR)
 
 def get_local_ip():
     try:
@@ -93,32 +91,22 @@ class SettingsUpdateRequest(BaseModel):
     obs_chroma_color: Optional[str] = None
 
 # --- HTML Views ---
-@app.get("/", response_class=HTMLResponse)
-@app.get("/admin", response_class=HTMLResponse)
-async def admin_page(request: Request):
-    settings = get_settings()
-    local_ip = get_local_ip()
-    return templates.TemplateResponse("admin.html", {
-        "request": request, 
-        "settings": settings,
-        "local_ip": local_ip,
-        "port": 8765
-    })
+@app.get("/", response_class=FileResponse)
+@app.get("/admin", response_class=FileResponse)
+async def admin_page():
+    return FileResponse(os.path.join(TEMPLATES_DIR, "admin.html"))
 
-@app.get("/projector", response_class=HTMLResponse)
-async def projector_page(request: Request):
-    settings = get_settings()
-    return templates.TemplateResponse("projector.html", {"request": request, "settings": settings})
+@app.get("/projector", response_class=FileResponse)
+async def projector_page():
+    return FileResponse(os.path.join(TEMPLATES_DIR, "projector.html"))
 
-@app.get("/stage", response_class=HTMLResponse)
-async def stage_page(request: Request):
-    settings = get_settings()
-    return templates.TemplateResponse("stage.html", {"request": request, "settings": settings})
+@app.get("/stage", response_class=FileResponse)
+async def stage_page():
+    return FileResponse(os.path.join(TEMPLATES_DIR, "stage.html"))
 
-@app.get("/obs", response_class=HTMLResponse)
-async def obs_page(request: Request):
-    settings = get_settings()
-    return templates.TemplateResponse("obs.html", {"request": request, "settings": settings})
+@app.get("/obs", response_class=FileResponse)
+async def obs_page():
+    return FileResponse(os.path.join(TEMPLATES_DIR, "obs.html"))
 
 # --- WebSocket ---
 @app.websocket("/ws")
