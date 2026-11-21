@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remidos em Cristo — Retorno de Palco | Confidence Monitor</title>
+  <link rel="stylesheet" href="/static/css/stage.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="stage-frame">
+
+  <!-- TOP HEADER (~10% HEIGHT) -->
+  <header class="stage-header">
+    <div class="header-branding">
+      <div class="brand-sacred-seal">
+        <img src="/static/img/logo_transparent.png" alt="Remidos em Cristo" class="stage-church-logo" onerror="this.src='/static/img/logo.jpg'">
+      </div>
+      <div class="brand-titles">
+        <div class="church-line">
+          <span class="church-title">REMIDOS EM CRISTO</span>
+          <span class="church-sep">•</span>
+          <span class="sub-identity">NOVA ALIANÇA</span>
+        </div>
+        <div class="system-subline">
+          <span class="monitor-caption">STAGE CONFIDENCE MONITOR</span>
+          <div id="stage-status-badge" class="live-status-pill live">
+            <span class="status-dot"></span>
+            <span class="status-text">AO VIVO</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIGITAL TIMECODE CLOCK -->
+    <div class="header-clock">
+      <div class="clock-label">HORÁRIO ATUAL</div>
+      <div id="stage-clock" class="digital-timecode">00:00:00</div>
+    </div>
+  </header>
+
+  <!-- STAGE CONFIDENCE MONITORS WRAPPER (~90% HEIGHT) -->
+  <main class="stage-monitors-body">
+    
+    <!-- CURRENT CUE: PROGRAM (NO TELÃO) - ~52% HEIGHT -->
+    <section class="confidence-pane program-pane">
+      <header class="pane-cue-bar">
+        <div class="cue-tag-group">
+          <span class="cue-pill program-pill">
+            <span class="cue-indicator-dot program-dot"></span>
+            <span class="cue-primary-title">PROGRAM</span>
+          </span>
+          <span class="cue-state-badge">NO TELÃO</span>
+        </div>
+        <div class="cue-title-group">
+          <span id="stage-current-ref" class="cue-song-ref">Aguardando Projeção</span>
+        </div>
+      </header>
+
+      <div class="pane-text-viewport">
+        <div id="stage-current-text" class="pane-rendered-text program-rendered-text">
+          Aguardando seleção no painel de transmissão...
+        </div>
+      </div>
+    </section>
+
+    <!-- NEXT CUE: NEXT (A SEGUIR) - ~34% HEIGHT -->
+    <section class="confidence-pane next-pane">
+      <header class="pane-cue-bar next-bar">
+        <div class="cue-tag-group">
+          <span class="cue-pill next-pill">
+            <span class="cue-indicator-dot next-dot"></span>
+            <span class="cue-primary-title">NEXT</span>
+          </span>
+          <span class="cue-state-badge next-state">A SEGUIR</span>
+        </div>
+        <div class="cue-title-group">
+          <span id="stage-next-ref" class="cue-song-ref next-song-ref">---</span>
+        </div>
+      </header>
+
+      <div class="pane-text-viewport next-viewport">
+        <div id="stage-next-text" class="pane-rendered-text next-rendered-text">
+          ---
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="/static/js/stage.js"></script>
+</body>
+</html>

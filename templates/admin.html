@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remidos em Cristo — Nova Aliança | Master Broadcast</title>
+  <link rel="stylesheet" href="/static/css/admin.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="app-body">
+
+  <!-- TOP HEADER -->
+  <header class="master-header">
+    
+    <!-- LEFT: BRAND & CHURCH LOGO -->
+    <div class="header-left">
+      <div class="brand-church-logo">
+        <img src="/static/img/logo_transparent.png" alt="Remidos em Cristo" class="church-header-logo" onerror="this.src='/static/img/logo.jpg'">
+      </div>
+      <div class="brand-text-block">
+        <span class="brand-name">REMIDOS EM CRISTO</span>
+        <span class="brand-subtitle">NOVA ALIANÇA • MASTER BROADCAST</span>
+      </div>
+    </div>
+
+    <!-- CENTER: WORKSPACE NAVIGATION TABS -->
+    <nav class="header-center sub-nav">
+      <button class="nav-btn active" data-tab="tab-bible">
+        <svg class="tab-icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Bíblia</span>
+      </button>
+
+      <button class="nav-btn" data-tab="tab-songs">
+        <svg class="tab-icon" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        <span>Louvores</span>
+      </button>
+
+      <button class="nav-btn ai-tab" data-tab="tab-ai">
+        <svg class="tab-icon" viewBox="0 0 24 24"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2M9 2v2M20 15h2M20 9h2M9 20v2M15 20v2M2 9h2M2 15h2"/></svg>
+        <span>IA Igreja</span>
+      </button>
+
+      <button class="nav-btn" data-tab="tab-setlist">
+        <svg class="tab-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+        <span>Roteiro Culto</span>
+      </button>
+
+      <button class="nav-btn" data-tab="tab-settings">
+        <svg class="tab-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>Ajustes</span>
+      </button>
+    </nav>
+
+    <!-- RIGHT: FEED OUTPUT BUTTONS -->
+    <div class="header-right">
+      <button id="btn-open-projector" class="feed-btn" title="Abrir Projetor / Segundo Monitor (F11)">
+        <svg class="feed-icon" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+        <span>Projetor (F11)</span>
+      </button>
+
+      <button id="btn-open-stage" class="feed-btn" title="Abrir Retorno de Palco para Músicos">
+        <svg class="feed-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>Retorno Palco</span>
+      </button>
+
+      <button id="btn-open-obs" class="feed-btn" title="Copiar feed transparente para OBS Studio">
+        <svg class="feed-icon" viewBox="0 0 24 24"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19.1"/></svg>
+        <span>OBS Feed</span>
+      </button>
+    </div>
+
+    <!-- Hidden Master State Toggles (Controlled by Hotkeys & Code) -->
+    <div style="display:none;">
+      <button id="btn-blackout"></button>
+      <button id="btn-clear"></button>
+      <button id="btn-logo"></button>
+      <div id="live-badge">
+        <span id="live-status-text">ON AIR</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN TWO-COLUMN LAYOUT (70% / 30%) -->
+  <main class="console-body">
+    
+    <!-- LEFT PANEL: 70% MAIN WORKSPACE -->
+    <section class="console-column left-main">
+
+      <!-- TAB 1: BÍBLIA -->
+      <div id="tab-bible" class="tab-pane active">
+        
+        <!-- SEARCH ROW WITH SOLID GOLD BUTTON -->
+        <div class="search-capsule">
+          <svg class="search-lead-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="bible-search-input" placeholder="Pesquise por referência, palavra ou versículo..." autocomplete="off">
+          <button id="btn-bible-search" class="gold-search-btn">
+            <svg class="btn-search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <span>Buscar</span>
+          </button>
+        </div>
+
+        <!-- QUICK REFERENCE CHIPS -->
+        <div class="chips-row">
+          <button class="chip-ref active" data-ref="Jo 3:16">Jo 3:16</button>
+          <button class="chip-ref" data-ref="Sl 23">Sl 23</button>
+          <button class="chip-ref" data-ref="Is 40:29-31">Is 40:29-31</button>
+          <button class="chip-ref" data-ref="Rm 8:28">Rm 8:28</button>
+          <button class="chip-ref" data-ref="1 Co 13:4-8">1 Co 13:4-8</button>
+        </div>
+
+        <!-- SELECTORS ROW (BOOK, CHAPTER, VERSION) -->
+        <div class="dropdown-trio">
+          <div class="select-field">
+            <svg class="select-prefix-icon" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/></svg>
+            <select id="bible-book-select" class="ref-select">
+              <option value="">Selecione um Livro....</option>
+            </select>
+          </div>
+
+          <div class="select-field">
+            <svg class="select-prefix-icon" viewBox="0 0 24 24"><line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/></svg>
+            <select id="bible-chapter-select" class="ref-select" disabled>
+              <option value="">Capítulo...</option>
+            </select>
+          </div>
+
+          <div class="select-field">
+            <svg class="select-prefix-icon" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+            <select id="bible-version-select" class="ref-select">
+              <option value="NVI">NVI</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- SECTION HEADER WITH GOLD ACCENT LINE -->
+        <div class="section-gold-divider">
+          <div class="divider-title-group">
+            <svg class="gold-book-icon" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
+            <span id="bible-results-title">Livros & Versículos</span>
+          </div>
+          <div class="gold-horizontal-line"></div>
+          <span id="bible-results-count" class="counter-tag" style="display:none;">0</span>
+        </div>
+
+        <!-- VERSES RESULTS OR GLOWING BIBLE AMBIENT EMPTY STATE -->
+        <div id="bible-results-list" class="verses-viewport">
+          <div class="ambient-bible-empty">
+            <div class="empty-book-graphic">
+              <svg viewBox="0 0 48 48" fill="none" class="empty-svg">
+                <path d="M6 36c6-3.5 12-3.5 18 1 6-4.5 12-4.5 18-1v-16c-6-3.5-12-3.5-18 1-6-4.5-12-4.5-18-1v16z" stroke="#9BA3AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M24 21v16" stroke="#9BA3AE" stroke-width="2"/>
+                <line x1="12" y1="26" x2="18" y2="25" stroke="#9BA3AE" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="12" y1="30" x2="18" y2="29" stroke="#9BA3AE" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="30" y1="25" x2="36" y2="26" stroke="#9BA3AE" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="30" y1="29" x2="36" y2="30" stroke="#9BA3AE" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <p class="empty-instruction-text">
+              Selecione um livro ou digite uma referência acima<br>
+              para listar os versículos.
+            </p>
+            <div class="table-bible-image"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TAB 2: LOUVORES -->
+      <div id="tab-songs" class="tab-pane">
+        <div class="search-capsule">
+          <svg class="search-lead-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="songs-search-input" placeholder="Pesquisar por título, artista ou letra do louvor...">
+          <button id="btn-new-song" class="gold-search-btn">
+            <svg class="btn-search-icon" viewBox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+            <span>Novo</span>
+          </button>
+        </div>
+
+        <div class="songs-split-layout">
+          <div class="songs-side-catalog">
+            <div id="songs-list" class="catalog-scroll"></div>
+          </div>
+
+          <div class="song-active-viewer">
+            <div class="song-masthead">
+              <div>
+                <h3 id="song-selected-title">Selecione um louvor</h3>
+                <span id="song-selected-artist" class="muted-artist-name">Artista / Ministério</span>
+              </div>
+              <div class="song-masthead-actions">
+                <button id="btn-add-song-to-setlist" class="subtle-btn">+ Ao Culto</button>
+                <button id="btn-edit-song" class="subtle-btn">Editar</button>
+                <button id="btn-delete-song" class="subtle-btn danger">Excluir</button>
+              </div>
+            </div>
+
+            <div id="song-slides-grid" class="song-slides-deck">
+              <div class="empty-instruction-text" style="padding: 40px 0;">
+                Selecione um louvor no catálogo para visualizar as estrofes.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: IA IGREJA -->
+      <div id="tab-ai" class="tab-pane">
+        <div class="clean-surface-box">
+          <div class="box-header-row">
+            <div class="ai-title-tag">
+              <span class="ai-dot-indicator"></span>
+              <span>IA Igreja • Inteligência Artificial de Projeção</span>
+            </div>
+            <div class="ai-model-picker">
+              <label for="ai-model-select">Modelo:</label>
+              <select id="ai-model-select" class="ref-select compact">
+                <option value="nvidia/llama-3.1-nemotron-70b-instruct">Llama 3.1 NeMoTron 70B</option>
+                <option value="nvidia/nemotron-4-340b-instruct">NeMoTron-4 340B</option>
+                <option value="nvidia/nemotron-mini-4b-instruct">NeMoTron Mini 4B</option>
+              </select>
+            </div>
+          </div>
+          <p class="box-desc-text">Cole uma letra ou transcrição bruta. A IA formata em blocos rítmicos para projeção em 2 a 4 linhas.</p>
+
+          <div class="radio-segment">
+            <label class="radio-pill">
+              <input type="radio" name="ai-mode" value="worship" checked>
+              <span>Letra / Louvor</span>
+            </label>
+            <label class="radio-pill">
+              <input type="radio" name="ai-mode" value="sermon">
+              <span>Pregação / Anotações</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="ai-editor-box">
+          <textarea id="ai-raw-text" rows="7" placeholder="Cole aqui a letra completa ou a transcrição bruta do pregador..."></textarea>
+        </div>
+
+        <div class="ai-actions-bar">
+          <button id="btn-run-ai" class="gold-action-btn">
+            <span class="spinner" id="ai-spinner" style="display:none;"></span>
+            <span>Processar com IA Igreja</span>
+          </button>
+          <button id="btn-run-offline-split" class="subtle-btn">
+            <span>Segmentar Offline</span>
+          </button>
+          <button id="btn-clear-ai" class="subtle-btn ghost">Limpar</button>
+        </div>
+
+        <div id="ai-status-note" class="info-banner" style="display:none;"></div>
+
+        <div id="ai-results-section" class="ai-results-wrapper" style="display: none;">
+          <div class="ai-results-header">
+            <div>
+              <strong id="ai-detected-title">Louvor Formatado</strong>
+              <span id="ai-detected-artist" class="muted-artist-name">Artista</span>
+            </div>
+            <div class="song-masthead-actions">
+              <button id="btn-ai-save-song" class="subtle-btn success">Salvar Acervo</button>
+              <button id="btn-ai-project-first" class="gold-action-btn compact">Projetar 1º Slide</button>
+            </div>
+          </div>
+          <div id="ai-generated-slides" class="song-slides-deck"></div>
+        </div>
+      </div>
+
+      <!-- TAB 4: ROTEIRO DO CULTO -->
+      <div id="tab-setlist" class="tab-pane">
+        <div class="setlist-bar">
+          <div>
+            <h3 class="panel-heading">Ordem da Liturgia</h3>
+            <span class="muted-artist-name">Sequência ordenada de ministrações do culto</span>
+          </div>
+          <button id="btn-clear-setlist" class="subtle-btn danger">Limpar Fila</button>
+        </div>
+
+        <div id="current-setlist-items" class="setlist-tray">
+          <div class="ambient-bible-empty">
+            <p class="empty-instruction-text">Nenhum item enfileirado. Clique em "+ Ao Culto" nas abas Bíblia e Louvores para organizar a liturgia.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 5: AJUSTES -->
+      <div id="tab-settings" class="tab-pane">
+        <div class="clean-surface-box">
+          <h4 class="box-title">Tipografia & Estilo da Projeção</h4>
+          <p class="box-desc-text">Ajuste as fontes e o equilíbrio sobre o fundo cinematográfico com a Cruz e a Pomba.</p>
+
+          <div class="form-dual-grid">
+            <div class="form-unit">
+              <label>Família da Fonte</label>
+              <select id="setting-font-family" class="ref-select">
+                <option value="'Outfit', sans-serif" selected>Outfit (Moderno, Nítido e Limpo)</option>
+                <option value="'Cinzel', serif">Cinzel (Solene e Litúrgico)</option>
+                <option value="'Playfair Display', serif">Playfair Display (Serifado Elegante)</option>
+              </select>
+            </div>
+
+            <div class="form-unit">
+              <label>Peso / Espessura</label>
+              <select id="setting-font-weight" class="ref-select">
+                <option value="700" selected>Negrito Marcante (700)</option>
+                <option value="800">Extra Negrito (800)</option>
+                <option value="600">Semibold (600)</option>
+                <option value="500">Médio (500)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-dual-grid">
+            <div class="form-unit">
+              <label>Posição Vertical no Telão</label>
+              <select id="setting-text-position" class="ref-select">
+                <option value="center" selected>Centro Equilibrado (Entre a Cruz e a Pomba)</option>
+                <option value="upper">Superior Central</option>
+                <option value="lower">Terço Inferior</option>
+              </select>
+            </div>
+
+            <div class="form-unit">
+              <label>Alinhamento do Texto</label>
+              <select id="setting-text-align" class="ref-select">
+                <option value="center" selected>Centralizado</option>
+                <option value="left">Alinhado à Esquerda</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-dual-grid">
+            <div class="form-unit">
+              <label>Escurecimento da Imagem de Fundo</label>
+              <div class="slider-wrapper">
+                <input type="range" id="setting-bg-dim" min="0" max="50" value="18" class="gold-slider">
+                <span id="bg-dim-val-label" class="slider-indicator">18%</span>
+              </div>
+            </div>
+
+            <div class="form-unit">
+              <label>Sombra do Texto</label>
+              <select id="setting-text-shadow" class="ref-select">
+                <option value="cinematic" selected>Cinematográfica Nítida</option>
+                <option value="soft">Suave</option>
+                <option value="none">Sem Sombra</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="clean-surface-box">
+          <h4 class="box-title">NVIDIA Build / NeMoTron API</h4>
+          <p class="box-desc-text">Chave de acesso obtida gratuitamente em <a href="https://build.nvidia.com" target="_blank" class="gold-link">build.nvidia.com</a>.</p>
+          <div class="form-unit">
+            <label>API Key (nvapi-...)</label>
+            <input type="password" id="setting-nvidia-key" placeholder="nvapi-xxxxxxxxxxxxxxxxxxxxxxxx" class="studio-text-input">
+          </div>
+        </div>
+
+        <div class="clean-surface-box">
+          <h4 class="box-title">Identidade Institucional</h4>
+          <div class="form-dual-grid">
+            <div class="form-unit">
+              <label>Nome Principal</label>
+              <input type="text" id="setting-church-name" value="Remidos em Cristo" class="studio-text-input">
+            </div>
+            <div class="form-unit">
+              <label>Subtítulo</label>
+              <input type="text" id="setting-church-subtitle" value="Nova Aliança" class="studio-text-input">
+            </div>
+          </div>
+        </div>
+
+        <div class="save-bar">
+          <button id="btn-save-settings" class="gold-action-btn">Salvar Parâmetros</button>
+          <span id="settings-saved-indicator" class="success-label" style="display:none;">Gravado com sucesso.</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- RIGHT PANEL: 30% MASTER TRANSMISSION CONTROL -->
+    <aside class="console-column right-sidebar">
+
+      <!-- CARD 1: PROGRAMA FEED 01 (PRÉVIA DO PROJETOR) -->
+      <div class="sidebar-card preview-card">
+        <div class="card-topline">
+          <div class="program-tag">
+            <span class="red-signal-dot"></span>
+            <span class="program-label">PROGRAMA FEED 01</span>
+          </div>
+          <div class="theme-badge">
+            <svg class="gold-cal-icon" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+            <span id="live-theme-tag" class="theme-text">Dourado Litúrgico</span>
+          </div>
+        </div>
+
+        <!-- 16:9 PREVIEW FRAME -->
+        <div class="monitor-aspect-frame">
+          <div id="operator-live-preview" class="monitor-canvas">
+            <!-- Overlays -->
+            <div id="prev-overlay-blackout" class="prev-screen-cover blackout" style="display:none;">
+              <span>TELÃO APAGADO</span>
+            </div>
+            <div id="prev-overlay-clear" class="prev-screen-cover clear" style="display:none;">
+              <span>TEXTO OCULTO</span>
+            </div>
+            <div id="prev-overlay-logo" class="prev-screen-cover logo-cover">
+              <img src="/static/img/logo_transparent.png" alt="Logo" class="preview-logo-img" onerror="this.src='/static/img/logo.jpg'">
+            </div>
+
+            <!-- Slide Content Output -->
+            <div id="prev-content" class="prev-slide-output" style="display:none;">
+              <div id="prev-slide-text" class="prev-lyrics">Texto da Projeção</div>
+              <div id="prev-slide-ref" class="prev-ref-bar">Referência</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TRANSPORT CUE BAR -->
+        <div class="transport-cue-bar">
+          <button id="btn-prev-slide" class="transport-nav-btn prev" title="Slide Anterior (←)">
+            <span>&lt; Anterior</span>
+          </button>
+          
+          <div class="cue-indicator">
+            <span id="current-slide-num">4</span>
+            <span class="cue-slash">/</span>
+            <span id="total-slide-num">7</span>
+          </div>
+
+          <button id="btn-next-slide" class="gold-next-btn" title="Próximo Slide (→ ou Espaço)">
+            <span>Próximo &gt;</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- CARD 2: LETRAS DOS LOUVORES & ESTROFES -->
+      <div class="sidebar-card lyrics-card">
+        <div class="lyrics-card-header">
+          <div class="lyrics-heading-row">
+            <svg class="gold-music-icon" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/></svg>
+            <h4 id="deck-title">A Bênção</h4>
+          </div>
+          <span id="deck-subtitle" class="lyrics-artist-caption">Gabriel Guedes / Nívea Soares</span>
+        </div>
+
+        <!-- SCROLLABLE LYRICS LIST -->
+        <div id="deck-slides-container" class="lyrics-lines-tray">
+          <!-- Populated dynamically via JS -->
+        </div>
+
+        <!-- KEYBOARD SHORTCUTS HINTS (EXACT REFERENCE DESIGN) -->
+        <div class="hotkeys-bar">
+          <div class="hotkey-col">
+            <div class="hotkey-item"><kbd>Espaço</kbd> <span class="hotkey-desc">Avançar</span></div>
+            <div class="hotkey-item"><kbd>S</kbd> <span class="hotkey-desc">Blackout</span></div>
+            <div class="hotkey-item"><kbd>L</kbd> <span class="hotkey-desc">Logo</span></div>
+          </div>
+          <div class="hotkey-col">
+            <div class="hotkey-item"><kbd>←</kbd> <span class="hotkey-desc">Voltar</span></div>
+            <div class="hotkey-item"><kbd>C</kbd> <span class="hotkey-desc">Limpar</span></div>
+            <div class="hotkey-item"><kbd>F11</kbd> <span class="hotkey-desc">Tela Cheia</span></div>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- MODAL: CADASTRAR/EDITAR LOUVOR -->
+  <div id="modal-song" class="dialog-scrim" style="display: none;">
+    <div class="dialog-box">
+      <div class="dialog-header">
+        <h3 id="modal-song-title">Cadastrar Louvor</h3>
+        <button id="btn-close-song-modal" class="dialog-close-btn">&times;</button>
+      </div>
+      <div class="dialog-body">
+        <input type="hidden" id="modal-song-id">
+        <div class="form-dual-grid">
+          <div class="form-unit">
+            <label>Título do Louvor *</label>
+            <input type="text" id="modal-song-name" placeholder="Ex: Bondade de Deus" class="studio-text-input">
+          </div>
+          <div class="form-unit">
+            <label>Artista / Ministério</label>
+            <input type="text" id="modal-song-artist" placeholder="Ex: Isaías Saad" class="studio-text-input">
+          </div>
+        </div>
+        <div class="form-unit">
+          <label>Tags de Busca</label>
+          <input type="text" id="modal-song-tags" placeholder="adoração, gratidão, comunhão" class="studio-text-input">
+        </div>
+        <div class="form-unit">
+          <label>Estrofes da Letra</label>
+          <textarea id="modal-song-lyrics" rows="9" placeholder="Separe as estrofes por linha em branco ou use marcadores:
+[Verso 1]
+Te amo, Deus, Tua graça nunca falha...
+
+[Refrão]
+És fiel em todo tempo..." class="studio-text-input" style="height:auto; resize:vertical;"></textarea>
+        </div>
+      </div>
+      <div class="dialog-footer">
+        <button id="btn-modal-cancel" class="subtle-btn ghost">Cancelar</button>
+        <button id="btn-modal-save" class="gold-action-btn">Salvar Louvor</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/admin.js"></script>
+</body>
+</html>

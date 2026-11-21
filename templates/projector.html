@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remidos — Telão do Projetor</title>
+  <link rel="stylesheet" href="/static/css/projector.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Outfit:wght@500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+</head>
+<body id="projector-body" class="projector-canvas">
+
+  <!-- BACKGROUND IMAGE CONTAINER -->
+  <div class="projector-backdrop" id="projector-backdrop">
+    <div class="backdrop-dimmer" id="backdrop-dimmer"></div>
+  </div>
+
+  <!-- FULLSCREEN WRAPPER -->
+  <div id="projector-stage" class="projector-stage">
+    
+    <!-- BLACKOUT OVERLAY -->
+    <div id="blackout-screen" class="blackout-curtain" style="display: none;"></div>
+
+    <!-- LOGO VIEW -->
+    <div id="logo-screen" class="screen-view logo-view">
+      <div class="logo-composition">
+        <img src="/static/img/logo_transparent.png" alt="Remidos em Cristo" class="church-seal-img" onerror="this.src='/static/img/logo.jpg'">
+      </div>
+    </div>
+
+    <!-- SLIDE VIEW -->
+    <div id="slide-screen" class="screen-view slide-view" style="display: none;">
+      <div class="verse-chamber" id="verse-chamber">
+        <div id="slide-text" class="verse-projection-text"></div>
+        <div id="slide-meta" class="verse-reference-pill" style="display:none;">
+          <span id="slide-reference" class="reference-title"></span>
+          <span id="slide-type-badge" class="reference-tag" style="display:none;"></span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="/static/js/projector.js"></script>
+</body>
+</html>

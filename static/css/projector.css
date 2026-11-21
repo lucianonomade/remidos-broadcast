@@ -1,0 +1,187 @@
+:root {
+  --font-active: 'Outfit', sans-serif;
+  --font-seal: 'Cinzel', serif;
+  --font-size-val: 50px;
+  --font-weight-val: 700;
+  --text-align-val: center;
+  --gold-liturgical: #dfb76c;
+  --bg-dim-val: 0.18;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100vw;
+  height: 100vh;
+  background-color: #050608;
+  color: #ffffff;
+  font-family: var(--font-active);
+  overflow: hidden;
+  user-select: none;
+}
+
+/* BACKDROP WITH THE CHURCH IMAGE */
+.projector-backdrop {
+  position: absolute;
+  inset: 0;
+  background-image: url('/static/img/projector_bg.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+.backdrop-dimmer {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, var(--bg-dim-val));
+  transition: background-color 0.3s ease;
+}
+
+/* FULLSCREEN STAGE */
+.projector-stage {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* BLACKOUT CURTAIN */
+.blackout-curtain {
+  position: absolute;
+  inset: 0;
+  background-color: #000000 !important;
+  z-index: 500;
+}
+
+/* SCREEN VIEWS */
+.screen-view {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4vw 6vw;
+  z-index: 20;
+}
+
+/* LOGO VIEW */
+.logo-view {
+  animation: fadeIn 0.35s ease-out;
+}
+
+.logo-composition {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.church-seal-img {
+  width: clamp(280px, 36vw, 540px);
+  max-height: 70vh;
+  object-fit: contain;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  filter: drop-shadow(0 4px 24px rgba(0, 0, 0, 0.95));
+}
+
+/* VERSE CHAMBER */
+.slide-view {
+  animation: slideFade 0.22s ease-out;
+}
+
+@keyframes slideFade {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.verse-chamber {
+  max-width: 58vw;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(18px, 3vh, 36px);
+  text-align: var(--text-align-val);
+  margin-top: -2vh; /* Slightly raised for golden ratio balance */
+}
+
+.verse-chamber.align-left {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.verse-chamber.pos-upper {
+  margin-top: -12vh;
+}
+
+.verse-chamber.pos-lower {
+  margin-top: 18vh;
+}
+
+.verse-projection-text {
+  font-family: var(--font-active);
+  font-size: clamp(32px, 4.4vw, 62px);
+  font-weight: var(--font-weight-val);
+  line-height: 1.38;
+  color: #ffffff;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.95), 0 5px 20px rgba(0, 0, 0, 0.9);
+  white-space: pre-line;
+  letter-spacing: -0.01em;
+}
+
+.verse-projection-text.shadow-soft {
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.verse-projection-text.shadow-none {
+  text-shadow: none;
+}
+
+.verse-reference-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(10, 12, 18, 0.88);
+  backdrop-filter: blur(8px);
+  padding: 6px 20px;
+  border-radius: 24px;
+  border: 1px solid rgba(223, 183, 108, 0.5);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+}
+
+.reference-title {
+  font-family: var(--font-seal);
+  font-size: clamp(14px, 1.5vw, 22px);
+  font-weight: 700;
+  color: var(--gold-liturgical);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.reference-tag {
+  font-size: clamp(11px, 1.1vw, 15px);
+  font-weight: 700;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.12);
+  padding: 2px 10px;
+  border-radius: 12px;
+  letter-spacing: 0.5px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
