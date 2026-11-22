@@ -10,124 +10,179 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Remidos Palco">
   <link rel="apple-touch-icon" href="/static/img/icons/icon-192.png">
-  <link rel="stylesheet" href="/static/css/stage.css?v=2.3">
+  <link rel="stylesheet" href="/static/css/stage.css?v=3.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body class="stage-frame">
 
-  <!-- TOP HEADER (~10% HEIGHT) -->
+  <!-- TOP HEADER -->
   <header class="stage-header">
-    <div class="header-branding">
-      <div class="brand-sacred-seal">
-        <img src="/static/img/logo_transparent.png" alt="Remidos em Cristo" class="stage-church-logo" onerror="this.src='/static/img/logo.jpg'">
+    <div class="header-left-brand">
+      <div class="brand-seal-wrapper">
+        <img src="/static/img/logo_transparent.png" alt="Remidos" class="stage-logo-seal" onerror="this.src='/static/img/logo.jpg'">
       </div>
-      <div class="brand-titles">
-        <div class="church-line">
-          <span class="church-title">REMIDOS EM CRISTO</span>
-          <span class="church-sep">•</span>
-          <span class="sub-identity">NOVA ALIANÇA</span>
+      <div class="brand-text-block">
+        <div class="brand-primary-line">
+          <span class="church-name">REMIDOS EM CRISTO</span>
+          <span class="church-bullet">•</span>
+          <span class="church-sub">NOVA ALIANÇA</span>
         </div>
-        <div class="system-subline">
-          <span class="monitor-caption">STAGE CONFIDENCE MONITOR</span>
-          <div id="stage-status-badge" class="live-status-pill live">
-            <span class="status-dot"></span>
-            <span class="status-text">AO VIVO</span>
-          </div>
-        </div>
+        <div class="brand-sub-line">STAGE CONFIDENCE MONITOR</div>
       </div>
     </div>
 
-    <!-- RIGHT HEADER: CLOCK & FULLSCREEN (TABLET / MONITOR) -->
+    <!-- CENTER: VIEW SWITCHER PILLS -->
+    <div class="header-center-modes">
+      <button class="stage-mode-btn active" data-mode="auto" title="Alternar automaticamente de acordo com o momento do culto">
+        <span>⚡ Auto</span>
+      </button>
+      <button class="stage-mode-btn" data-mode="lyrics" title="Exibir letras dos louvores e versículos bíblicos">
+        <span>🎵 Louvor</span>
+      </button>
+      <button class="stage-mode-btn" data-mode="preacher" title="Exibir cronômetro gigante para o pregador no altar">
+        <span>⏱️ Pregador</span>
+      </button>
+    </div>
+
+    <!-- RIGHT TOOLS: FULLSCREEN, MINI-TIMER & WALL CLOCK -->
     <div class="header-right-tools">
       <button id="stage-fullscreen-btn" class="stage-fs-button" title="Alternar Tela Cheia (Ideal para Tablet / Monitor)">
-        <svg class="fs-icon enter" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="fs-icon enter" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2">
           <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
         </svg>
-        <svg class="fs-icon exit" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+        <svg class="fs-icon exit" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" style="display: none;">
           <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path>
         </svg>
         <span class="fs-text">Tela Cheia</span>
       </button>
 
-      <!-- DIGITAL PREACHER / ALTAR COUNTDOWN TIMER -->
-      <div id="stage-timer-wrapper" class="header-timer" style="display: none;">
-        <div id="stage-timer-label" class="timer-label">PREGAÇÃO</div>
-        <div id="stage-timer-display" class="digital-timecode timer-timecode">40:00</div>
+      <!-- MINI COUNTDOWN TIMER (SYNCED IN HEADER) -->
+      <div id="stage-mini-timer" class="header-metric mini-timer" style="display:none;">
+        <span class="metric-label" id="mini-timer-label">PREGAÇÃO</span>
+        <span class="metric-val" id="mini-timer-display">40:00</span>
       </div>
 
-      <!-- DIGITAL TIMECODE CLOCK -->
-      <div class="header-clock">
-        <div class="clock-label">HORÁRIO ATUAL</div>
-        <div id="stage-clock" class="digital-timecode">00:00:00</div>
+      <!-- CURRENT WALL CLOCK -->
+      <div class="header-metric wall-clock">
+        <span class="metric-label">HORÁRIO ATUAL</span>
+        <span id="stage-clock" class="metric-val">00:00:00</span>
       </div>
     </div>
   </header>
 
   <!-- PRIVATE STAGE ALERT BANNER (ONLY ON STAGE) -->
   <div id="stage-alert-banner" class="stage-alert-banner" style="display: none;">
-    <div class="alert-pulse-icon">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-      </svg>
+    <div class="alert-pulse-badge">
+      <span class="alert-bell-icon">🔔</span>
+      <span>AVISO DA CABINE</span>
     </div>
-    <div class="alert-content">
-      <span class="alert-tag">AVISO DA MESA:</span>
-      <span id="stage-alert-text" class="alert-message">---</span>
+    <div id="stage-alert-text" class="alert-message">
+      Abaixar retorno do violão
     </div>
   </div>
 
-  <!-- STAGE CONFIDENCE MONITORS WRAPPER (~90% HEIGHT) -->
-  <main class="stage-monitors-body">
-    
-    <!-- CURRENT CUE: PROGRAM (NO TELÃO) - ~52% HEIGHT -->
-    <section class="confidence-pane program-pane">
-      <header class="pane-cue-bar">
-        <div class="cue-tag-group">
-          <span class="cue-pill program-pill">
-            <span class="cue-indicator-dot program-dot"></span>
-            <span class="cue-primary-title">PROGRAM</span>
-          </span>
-          <span class="cue-state-badge">NO TELÃO</span>
-        </div>
-        <div class="cue-title-group">
-          <span id="stage-current-ref" class="cue-song-ref">Aguardando Projeção</span>
-        </div>
-      </header>
+  <!-- MAIN VIEWPORT CONTAINER -->
+  <main class="stage-main-viewport">
 
-      <div class="pane-text-viewport">
-        <div id="stage-current-text" class="pane-rendered-text program-rendered-text">
-          Aguardando seleção no painel de transmissão...
+    <!-- =========================================================================
+         VIEW 1: WORSHIP & LYRICS VIEW (NO AR & A SEGUIR)
+         ========================================================================= -->
+    <div id="view-lyrics" class="stage-view-pane active">
+      
+      <!-- CURRENT SLIDE: NO AR / PROGRAM -->
+      <section class="lyrics-card program-card">
+        <header class="cue-header">
+          <div class="cue-identity">
+            <span class="cue-pill live-pill">
+              <span class="pulse-dot"></span>
+              <span>NO AR</span>
+            </span>
+            <span id="stage-current-ref" class="cue-reference">Louvor ou Leitura</span>
+          </div>
+          <span id="stage-status-tag" class="cue-aux-tag">AO VIVO</span>
+        </header>
+
+        <div class="cue-text-chamber">
+          <div id="stage-current-text" class="lyrics-rendered-text program-text">
+            Aguardando seleção no painel de transmissão...
+          </div>
+        </div>
+      </section>
+
+      <!-- NEXT SLIDE: A SEGUIR / NEXT -->
+      <section class="lyrics-card next-card">
+        <header class="cue-header next-header">
+          <div class="cue-identity">
+            <span class="cue-pill next-pill">
+              <span>A SEGUIR</span>
+            </span>
+            <span id="stage-next-ref" class="cue-reference next-ref">Próxima estrofe</span>
+          </div>
+        </header>
+
+        <div class="cue-text-chamber next-chamber">
+          <div id="stage-next-text" class="lyrics-rendered-text next-text">
+            ---
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- =========================================================================
+         VIEW 2: PREACHER / ALTAR COUNTDOWN TIMER VIEW (BIG CLOCK)
+         ========================================================================= -->
+    <div id="view-preacher" class="stage-view-pane preacher-view" style="display:none;">
+      
+      <div class="preacher-timer-card">
+        <div class="preacher-header-row">
+          <div class="preacher-badge-pill">CRONÔMETRO DO ALTAR</div>
+          <div id="big-timer-label" class="preacher-label-tag">PREGAÇÃO</div>
+        </div>
+
+        <div class="big-countdown-chamber">
+          <div id="big-timer-display" class="giant-digital-clock normal">40:00</div>
+        </div>
+
+        <div class="preacher-footer-row">
+          <div class="clock-sync-unit">
+            <span class="sync-caption">HORÁRIO ATUAL:</span>
+            <span id="preacher-wall-clock" class="sync-clock-val">00:00:00</span>
+          </div>
+          <div id="big-timer-status" class="sync-status-badge active">EM CONTAGEM</div>
         </div>
       </div>
-    </section>
 
-    <!-- NEXT CUE: NEXT (A SEGUIR) - ~34% HEIGHT -->
-    <section class="confidence-pane next-pane">
-      <header class="pane-cue-bar next-bar">
-        <div class="cue-tag-group">
-          <span class="cue-pill next-pill">
-            <span class="cue-indicator-dot next-dot"></span>
-            <span class="cue-primary-title">NEXT</span>
-          </span>
-          <span class="cue-state-badge next-state">A SEGUIR</span>
+      <!-- LOWER MINI CURRENT SLIDE / VERSE (IF PREACHER IS CITING SCRIPTURE) -->
+      <div id="preacher-verse-preview" class="preacher-verse-card" style="display:none;">
+        <div class="preacher-verse-header">
+          <span class="mini-tag">VERSÍCULO NO TELÃO:</span>
+          <span id="preacher-verse-ref" class="preacher-verse-ref">João 3:16</span>
         </div>
-        <div class="cue-title-group">
-          <span id="stage-next-ref" class="cue-song-ref next-song-ref">---</span>
-        </div>
-      </header>
+        <div id="preacher-verse-text" class="preacher-verse-text">"Porque Deus tanto amou o mundo..."</div>
+      </div>
 
-      <div class="pane-text-viewport next-viewport">
-        <div id="stage-next-text" class="pane-rendered-text next-rendered-text">
-          ---
+    </div>
+
+    <!-- =========================================================================
+         VIEW 3: LITURGICAL STANDBY SCREEN (WHEN IDLE / CHURCH LOGO)
+         ========================================================================= -->
+    <div id="view-standby" class="stage-view-pane standby-view" style="display:none;">
+      <div class="standby-composition">
+        <img src="/static/img/logo_transparent.png" alt="Remidos" class="standby-logo-seal" onerror="this.src='/static/img/logo.jpg'">
+        <h2 class="standby-church-title">REMIDOS EM CRISTO</h2>
+        <div class="standby-church-subtitle">NOVA ALIANÇA • MONITOR DE RETORNO</div>
+        <div class="standby-status-pill">
+          <span class="pulse-dot gold"></span>
+          <span id="standby-status-text">LOGO TRANSMITIDA NO TELÃO PRINCIPAL</span>
         </div>
       </div>
-    </section>
+    </div>
 
   </main>
 
-  <script src="/static/js/stage.js?v=2.3"></script>
+  <script src="/static/js/stage.js?v=3.0"></script>
 </body>
 </html>
