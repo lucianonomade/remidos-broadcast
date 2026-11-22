@@ -1,6 +1,7 @@
 import os
+import re
 import socket
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request, File, UploadFile
 from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -12,6 +13,7 @@ from services.song_service import (
     get_settings, update_settings, get_setlists, save_setlist
 )
 from services.ai_service import format_with_nvidia_nemotron
+from services.scraper_service import import_song_from_web
 from services.state_service import state_manager
 
 # Initialize database
@@ -70,6 +72,14 @@ class SongSaveRequest(BaseModel):
     tags: Optional[str] = ""
     slides: List[Dict[str, Any]]
 
+class ImportSongRequest(BaseModel):
+    url_or_query: str
+
+class BackgroundChangeRequest(BaseModel):
+    bg_type: str
+    bg_url: Optional[str] = ""
+    theme_name: Optional[str] = "Personalizado"
+
 class SetlistSaveRequest(BaseModel):
     id: Optional[int] = None
     name: str
@@ -91,6 +101,14 @@ class SettingsUpdateRequest(BaseModel):
     obs_chroma_color: Optional[str] = None
 
 # --- HTML Views ---
+@app.get("/manifest.json")
+async def manifest_endpoint():
+    return FileResponse(os.path.join(STATIC_DIR, "manifest.json"), media_type="application/manifest+json")
+
+@app.get("/sw.js")
+async def sw_endpoint():
+    return FileResponse(os.path.join(STATIC_DIR, "sw.js"), media_type="application/javascript")
+
 @app.get("/", response_class=FileResponse)
 @app.get("/admin", response_class=FileResponse)
 async def admin_page():
@@ -252,3 +270,69 @@ async def api_update_settings(req: SettingsUpdateRequest):
     saved = update_settings(updates)
     await state_manager.update_styles(updates)
     return saved
+
+# --- Song Import from URL / Search API ---
+@app.post("/api/songs/import-url")
+async def api_import_song(req: ImportSongRequest):
+    try:
+        data = import_song_from_web(req.url_or_query)
+        return data
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=400)
+
+# --- Backgrounds & Motion Presets API ---
+@app.get("/api/backgrounds/presets")
+async def api_get_bg_presets():
+    return [
+        {
+            "id": "gold_classic",
+            "name": "Dourado Litúrgico",
+            "type": "image",
+            "url": "/static/img/projector_bg.jpg",
+            "badge": "Clássico"
+        },
+        {
+            "id": "motion_clouds",
+            "name": "Nuvens Celestiais (Motion)",
+            "type": "motion_clouds",
+            "url": "motion_clouds",
+            "badge": "Animado 60fps"
+        },
+        {
+            "id": "motion_particles",
+            "name": "Partículas de Glória (Motion)",
+            "type": "motion_particles",
+            "url": "motion_particles",
+            "badge": "Animado 60fps"
+        },
+        {
+            "id": "pure_black",
+            "name": "Painel LED (Preto Puro)",
+            "type": "color",
+            "url": "#000000",
+            "badge": "Zero Emissão"
+        }
+    ]
+
+@app.post("/api/projector/background")
+async def api_set_background(req: BackgroundChangeRequest):
+    await state_manager.set_background(req.bg_type, req.bg_url or "", req.theme_name or "Personalizado")
+    update_settings({"bg_type": req.bg_type, "bg_url": req.bg_url or "", "theme_name": req.theme_name or ""})
+    return {"status": "ok", "state": state_manager.get_state()}
+
+@app.post("/api/backgrounds/upload")
+async def api_upload_background(file: UploadFile = File(...)):
+    uploads_dir = os.path.join(STATIC_DIR, "uploads")
+    os.makedirs(uploads_dir, exist_ok=True)
+    clean_name = re.sub(r'[^a-zA-Z0-9_.-]', '_', file.filename)
+    dest_path = os.path.join(uploads_dir, clean_name)
+    with open(dest_path, "wb") as buffer:
+        buffer.write(await file.read())
+
+    url = f"/static/uploads/{clean_name}"
+    is_video = clean_name.lower().endswith(('.mp4', '.webm', '.mov'))
+    bg_type = "video" if is_video else "image"
+    theme_name = f"Upload: {file.filename[:20]}"
+    await state_manager.set_background(bg_type, url, theme_name)
+    update_settings({"bg_type": bg_type, "bg_url": url, "theme_name": theme_name})
+    return {"url": url, "bg_type": bg_type, "theme_name": theme_name}

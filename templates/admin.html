@@ -2,8 +2,14 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Remidos em Cristo — Nova Aliança | Master Broadcast</title>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#080a0d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Remidos Media">
+  <link rel="apple-touch-icon" href="/static/img/icons/icon-192.png">
   <link rel="stylesheet" href="/static/css/admin.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -173,6 +179,10 @@
         <div class="search-capsule">
           <svg class="search-lead-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
           <input type="text" id="songs-search-input" placeholder="Pesquisar por título, artista ou letra do louvor...">
+          <button id="btn-open-import-modal" class="gold-search-btn outline" title="Importar letra automaticamente por link do Letras.mus ou busca">
+            <svg class="btn-search-icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            <span>Importar Link</span>
+          </button>
           <button id="btn-new-song" class="gold-search-btn">
             <svg class="btn-search-icon" viewBox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
             <span>Novo</span>
@@ -352,6 +362,55 @@
           </div>
         </div>
 
+        <!-- MOTION BACKGROUNDS & THEME SELECTOR -->
+        <div class="clean-surface-box">
+          <div class="box-title-row">
+            <div>
+              <h4 class="box-title">Plano de Fundo do Telão & Motion Backgrounds</h4>
+              <p class="box-desc-text">Selecione animações celestiais em tempo real (60fps), modo LED ou envie seu próprio vídeo (.mp4) ou foto.</p>
+            </div>
+            <label class="gold-action-btn file-upload-label" title="Fazer upload de vídeo (.mp4) ou imagem de fundo">
+              <svg class="btn-search-icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+              <span>Enviar Mídia</span>
+              <input type="file" id="input-bg-upload" accept="video/mp4,video/webm,image/jpeg,image/png" style="display:none;">
+            </label>
+          </div>
+
+          <div class="bg-presets-grid" id="bg-presets-grid">
+            <div class="bg-preset-card active" data-type="image" data-url="/static/img/projector_bg.jpg" data-name="Dourado Litúrgico">
+              <div class="preset-preview gold-bg"></div>
+              <div class="preset-meta">
+                <span class="preset-name">Dourado Litúrgico</span>
+                <span class="preset-tag">Clássico</span>
+              </div>
+            </div>
+
+            <div class="bg-preset-card" data-type="motion_particles" data-url="motion_particles" data-name="Partículas de Glória">
+              <div class="preset-preview particles-bg"></div>
+              <div class="preset-meta">
+                <span class="preset-name">Partículas de Glória</span>
+                <span class="preset-tag motion">Motion 60fps</span>
+              </div>
+            </div>
+
+            <div class="bg-preset-card" data-type="motion_clouds" data-url="motion_clouds" data-name="Nuvens Celestiais">
+              <div class="preset-preview clouds-bg"></div>
+              <div class="preset-meta">
+                <span class="preset-name">Nuvens Celestiais</span>
+                <span class="preset-tag motion">Motion 60fps</span>
+              </div>
+            </div>
+
+            <div class="bg-preset-card" data-type="color" data-url="#000000" data-name="Painel LED (Preto)">
+              <div class="preset-preview black-bg"></div>
+              <div class="preset-meta">
+                <span class="preset-name">Painel LED</span>
+                <span class="preset-tag led">Zero Luz</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="clean-surface-box">
           <h4 class="box-title">NVIDIA Build / NeMoTron API</h4>
           <p class="box-desc-text">Chave de acesso obtida gratuitamente em <a href="https://build.nvidia.com" target="_blank" class="gold-link">build.nvidia.com</a>.</p>
@@ -527,6 +586,49 @@ Te amo, Deus, Tua graça nunca falha...
       <div class="dialog-footer">
         <button id="btn-modal-cancel" class="subtle-btn ghost">Cancelar</button>
         <button id="btn-modal-save" class="gold-action-btn">Salvar Louvor</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: IMPORTAR LOUVOR POR LINK OU BUSCA -->
+  <div id="modal-import-song" class="dialog-scrim" style="display: none;">
+    <div class="dialog-box import-dialog">
+      <div class="dialog-header">
+        <div class="dialog-title-group">
+          <svg class="gold-music-icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+          <h3>Importar Louvor Automaticamente</h3>
+        </div>
+        <button id="btn-close-import-modal" class="dialog-close-btn">&times;</button>
+      </div>
+      <div class="dialog-body">
+        <p class="import-hint-text">Cole o link do louvor no <strong>Letras.mus.br</strong>, <strong>Cifra Club</strong> ou digite o <strong>nome da música e cantor</strong>:</p>
+        
+        <div class="search-capsule import-capsule">
+          <svg class="search-lead-icon" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          <input type="text" id="import-url-input" placeholder="Ex: https://www.letras.mus.br/isaias-saad/bondade-de-deus/ ou 'A Bênção'">
+          <button id="btn-do-import" class="gold-search-btn">
+            <span id="import-btn-label">Buscar Letra</span>
+          </button>
+        </div>
+
+        <div id="import-spinner" class="spinner-line" style="display:none;">Buscando e segmentando estrofes...</div>
+        <div id="import-error" class="error-banner" style="display:none;"></div>
+
+        <!-- PREVIEW IMPORT RESULT -->
+        <div id="import-preview-area" class="import-preview-box" style="display: none;">
+          <div class="import-preview-header">
+            <div>
+              <h4 id="import-res-title">Título</h4>
+              <span id="import-res-artist" class="muted-artist-name">Artista</span>
+            </div>
+            <span id="import-res-slides-count" class="counter-tag">0 slides</span>
+          </div>
+          <div id="import-res-slides-list" class="import-slides-scroll"></div>
+        </div>
+      </div>
+      <div class="dialog-footer">
+        <button id="btn-cancel-import" class="subtle-btn ghost">Cancelar</button>
+        <button id="btn-save-imported-song" class="gold-action-btn" style="display: none;">Salvar no Acervo</button>
       </div>
     </div>
   </div>

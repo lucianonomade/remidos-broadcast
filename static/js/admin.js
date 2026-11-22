@@ -128,6 +128,28 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function updateOperatorUI(state) {
+    // Sync Theme / Background Tag
+    if (state.theme_name) {
+      const liveTheme = document.getElementById('live-theme-tag');
+      if (liveTheme) liveTheme.textContent = state.theme_name;
+    }
+
+    // Sync Preview Background
+    if (opLivePreview && state.bg_type) {
+      if (state.bg_type === 'color') {
+        opLivePreview.style.backgroundImage = 'none';
+        opLivePreview.style.backgroundColor = state.bg_url || '#000';
+      } else if (state.bg_type === 'motion_particles') {
+        opLivePreview.style.backgroundImage = 'none';
+        opLivePreview.style.backgroundColor = '#141006';
+      } else if (state.bg_type === 'motion_clouds') {
+        opLivePreview.style.backgroundImage = 'none';
+        opLivePreview.style.backgroundColor = '#0b0f18';
+      } else if (state.bg_url) {
+        opLivePreview.style.backgroundImage = `url('${state.bg_url}')`;
+      }
+    }
+
     // Sync Mobile Action Buttons
     const mobBlackout = document.getElementById('mob-btn-blackout');
     const mobLogo = document.getElementById('mob-btn-logo');
@@ -993,6 +1015,192 @@ document.addEventListener('DOMContentLoaded', function() {
       settingsSavedIndicator.style.display = 'none';
     }, 2500);
   });
+
+  // =========================================================================
+  // BACKGROUND PRESETS & MOTION MEDIA
+  // =========================================================================
+  const bgPresetCards = document.querySelectorAll('.bg-preset-card');
+  const inputBgUpload = document.getElementById('input-bg-upload');
+  const liveThemeTag = document.getElementById('live-theme-tag');
+
+  bgPresetCards.forEach(card => {
+    card.addEventListener('click', async () => {
+      const bgType = card.getAttribute('data-type');
+      const bgUrl = card.getAttribute('data-url');
+      const bgName = card.getAttribute('data-name');
+
+      bgPresetCards.forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      if (liveThemeTag) liveThemeTag.textContent = bgName;
+
+      await fetch('/api/projector/background', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bg_type: bgType, bg_url: bgUrl, theme_name: bgName })
+      });
+    });
+  });
+
+  if (inputBgUpload) {
+    inputBgUpload.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const res = await fetch('/api/backgrounds/upload', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+        if (data.url) {
+          bgPresetCards.forEach(c => c.classList.remove('active'));
+          if (liveThemeTag) liveThemeTag.textContent = data.theme_name || 'Personalizado';
+          alert(`Mídia de fundo '${file.name}' enviada e aplicada com sucesso no telão!`);
+        }
+      } catch (err) {
+        alert('Erro ao enviar mídia de fundo: ' + err.message);
+      }
+    });
+  }
+
+  // =========================================================================
+  // IMPORT SONG FROM URL / SEARCH MODAL
+  // =========================================================================
+  const modalImportSong = document.getElementById('modal-import-song');
+  const btnOpenImportModal = document.getElementById('btn-open-import-modal');
+  const btnCloseImportModal = document.getElementById('btn-close-import-modal');
+  const btnCancelImport = document.getElementById('btn-cancel-import');
+  const btnDoImport = document.getElementById('btn-do-import');
+  const importUrlInput = document.getElementById('import-url-input');
+  const importSpinner = document.getElementById('import-spinner');
+  const importError = document.getElementById('import-error');
+  const importPreviewArea = document.getElementById('import-preview-area');
+  const importResTitle = document.getElementById('import-res-title');
+  const importResArtist = document.getElementById('import-res-artist');
+  const importResSlidesCount = document.getElementById('import-res-slides-count');
+  const importResSlidesList = document.getElementById('import-res-slides-list');
+  const btnSaveImportedSong = document.getElementById('btn-save-imported-song');
+
+  let importedSongData = null;
+
+  function openImportModal() {
+    if (modalImportSong) {
+      modalImportSong.style.display = 'flex';
+      if (importUrlInput) {
+        importUrlInput.value = '';
+        importUrlInput.focus();
+      }
+      if (importPreviewArea) importPreviewArea.style.display = 'none';
+      if (importError) importError.style.display = 'none';
+      if (importSpinner) importSpinner.style.display = 'none';
+      if (btnSaveImportedSong) btnSaveImportedSong.style.display = 'none';
+      importedSongData = null;
+    }
+  }
+
+  function closeImportModal() {
+    if (modalImportSong) modalImportSong.style.display = 'none';
+  }
+
+  if (btnOpenImportModal) btnOpenImportModal.addEventListener('click', openImportModal);
+  if (btnCloseImportModal) btnCloseImportModal.addEventListener('click', closeImportModal);
+  if (btnCancelImport) btnCancelImport.addEventListener('click', closeImportModal);
+
+  if (btnDoImport) {
+    btnDoImport.addEventListener('click', async () => {
+      const q = importUrlInput.value.trim();
+      if (!q) {
+        alert('Digite o link do louvor ou o nome da música e cantor.');
+        return;
+      }
+
+      importSpinner.style.display = 'block';
+      importError.style.display = 'none';
+      importPreviewArea.style.display = 'none';
+      btnSaveImportedSong.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/songs/import-url', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url_or_query: q })
+        });
+        const data = await res.json();
+
+        if (!res.ok || data.error) {
+          throw new Error(data.error || 'Erro ao importar letra');
+        }
+
+        importedSongData = data;
+        importResTitle.textContent = data.title;
+        importResArtist.textContent = data.artist || 'Artista não identificado';
+        importResSlidesCount.textContent = `${data.slides.length} slides`;
+
+        importResSlidesList.innerHTML = '';
+        data.slides.forEach((sl, idx) => {
+          const row = document.createElement('div');
+          row.className = 'import-slide-row';
+          row.innerHTML = `
+            <div class="import-slide-type">${sl.type}</div>
+            <div class="import-slide-text">${sl.text}</div>
+          `;
+          importResSlidesList.appendChild(row);
+        });
+
+        importPreviewArea.style.display = 'flex';
+        btnSaveImportedSong.style.display = 'inline-flex';
+      } catch (err) {
+        importError.textContent = err.message;
+        importError.style.display = 'block';
+      } finally {
+        importSpinner.style.display = 'none';
+      }
+    });
+  }
+
+  if (btnSaveImportedSong) {
+    btnSaveImportedSong.addEventListener('click', async () => {
+      if (!importedSongData) return;
+
+      try {
+        const res = await fetch('/api/songs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: importedSongData.title,
+            artist: importedSongData.artist || '',
+            tags: importedSongData.tags || 'importado',
+            slides: importedSongData.slides
+          })
+        });
+        const saved = await res.json();
+        closeImportModal();
+        await loadSongs();
+        if (saved && saved.id) {
+          selectSong(saved.id);
+        }
+        alert(`Louvor '${importedSongData.title}' salvo com sucesso no acervo!`);
+      } catch (err) {
+        alert('Erro ao salvar louvor: ' + err.message);
+      }
+    });
+  }
+
+  // =========================================================================
+  // PWA SERVICE WORKER REGISTRATION
+  // =========================================================================
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').then((reg) => {
+        console.log('PWA Service Worker registered:', reg.scope);
+      }).catch((err) => {
+        console.log('PWA registration notice:', err);
+      });
+    });
+  }
 
   // --- INITIALIZE EVERYTHING ---
   initWebSocket();

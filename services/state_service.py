@@ -15,6 +15,9 @@ class ProjectionState:
         self.text_position: str = "center" # 'center', 'upper', 'lower'
         self.bg_dim: int = 15 # percentage dimming overlay (0 to 50)
         self.text_shadow: str = "cinematic" # 'cinematic', 'soft', 'none'
+        self.bg_type: str = "image" # 'image', 'video', 'color', 'motion_particles', 'motion_clouds'
+        self.bg_url: str = "/static/img/projector_bg.jpg"
+        self.theme_name: str = "Dourado Litúrgico"
         
         self.current_slide: Dict[str, Any] = {
             "title": "Remidos em Cristo",
@@ -47,6 +50,9 @@ class ProjectionState:
             "text_position": self.text_position,
             "bg_dim": self.bg_dim,
             "text_shadow": self.text_shadow,
+            "bg_type": self.bg_type,
+            "bg_url": self.bg_url,
+            "theme_name": self.theme_name,
             "current_slide": self.current_slide,
             "next_slide": self.next_slide,
             "active_presentation": self.active_presentation,
@@ -155,6 +161,15 @@ class ProjectionState:
         if "text_position" in styles: self.text_position = styles["text_position"]
         if "bg_dim" in styles: self.bg_dim = int(styles["bg_dim"])
         if "text_shadow" in styles: self.text_shadow = styles["text_shadow"]
+        if "bg_type" in styles: self.bg_type = styles["bg_type"]
+        if "bg_url" in styles: self.bg_url = styles["bg_url"]
+        if "theme_name" in styles: self.theme_name = styles["theme_name"]
+        await self.broadcast_state()
+
+    async def set_background(self, bg_type: str, bg_url: str, theme_name: str = "Personalizado"):
+        self.bg_type = bg_type
+        self.bg_url = bg_url
+        self.theme_name = theme_name
         await self.broadcast_state()
 
 state_manager = ProjectionState()

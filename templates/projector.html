@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Remidos — Telão do Projetor</title>
   <link rel="stylesheet" href="/static/css/projector.css">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#080a0d">
+  <link rel="apple-touch-icon" href="/static/img/icons/icon-192.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Outfit:wght@500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
@@ -13,6 +16,8 @@
 
   <!-- BACKGROUND IMAGE CONTAINER -->
   <div class="projector-backdrop" id="projector-backdrop">
+    <canvas id="motion-canvas" class="motion-canvas" style="display: none;"></canvas>
+    <video id="projector-video" class="projector-video" autoplay loop muted playsinline style="display: none;"></video>
     <div class="backdrop-dimmer" id="backdrop-dimmer"></div>
   </div>
 
