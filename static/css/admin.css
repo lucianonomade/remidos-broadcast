@@ -1413,7 +1413,7 @@ kbd {
 
 .bg-preset-card.active {
   border-color: var(--gold-primary);
-  box-shadow: 0 0 12px rgba(214, 168, 79, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
   background: rgba(214, 168, 79, 0.08);
 }
 
@@ -1611,7 +1611,7 @@ kbd {
   background: rgba(239, 68, 68, 0.22);
   border-color: var(--red-live);
   color: var(--red-live);
-  box-shadow: 0 0 10px rgba(239, 68, 68, 0.25);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
 }
 
 .cue-action-btn.btn-clear-toggle.active {
@@ -1624,7 +1624,7 @@ kbd {
   background: rgba(214, 168, 79, 0.22);
   border-color: var(--gold-primary);
   color: var(--gold-light);
-  box-shadow: 0 0 10px rgba(214, 168, 79, 0.25);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
 }
 
 /* Default state for mobile-specific elements on desktop */
@@ -1949,7 +1949,7 @@ kbd {
     background: var(--gold-primary);
     border-color: var(--gold-primary);
     color: #000;
-    box-shadow: 0 2px 8px rgba(214, 168, 79, 0.3);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
   }
 
   .mob-cue-badge {
