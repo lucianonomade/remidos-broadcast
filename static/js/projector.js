@@ -210,59 +210,55 @@
     // 3. Blackout
     if (state.is_blackout) {
       blackoutScreen.style.display = 'block';
-      return;
     } else {
       blackoutScreen.style.display = 'none';
     }
 
-    // 4. Logo screen
-    if (state.is_logo) {
-      logoScreen.style.display = 'flex';
-      slideScreen.style.display = 'none';
-      return;
-    } else {
+    // 4. Main Views: Logo vs Slide vs Clear
+    if (state.is_blackout) {
       logoScreen.style.display = 'none';
-    }
-
-    // 5. Clear text
-    if (state.is_clear) {
       slideScreen.style.display = 'none';
-      return;
-    }
-
-    // 6. Normal slide content
-    const slide = state.current_slide;
-    if (slide && slide.text) {
-      slideText.textContent = slide.text;
-      
-      const slideMeta = document.getElementById('slide-meta');
-      const isBible = slide.type === 'Bíblia' || (slide.reference && /^[0-9]?\s*[A-Za-zÀ-ÖØ-öø-ÿ]+\s+\d+:\d+/.test(slide.reference));
-      
-      if (isBible) {
-        slideReference.textContent = slide.reference || slide.title || '';
-        slideReference.style.display = 'inline-block';
-        slideTypeBadge.style.display = 'none';
-        if (slideMeta) slideMeta.style.display = 'flex';
-      } else {
-        slideReference.textContent = '';
-        slideReference.style.display = 'none';
-        slideTypeBadge.style.display = 'none';
-        if (slideMeta) slideMeta.style.display = 'none';
-      }
-
-      slideScreen.style.display = 'flex';
-    } else {
+    } else if (state.is_logo) {
       logoScreen.style.display = 'flex';
       slideScreen.style.display = 'none';
+    } else if (state.is_clear) {
+      logoScreen.style.display = 'none';
+      slideScreen.style.display = 'none';
+    } else {
+      const slide = state.current_slide;
+      if (slide && slide.text) {
+        slideText.textContent = slide.text;
+        
+        const slideMeta = document.getElementById('slide-meta');
+        const isBible = slide.type === 'Bíblia' || (slide.reference && /^[0-9]?\s*[A-Za-zÀ-ÖØ-öø-ÿ]+\s+\d+:\d+/.test(slide.reference));
+        
+        if (isBible) {
+          slideReference.textContent = slide.reference || slide.title || '';
+          slideReference.style.display = 'inline-block';
+          slideTypeBadge.style.display = 'none';
+          if (slideMeta) slideMeta.style.display = 'flex';
+        } else {
+          slideReference.textContent = '';
+          slideReference.style.display = 'none';
+          slideTypeBadge.style.display = 'none';
+          if (slideMeta) slideMeta.style.display = 'none';
+        }
+
+        slideScreen.style.display = 'flex';
+        logoScreen.style.display = 'none';
+      } else {
+        logoScreen.style.display = 'flex';
+        slideScreen.style.display = 'none';
+      }
     }
 
-    // 7. Projector Alert Banner (Berçário, Estacionamento, Comunicados)
+    // 5. Projector Lower Alert Banner (Berçário, Estacionamento, Comunicados)
     const alertBanner = document.getElementById('projector-alert-banner');
     const alertIcon = document.getElementById('alert-icon');
     const alertTypeText = document.getElementById('alert-type-text');
     const alertText = document.getElementById('projector-alert-text');
 
-    if (alertBanner && state.projector_alert && state.projector_alert.trim()) {
+    if (alertBanner && !state.is_blackout && state.projector_alert && state.projector_alert.trim()) {
       if (alertText) alertText.textContent = state.projector_alert.trim();
       
       const type = state.projector_alert_type || 'general';

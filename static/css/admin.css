@@ -698,6 +698,34 @@ body.app-body {
   letter-spacing: 0.5px;
 }
 
+.prev-alert-banner {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(10, 12, 18, 0.95);
+  border: 1px solid var(--border-gold);
+  border-radius: 14px;
+  padding: 3px 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #fff;
+  z-index: 50;
+  max-width: 90%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.prev-alert-banner span:last-child {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* Transport Cue Bar */
 .transport-cue-bar {
   display: flex;

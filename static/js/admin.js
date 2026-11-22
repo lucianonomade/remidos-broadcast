@@ -212,6 +212,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update active deck highlighting
     highlightActiveDeckSlide();
 
+    // Render Projector Alert on the Operator Live Preview Monitor
+    const prevAlert = document.getElementById('prev-overlay-alert');
+    const prevAlertIcon = document.getElementById('prev-alert-icon');
+    const prevAlertText = document.getElementById('prev-alert-text');
+    if (prevAlert) {
+      if (state.projector_alert && state.projector_alert.trim() && !state.is_blackout) {
+        if (prevAlertText) prevAlertText.textContent = state.projector_alert.trim();
+        if (prevAlertIcon) {
+          prevAlertIcon.textContent = (state.projector_alert_type === 'nursery') ? '👶' : (state.projector_alert_type === 'car') ? '🚗' : '🔔';
+        }
+        prevAlert.style.display = 'flex';
+      } else {
+        prevAlert.style.display = 'none';
+      }
+    }
+
     // Sync Altar & Culto Tools (Alerts & Timer)
     if (typeof updateAltarAlertsUI === 'function') {
       updateAltarAlertsUI(state);
@@ -1480,7 +1496,6 @@ document.addEventListener('DOMContentLoaded', function() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: msg })
       });
-      alert('Recado enviado ao retorno de palco com sucesso!');
     } catch (err) {
       alert('Erro ao enviar mensagem ao palco: ' + err.message);
     }
@@ -1527,7 +1542,6 @@ document.addEventListener('DOMContentLoaded', function() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: msg, alert_type: selectedType })
       });
-      alert('Alerta projetado na base do telão com sucesso!');
     } catch (err) {
       alert('Erro ao projetar alerta: ' + err.message);
     }
