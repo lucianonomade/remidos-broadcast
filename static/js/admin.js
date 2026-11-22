@@ -128,6 +128,14 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function updateOperatorUI(state) {
+    // Sync Mobile Action Buttons
+    const mobBlackout = document.getElementById('mob-btn-blackout');
+    const mobLogo = document.getElementById('mob-btn-logo');
+    const mobClear = document.getElementById('mob-btn-clear');
+    if (mobBlackout) mobBlackout.classList.toggle('active', !!state.is_blackout);
+    if (mobLogo) mobLogo.classList.toggle('active', !!state.is_logo && !state.is_blackout);
+    if (mobClear) mobClear.classList.toggle('active', !!state.is_clear && !state.is_blackout && !state.is_logo);
+
     // 1. Toggles
     if (state.is_blackout) {
       btnBlackout.classList.add('active');
@@ -270,6 +278,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     currentSlideNum.textContent = startIndex + 1;
     totalSlideNum.textContent = activeDeck.length;
+
+    // Sync Mobile Counter
+    const mobCurrent = document.getElementById('mob-current-slide');
+    const mobTotal = document.getElementById('mob-total-slide');
+    if (mobCurrent) mobCurrent.textContent = startIndex + 1;
+    if (mobTotal) mobTotal.textContent = activeDeck.length;
   }
 
   // --- POPUP WINDOW LAUNCHERS ---
@@ -290,12 +304,36 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Buttons
+  // Desktop Buttons
   btnBlackout.addEventListener('click', toggleBlackout);
   btnClear.addEventListener('click', toggleClear);
   btnLogo.addEventListener('click', toggleLogo);
   btnNextSlide.addEventListener('click', nextSlide);
   btnPrevSlide.addEventListener('click', prevSlide);
+
+  // Mobile Bottom Bar Buttons
+  const mobBtnPrev = document.getElementById('mob-btn-prev');
+  const mobBtnNext = document.getElementById('mob-btn-next');
+  const mobBtnBlackout = document.getElementById('mob-btn-blackout');
+  const mobBtnClear = document.getElementById('mob-btn-clear');
+  const mobBtnLogo = document.getElementById('mob-btn-logo');
+  const mobBtnDeck = document.getElementById('mob-btn-deck');
+
+  if (mobBtnPrev) mobBtnPrev.addEventListener('click', prevSlide);
+  if (mobBtnNext) mobBtnNext.addEventListener('click', nextSlide);
+  if (mobBtnBlackout) mobBtnBlackout.addEventListener('click', toggleBlackout);
+  if (mobBtnClear) mobBtnClear.addEventListener('click', toggleClear);
+  if (mobBtnLogo) mobBtnLogo.addEventListener('click', toggleLogo);
+  if (mobBtnDeck) {
+    mobBtnDeck.addEventListener('click', () => {
+      const deckTab = document.querySelector('.sub-nav .nav-btn[data-tab="tab-deck"]');
+      if (deckTab) {
+        deckTab.click();
+      } else {
+        document.body.classList.toggle('mobile-deck-active');
+      }
+    });
+  }
 
   // Keyboard Shortcuts
   window.addEventListener('keydown', (e) => {
@@ -330,9 +368,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
       tab.classList.add('active');
       const targetId = tab.getAttribute('data-tab');
-      const targetEl = document.getElementById(targetId);
-      if (targetEl) {
-        targetEl.classList.add('active');
+
+      if (targetId === 'tab-deck') {
+        document.body.classList.add('mobile-deck-active');
+        const rightSidebar = document.querySelector('.console-column.right-sidebar');
+        if (rightSidebar) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      } else {
+        document.body.classList.remove('mobile-deck-active');
+        const targetEl = document.getElementById(targetId);
+        if (targetEl) {
+          targetEl.classList.add('active');
+        }
       }
     });
   });

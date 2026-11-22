@@ -1350,3 +1350,468 @@ kbd {
   border-top: 1px solid var(--border-color);
   background: var(--bg-secondary);
 }
+
+/* =========================================================================
+   MASTER BROADCAST TOGGLES BAR (BLACKOUT, CLEAR, LOGO)
+   ========================================================================= */
+.master-toggles-bar {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.cue-action-btn {
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 6px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.cue-action-btn .action-btn-icon {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+}
+
+.cue-action-btn:hover {
+  border-color: var(--gold-primary);
+  color: var(--text-main);
+}
+
+.cue-action-btn.btn-blackout-toggle.active {
+  background: rgba(239, 68, 68, 0.22);
+  border-color: var(--red-live);
+  color: var(--red-live);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.25);
+}
+
+.cue-action-btn.btn-clear-toggle.active {
+  background: rgba(131, 169, 214, 0.22);
+  border-color: var(--blue-info);
+  color: var(--blue-info);
+}
+
+.cue-action-btn.btn-logo-toggle.active {
+  background: rgba(214, 168, 79, 0.22);
+  border-color: var(--gold-primary);
+  color: var(--gold-light);
+  box-shadow: 0 0 10px rgba(214, 168, 79, 0.25);
+}
+
+/* Default state for mobile-specific elements on desktop */
+.mob-only-tab {
+  display: none !important;
+}
+
+.mobile-sticky-bar {
+  display: none;
+}
+
+/* =========================================================================
+   MOBILE & TABLET RESPONSIVE DESIGN (<= 900px)
+   ========================================================================= */
+@media (max-width: 900px) {
+  body.app-body {
+    height: auto;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* 2-Tier Header for Mobile */
+  .master-header {
+    height: auto;
+    min-height: 98px;
+    padding: 10px 12px 6px 12px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: #080a0d;
+  }
+
+  .master-header::after {
+    display: none;
+  }
+
+  .header-left {
+    justify-content: flex-start;
+    width: auto;
+    max-width: calc(100% - 150px);
+  }
+
+  .brand-church-logo {
+    height: 32px;
+  }
+
+  .church-header-logo {
+    height: 30px;
+    max-width: 38px;
+  }
+
+  .brand-name {
+    font-size: 13px;
+  }
+
+  .brand-subtitle {
+    font-size: 10px;
+  }
+
+  /* Feed Buttons in Header on Mobile */
+  .header-right {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    gap: 6px;
+  }
+
+  .feed-btn {
+    height: 28px;
+    padding: 0 8px;
+    font-size: 11px;
+    gap: 4px;
+  }
+
+  .feed-btn span {
+    display: none;
+  }
+
+  .feed-btn#btn-open-stage::after {
+    content: 'Palco';
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .feed-btn#btn-open-projector::after {
+    content: 'Telão';
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  /* Horizontal Scrollable Tabs */
+  .header-center.sub-nav {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 5px;
+    padding: 4px 0 2px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    width: 100%;
+  }
+
+  .header-center.sub-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-btn {
+    height: 34px;
+    padding: 0 12px;
+    font-size: 12px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: none;
+  }
+
+  .nav-btn.active {
+    background: var(--gold-dim);
+    color: var(--gold-primary);
+    border: 1px solid var(--border-gold);
+  }
+
+  .mob-only-tab {
+    display: inline-flex !important;
+  }
+
+  /* Main Console Body on Mobile */
+  .console-body {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: calc(100dvh - 100px);
+    padding: 12px 10px 84px 10px; /* Space for bottom control bar */
+    gap: 14px;
+    overflow: visible;
+  }
+
+  /* Mobile View Toggling: Workspace vs Deck */
+  body.mobile-deck-active .console-column.left-main {
+    display: none !important;
+  }
+
+  body.mobile-deck-active .console-column.right-sidebar {
+    display: flex !important;
+    width: 100%;
+  }
+
+  body:not(.mobile-deck-active) .console-column.right-sidebar {
+    display: none !important;
+  }
+
+  body:not(.mobile-deck-active) .console-column.left-main {
+    display: flex !important;
+    width: 100%;
+  }
+
+  .tab-pane {
+    overflow: visible;
+  }
+
+  /* Search row */
+  .search-capsule {
+    padding: 4px 6px 4px 12px;
+  }
+
+  .search-capsule input {
+    font-size: 15px; /* Prevent iOS zoom */
+  }
+
+  /* Chips row */
+  .chips-row {
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+    gap: 6px;
+  }
+
+  .chips-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .chip-ref {
+    flex-shrink: 0;
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+
+  /* Bible Selectors */
+  .dropdown-trio {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .select-field {
+    min-height: 44px; /* Touch target */
+  }
+
+  .ref-select {
+    font-size: 14px;
+  }
+
+  /* Verses Viewport */
+  .verse-item {
+    padding: 12px 12px;
+    font-size: 14px;
+    min-height: 48px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+  }
+
+  .verse-text-body {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .table-bible-image {
+    display: none; /* Hide background image on mobile for clear contrast */
+  }
+
+  /* Louvores Tab Split Layout */
+  .songs-split-layout {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    overflow: visible;
+  }
+
+  .songs-side-catalog {
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding-right: 0;
+    padding-bottom: 12px;
+    max-height: 240px;
+  }
+
+  .song-slides-deck {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .slide-flow-card {
+    padding: 12px 14px;
+    min-height: 52px;
+  }
+
+  /* Settings Form Units */
+  .form-dual-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Right Sidebar (Deck View on Mobile) */
+  .console-column.right-sidebar {
+    overflow: visible;
+  }
+
+  .lyrics-card {
+    min-height: 300px;
+  }
+
+  .lyrics-lines-tray {
+    max-height: 400px;
+  }
+
+  .deck-slide-item {
+    padding: 10px 12px;
+    min-height: 48px;
+  }
+
+  /* Mobile Sticky Bottom Control Bar */
+  .mobile-sticky-bar {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: rgba(12, 15, 20, 0.96);
+    border-top: 1px solid rgba(214, 168, 79, 0.35);
+    z-index: 999;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding-bottom: max(6px, env(safe-area-inset-bottom));
+  }
+
+  .mob-bar-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .mob-ctrl-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mob-ctrl-btn:active {
+    transform: scale(0.94);
+  }
+
+  .mob-ctrl-btn.gold {
+    background: var(--gold-primary);
+    border-color: var(--gold-primary);
+    color: #000;
+    box-shadow: 0 2px 8px rgba(214, 168, 79, 0.3);
+  }
+
+  .mob-cue-badge {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text-main);
+    padding: 0 6px;
+    min-width: 40px;
+    text-align: center;
+  }
+
+  .mob-action-btn {
+    height: 40px;
+    padding: 0 10px;
+    border-radius: 6px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: all 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mob-action-btn:active {
+    transform: scale(0.95);
+  }
+
+  .mob-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .mob-dot.red { background: var(--red-live); }
+  .mob-dot.gold { background: var(--gold-primary); }
+
+  .mob-action-btn.blackout.active {
+    background: rgba(239, 68, 68, 0.25);
+    border-color: var(--red-live);
+    color: var(--red-live);
+  }
+
+  .mob-action-btn.clear.active {
+    background: rgba(131, 169, 214, 0.25);
+    border-color: var(--blue-info);
+    color: var(--blue-info);
+  }
+
+  .mob-action-btn.logo.active {
+    background: rgba(214, 168, 79, 0.25);
+    border-color: var(--gold-primary);
+    color: var(--gold-light);
+  }
+
+  .mob-action-btn.deck {
+    background: rgba(214, 168, 79, 0.12);
+    border-color: var(--border-gold);
+    color: var(--gold-light);
+  }
+}
+
+@media (max-width: 480px) {
+  .mob-action-btn span:not(.mob-dot) {
+    font-size: 10px;
+  }
+  .mob-bar-group.actions {
+    gap: 4px;
+  }
+  .mob-action-btn {
+    padding: 0 7px;
+  }
+}

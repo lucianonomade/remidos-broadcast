@@ -37,6 +37,12 @@
         <span>Louvores</span>
       </button>
 
+      <!-- TAB VISIBLE ON MOBILE FOR FAST ACCESS TO THE LIVE DECK & PREVIEW -->
+      <button class="nav-btn mob-only-tab" data-tab="tab-deck">
+        <svg class="tab-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        <span>No Ar (Deck)</span>
+      </button>
+
       <button class="nav-btn ai-tab" data-tab="tab-ai">
         <svg class="tab-icon" viewBox="0 0 24 24"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2M9 2v2M20 15h2M20 9h2M9 20v2M15 20v2M2 9h2M2 15h2"/></svg>
         <span>IA Igreja</span>
@@ -71,14 +77,9 @@
       </button>
     </div>
 
-    <!-- Hidden Master State Toggles (Controlled by Hotkeys & Code) -->
-    <div style="display:none;">
-      <button id="btn-blackout"></button>
-      <button id="btn-clear"></button>
-      <button id="btn-logo"></button>
-      <div id="live-badge">
-        <span id="live-status-text">ON AIR</span>
-      </div>
+    <!-- Live Status Indicator for Code/Observer -->
+    <div id="live-badge" style="display:none;">
+      <span id="live-status-text">ON AIR</span>
     </div>
   </header>
 
@@ -436,6 +437,24 @@
             <span>Próximo &gt;</span>
           </button>
         </div>
+
+        <!-- MASTER BROADCAST ACTION TOGGLES (BLACKOUT, CLEAR, LOGO) -->
+        <div class="master-toggles-bar">
+          <button id="btn-blackout" class="cue-action-btn btn-blackout-toggle" title="Blackout - Apagar Telão (Tecla S)">
+            <svg class="action-btn-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/></svg>
+            <span>Blackout (S)</span>
+          </button>
+
+          <button id="btn-clear" class="cue-action-btn btn-clear-toggle" title="Limpar - Ocultar Texto (Tecla C)">
+            <svg class="action-btn-icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            <span>Limpar (C)</span>
+          </button>
+
+          <button id="btn-logo" class="cue-action-btn btn-logo-toggle" title="Logo - Exibir Logo da Igreja (Tecla L)">
+            <svg class="action-btn-icon" viewBox="0 0 24 24"><path d="M12 2v20M5 8h14"/></svg>
+            <span>Logo (L)</span>
+          </button>
+        </div>
       </div>
 
       <!-- CARD 2: LETRAS DOS LOUVORES & ESTROFES -->
@@ -511,6 +530,38 @@ Te amo, Deus, Tua graça nunca falha...
       </div>
     </div>
   </div>
+
+  <!-- MOBILE FLOATING BOTTOM CONTROL BAR (TOUCH-OPTIMIZED FOR PHONES) -->
+  <aside id="mobile-control-bar" class="mobile-sticky-bar">
+    <div class="mob-bar-group transport">
+      <button id="mob-btn-prev" class="mob-ctrl-btn prev" title="Voltar Slide" aria-label="Voltar Slide">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="mob-cue-badge" id="mob-cue-counter">
+        <span id="mob-current-slide">1</span>/<span id="mob-total-slide">1</span>
+      </div>
+      <button id="mob-btn-next" class="mob-ctrl-btn next gold" title="Avançar Slide" aria-label="Avançar Slide">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+
+    <div class="mob-bar-group actions">
+      <button id="mob-btn-blackout" class="mob-action-btn blackout" title="Apagar Telão">
+        <span class="mob-dot red"></span>
+        <span>Blackout</span>
+      </button>
+      <button id="mob-btn-clear" class="mob-action-btn clear" title="Ocultar Texto">
+        <span>Limpar</span>
+      </button>
+      <button id="mob-btn-logo" class="mob-action-btn logo" title="Exibir Logo">
+        <span>Logo</span>
+      </button>
+      <button id="mob-btn-deck" class="mob-action-btn deck" title="Ver Deck / No Ar">
+        <span class="mob-dot gold"></span>
+        <span>Deck</span>
+      </button>
+    </div>
+  </aside>
 
   <script src="/static/js/admin.js"></script>
 </body>
