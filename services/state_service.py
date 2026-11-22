@@ -19,6 +19,15 @@ class ProjectionState:
         self.bg_url: str = "/static/img/projector_bg.jpg"
         self.theme_name: str = "Dourado Litúrgico"
         
+        # Altar & Culto Tools: Alerts & Preacher Timer
+        self.stage_alert: str = ""
+        self.projector_alert: str = ""
+        self.projector_alert_type: str = "general" # 'general', 'nursery', 'car'
+        self.timer_active: bool = False
+        self.timer_target_timestamp: float = 0.0
+        self.timer_label: str = "Pregação"
+        self.timer_duration_minutes: int = 40
+        
         self.current_slide: Dict[str, Any] = {
             "title": "Remidos em Cristo",
             "subtitle": "Nova Aliança",
@@ -53,6 +62,13 @@ class ProjectionState:
             "bg_type": self.bg_type,
             "bg_url": self.bg_url,
             "theme_name": self.theme_name,
+            "stage_alert": self.stage_alert,
+            "projector_alert": self.projector_alert,
+            "projector_alert_type": self.projector_alert_type,
+            "timer_active": self.timer_active,
+            "timer_target_timestamp": self.timer_target_timestamp,
+            "timer_label": self.timer_label,
+            "timer_duration_minutes": self.timer_duration_minutes,
             "current_slide": self.current_slide,
             "next_slide": self.next_slide,
             "active_presentation": self.active_presentation,
@@ -170,6 +186,41 @@ class ProjectionState:
         self.bg_type = bg_type
         self.bg_url = bg_url
         self.theme_name = theme_name
+        await self.broadcast_state()
+
+    # --- ALTAR & CULTO TOOLS (STAGE ALERTS, PROJECTOR ALERTS & TIMER) ---
+    async def set_stage_alert(self, message: str):
+        self.stage_alert = message.strip()
+        await self.broadcast_state()
+
+    async def clear_stage_alert(self):
+        self.stage_alert = ""
+        await self.broadcast_state()
+
+    async def set_projector_alert(self, message: str, alert_type: str = "general"):
+        self.projector_alert = message.strip()
+        self.projector_alert_type = alert_type
+        await self.broadcast_state()
+
+    async def clear_projector_alert(self):
+        self.projector_alert = ""
+        await self.broadcast_state()
+
+    async def start_timer(self, minutes: int, label: str = "Pregação"):
+        import time
+        self.timer_duration_minutes = minutes
+        self.timer_label = label
+        self.timer_target_timestamp = time.time() + (minutes * 60)
+        self.timer_active = True
+        await self.broadcast_state()
+
+    async def stop_timer(self):
+        self.timer_active = False
+        await self.broadcast_state()
+
+    async def reset_timer(self):
+        self.timer_active = False
+        self.timer_target_timestamp = 0.0
         await self.broadcast_state()
 
 state_manager = ProjectionState()

@@ -51,6 +51,12 @@
         <span class="fs-text">Tela Cheia</span>
       </button>
 
+      <!-- DIGITAL PREACHER / ALTAR COUNTDOWN TIMER -->
+      <div id="stage-timer-wrapper" class="header-timer" style="display: none;">
+        <div id="stage-timer-label" class="timer-label">PREGAÇÃO</div>
+        <div id="stage-timer-display" class="digital-timecode timer-timecode">40:00</div>
+      </div>
+
       <!-- DIGITAL TIMECODE CLOCK -->
       <div class="header-clock">
         <div class="clock-label">HORÁRIO ATUAL</div>
@@ -58,6 +64,20 @@
       </div>
     </div>
   </header>
+
+  <!-- PRIVATE STAGE ALERT BANNER (ONLY ON STAGE) -->
+  <div id="stage-alert-banner" class="stage-alert-banner" style="display: none;">
+    <div class="alert-pulse-icon">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+      </svg>
+    </div>
+    <div class="alert-content">
+      <span class="alert-tag">AVISO DA MESA:</span>
+      <span id="stage-alert-text" class="alert-message">---</span>
+    </div>
+  </div>
 
   <!-- STAGE CONFIDENCE MONITORS WRAPPER (~90% HEIGHT) -->
   <main class="stage-monitors-body">

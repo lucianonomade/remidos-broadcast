@@ -7,6 +7,19 @@
   const nextTextEl = document.getElementById('stage-next-text');
   const nextRefEl = document.getElementById('stage-next-ref');
 
+  // Timer & Stage Alert Elements
+  const timerWrapperEl = document.getElementById('stage-timer-wrapper');
+  const timerLabelEl = document.getElementById('stage-timer-label');
+  const timerDisplayEl = document.getElementById('stage-timer-display');
+  const alertBannerEl = document.getElementById('stage-alert-banner');
+  const alertTextEl = document.getElementById('stage-alert-text');
+
+  let currentTimer = {
+    active: false,
+    targetTimestamp: 0,
+    label: 'Pregação'
+  };
+
   // Digital clock in real-time
   function updateClock() {
     const now = new Date();
@@ -17,6 +30,37 @@
   }
   setInterval(updateClock, 1000);
   updateClock();
+
+  // Countdown timer tick
+  function updateTimerTick() {
+    if (!currentTimer.active || !currentTimer.targetTimestamp) {
+      if (timerWrapperEl) timerWrapperEl.style.display = 'none';
+      return;
+    }
+    if (timerWrapperEl) timerWrapperEl.style.display = 'flex';
+    if (timerLabelEl) timerLabelEl.textContent = (currentTimer.label || 'PREGAÇÃO').toUpperCase();
+
+    const nowSec = Date.now() / 1000;
+    const diff = Math.round(currentTimer.targetTimestamp - nowSec);
+
+    if (diff <= 0) {
+      const overtime = Math.abs(diff);
+      const m = String(Math.floor(overtime / 60)).padStart(2, '0');
+      const s = String(overtime % 60).padStart(2, '0');
+      timerDisplayEl.textContent = `-${m}:${s}`;
+      timerDisplayEl.className = 'digital-timecode timer-timecode timer-overtime';
+    } else {
+      const m = String(Math.floor(diff / 60)).padStart(2, '0');
+      const s = String(diff % 60).padStart(2, '0');
+      timerDisplayEl.textContent = `${m}:${s}`;
+      if (diff <= 300) {
+        timerDisplayEl.className = 'digital-timecode timer-timecode timer-warning';
+      } else {
+        timerDisplayEl.className = 'digital-timecode timer-timecode timer-normal';
+      }
+    }
+  }
+  setInterval(updateTimerTick, 1000);
 
   // Fullscreen toggle for tablets and monitors
   const fsBtn = document.getElementById('stage-fullscreen-btn');
@@ -127,6 +171,20 @@
     } else {
       nextTextEl.textContent = '---';
       nextRefEl.textContent = 'Fim da sequência';
+    }
+
+    // Altar Countdown Timer sync
+    currentTimer.active = !!state.timer_active;
+    currentTimer.targetTimestamp = state.timer_target_timestamp || 0;
+    currentTimer.label = state.timer_label || 'Pregação';
+    updateTimerTick();
+
+    // Private Stage Alert sync
+    if (state.stage_alert && state.stage_alert.trim()) {
+      if (alertTextEl) alertTextEl.textContent = state.stage_alert.trim();
+      if (alertBannerEl) alertBannerEl.style.display = 'flex';
+    } else {
+      if (alertBannerEl) alertBannerEl.style.display = 'none';
     }
   }
 

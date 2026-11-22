@@ -2028,3 +2028,312 @@ kbd {
     font-size: 12px;
   }
 }
+
+/* =========================================================================
+   ALTAR & CULTO TOOLS (STAGE ALERTS, PROJECTOR ALERTS & TIMER)
+   ========================================================================= */
+.altar-tools-trigger-row {
+  margin-top: 10px;
+  display: flex;
+}
+
+.altar-quick-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(214, 168, 79, 0.1);
+  border: 1px solid var(--border-gold);
+  color: var(--gold-light);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.altar-quick-btn:hover {
+  background: rgba(214, 168, 79, 0.2);
+  border-color: var(--gold-primary);
+  color: #ffffff;
+}
+
+.altar-quick-btn:active {
+  transform: translateY(1px);
+}
+
+.active-timer-pill {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(251, 191, 36, 0.25);
+  border: 1px solid #fbbf24;
+  color: #fbbf24;
+  letter-spacing: 0.5px;
+}
+
+.dialog-box.alerts-dialog {
+  max-width: 680px;
+  max-height: 90vh;
+}
+
+.alerts-modal-body {
+  overflow-y: auto;
+  max-height: calc(90vh - 120px);
+  padding: 16px;
+  gap: 16px;
+}
+
+.alert-section-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 8px;
+}
+
+.card-title-combo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-badge-num {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--gold-primary);
+  color: #0d0f12;
+  font-size: 12px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.card-title-combo h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #f3f4f6;
+  margin: 0;
+}
+
+.timer-live-badge, .status-indicator-pill {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.timer-live-badge.inactive, .status-indicator-pill.off {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+}
+
+.timer-live-badge.active {
+  background: rgba(74, 222, 128, 0.2);
+  border: 1px solid var(--green-cue);
+  color: #4ade80;
+}
+
+.status-indicator-pill.active {
+  background: rgba(214, 168, 79, 0.2);
+  border: 1px solid var(--border-gold);
+  color: var(--gold-light);
+}
+
+/* Timer Grid */
+.timer-control-grid {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 14px;
+  align-items: center;
+}
+
+.timer-display-preview {
+  background: var(--bg-deep);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-timer-numbers {
+  font-family: var(--font-mono);
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+.admin-timer-numbers.normal {
+  color: var(--gold-light);
+}
+
+.admin-timer-numbers.warning {
+  color: #fbbf24;
+}
+
+.admin-timer-numbers.overtime {
+  color: #ef4444;
+}
+
+.admin-timer-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.timer-presets-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.timer-quick-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.timer-chip, .chip-preset-stage, .chip-preset-proj {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-gray);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.timer-chip:hover, .chip-preset-stage:hover, .chip-preset-proj:hover {
+  background: rgba(214, 168, 79, 0.12);
+  border-color: var(--border-gold);
+  color: #fff;
+}
+
+.timer-chip.active {
+  background: rgba(214, 168, 79, 0.25);
+  border-color: var(--gold-primary);
+  color: var(--gold-light);
+  font-weight: 700;
+}
+
+.timer-custom-inputs {
+  display: flex;
+  gap: 8px;
+}
+
+.timer-custom-inputs .num-input {
+  width: 90px;
+  flex-shrink: 0;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.timer-custom-inputs .label-input {
+  flex: 1;
+}
+
+.timer-actions-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.gold-action-btn.sm, .subtle-btn.sm, .subtle-btn.ghost.sm {
+  padding: 6px 14px;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Stage & Proj Alert Forms */
+.stage-alert-form, .proj-alert-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.preset-chips-scroll {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.input-action-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.input-action-row .studio-text-input {
+  flex: 1;
+}
+
+.proj-type-selector {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 2px;
+}
+
+.type-pill-opt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-gray);
+  cursor: pointer;
+}
+
+.type-pill-opt input {
+  accent-color: var(--gold-primary);
+  cursor: pointer;
+}
+
+.mob-dot.amber {
+  background: #fbbf24;
+}
+
+@media (max-width: 600px) {
+  .timer-control-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .input-action-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

@@ -67,6 +67,11 @@
 
     <!-- RIGHT: FEED OUTPUT BUTTONS -->
     <div class="header-right">
+      <button id="btn-open-alerts-header" class="feed-btn alert-trigger-btn" title="Alertas de Palco, Berçário e Cronômetro">
+        <svg class="feed-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        <span>Alertas & Timer</span>
+      </button>
+
       <button id="btn-open-projector" class="feed-btn" title="Abrir Projetor / Segundo Monitor (F11)">
         <svg class="feed-icon" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
         <span>Projetor (F11)</span>
@@ -514,6 +519,15 @@
             <span>Logo (L)</span>
           </button>
         </div>
+
+        <!-- QUICK ALTAR & WORSHIP CONTROLS (ALERTS & TIMER) -->
+        <div class="altar-tools-trigger-row">
+          <button id="btn-open-alerts-deck" class="altar-quick-btn" title="Alertas de Palco, Berçário e Cronômetro de Culto">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            <span>Alertas & Cronômetro</span>
+            <span id="active-timer-indicator" class="active-timer-pill" style="display:none;">40:00</span>
+          </button>
+        </div>
       </div>
 
       <!-- CARD 2: LETRAS DOS LOUVORES & ESTROFES -->
@@ -662,8 +676,148 @@ Te amo, Deus, Tua graça nunca falha...
         <span class="mob-dot gold"></span>
         <span>Deck</span>
       </button>
+      <button id="mob-btn-alerts" class="mob-action-btn alerts" title="Alertas & Cronômetro">
+        <span class="mob-dot amber"></span>
+        <span>Alertas</span>
+      </button>
     </div>
   </aside>
+
+  <!-- MODAL: FERRAMENTAS DE CULTO & ALTAR (TIMER & ALERTAS) -->
+  <div id="modal-alerts-timer" class="dialog-scrim" style="display: none;">
+    <div class="dialog-box alerts-dialog">
+      <div class="dialog-header">
+        <div class="dialog-title-group">
+          <svg class="gold-book-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+          <h3>Ferramentas de Culto & Altar</h3>
+        </div>
+        <button id="btn-close-alerts-modal" class="dialog-close-btn">&times;</button>
+      </div>
+
+      <div class="dialog-body alerts-modal-body">
+        
+        <!-- SECTION 1: CRONÔMETRO DE CULTO / PREGAÇÃO -->
+        <div class="alert-section-card">
+          <div class="section-card-header">
+            <div class="card-title-combo">
+              <span class="section-badge-num">1</span>
+              <h4>Cronômetro do Altar (Monitor de Palco)</h4>
+            </div>
+            <span id="admin-timer-status" class="timer-live-badge inactive">PARADO</span>
+          </div>
+          
+          <div class="timer-control-grid">
+            <div class="timer-display-preview">
+              <span id="admin-timer-clock" class="admin-timer-numbers">40:00</span>
+              <span id="admin-timer-desc" class="admin-timer-label">Pregação</span>
+            </div>
+            
+            <div class="timer-presets-col">
+              <div class="timer-quick-presets">
+                <button type="button" class="timer-chip" data-min="15" data-label="Louvor / Oração">15 min</button>
+                <button type="button" class="timer-chip" data-min="30" data-label="Palavra">30 min</button>
+                <button type="button" class="timer-chip active" data-min="40" data-label="Pregação">40 min</button>
+                <button type="button" class="timer-chip" data-min="45" data-label="Pregação">45 min</button>
+                <button type="button" class="timer-chip" data-min="60" data-label="Culto">60 min</button>
+              </div>
+
+              <div class="timer-custom-inputs">
+                <input type="number" id="input-timer-minutes" value="40" min="1" max="180" class="studio-text-input num-input" placeholder="Minutos">
+                <input type="text" id="input-timer-label" value="Pregação" class="studio-text-input label-input" placeholder="Rótulo (ex: Pregação)">
+              </div>
+
+              <div class="timer-actions-row">
+                <button id="btn-timer-start" class="gold-action-btn sm">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <span>Iniciar</span>
+                </button>
+                <button id="btn-timer-stop" class="subtle-btn sm">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect width="14" height="14" x="5" y="5" rx="2"/></svg>
+                  <span>Pausar</span>
+                </button>
+                <button id="btn-timer-reset" class="subtle-btn ghost sm">
+                  <span>Zerar</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 2: RECADO PRIVADO PARA O PALCO -->
+        <div class="alert-section-card">
+          <div class="section-card-header">
+            <div class="card-title-combo">
+              <span class="section-badge-num">2</span>
+              <h4>Recado Privado para o Palco (Apenas Músicos / Pregador)</h4>
+            </div>
+            <span id="admin-stage-alert-status" class="status-indicator-pill off">Nenhum aviso</span>
+          </div>
+
+          <div class="stage-alert-form">
+            <div class="preset-chips-scroll">
+              <button type="button" class="chip-preset-stage" data-text="Abaixar o retorno do violão">Abaixar Retorno</button>
+              <button type="button" class="chip-preset-stage" data-text="Aumentar a voz principal">Aumentar Voz</button>
+              <button type="button" class="chip-preset-stage" data-text="Repetir o refrão suave">Repetir Refrão</button>
+              <button type="button" class="chip-preset-stage" data-text="Mais 5 minutos para conclusão">Mais 5 Minutos</button>
+              <button type="button" class="chip-preset-stage" data-text="Concluir para a oração final">Concluir p/ Oração</button>
+            </div>
+
+            <div class="input-action-row">
+              <input type="text" id="input-stage-alert" placeholder="Digite uma mensagem confidencial para o retorno de palco..." class="studio-text-input">
+              <button id="btn-send-stage-alert" class="gold-action-btn sm">Enviar ao Palco</button>
+              <button id="btn-clear-stage-alert" class="subtle-btn ghost sm">Limpar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 3: AVISOS NO TELÃO (BERÇÁRIO / ESTACIONAMENTO / GERAL) -->
+        <div class="alert-section-card">
+          <div class="section-card-header">
+            <div class="card-title-combo">
+              <span class="section-badge-num">3</span>
+              <h4>Avisos no Telão (Banner Inferior Discreto)</h4>
+            </div>
+            <span id="admin-proj-alert-status" class="status-indicator-pill off">Nenhum alerta no ar</span>
+          </div>
+
+          <div class="proj-alert-form">
+            <div class="proj-type-selector">
+              <label class="type-pill-opt">
+                <input type="radio" name="proj_alert_type" value="nursery" checked>
+                <span>👶 Berçário</span>
+              </label>
+              <label class="type-pill-opt">
+                <input type="radio" name="proj_alert_type" value="car">
+                <span>🚗 Estacionamento</span>
+              </label>
+              <label class="type-pill-opt">
+                <input type="radio" name="proj_alert_type" value="general">
+                <span>🔔 Comunicado Geral</span>
+              </label>
+            </div>
+
+            <div class="preset-chips-scroll">
+              <button type="button" class="chip-preset-proj" data-type="nursery" data-text="Mãe da Maria, favor comparecer ao Berçário.">Mãe da Maria (Berçário)</button>
+              <button type="button" class="chip-preset-proj" data-type="nursery" data-text="Pais do Davi, favor comparecer à Salinha.">Pais do Davi (Salinha)</button>
+              <button type="button" class="chip-preset-proj" data-type="car" data-text="Veículo placa ABC-1234 com farol aceso no estacionamento.">Carro farol aceso</button>
+              <button type="button" class="chip-preset-proj" data-type="car" data-text="Veículo placa ABC-1234 bloqueando a saída do estacionamento.">Carro bloqueando saída</button>
+            </div>
+
+            <div class="input-action-row">
+              <input type="text" id="input-proj-alert" placeholder="Mãe da Maria, favor comparecer ao Berçário..." class="studio-text-input">
+              <button id="btn-send-proj-alert" class="gold-action-btn sm">Projetar no Telão</button>
+              <button id="btn-clear-proj-alert" class="subtle-btn ghost sm">Remover do Telão</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="dialog-footer">
+        <button id="btn-close-alerts-footer" class="gold-action-btn">Concluir</button>
+      </div>
+    </div>
+  </div>
 
   <script src="/static/js/admin.js"></script>
 </body>

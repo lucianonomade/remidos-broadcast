@@ -80,6 +80,17 @@ class BackgroundChangeRequest(BaseModel):
     bg_url: Optional[str] = ""
     theme_name: Optional[str] = "Personalizado"
 
+class StageAlertRequest(BaseModel):
+    message: str
+
+class ProjectorAlertRequest(BaseModel):
+    message: str
+    alert_type: Optional[str] = "general"
+
+class TimerStartRequest(BaseModel):
+    minutes: int
+    label: Optional[str] = "Pregação"
+
 class SetlistSaveRequest(BaseModel):
     id: Optional[int] = None
     name: str
@@ -336,3 +347,39 @@ async def api_upload_background(file: UploadFile = File(...)):
     await state_manager.set_background(bg_type, url, theme_name)
     update_settings({"bg_type": bg_type, "bg_url": url, "theme_name": theme_name})
     return {"url": url, "bg_type": bg_type, "theme_name": theme_name}
+
+# --- Altar & Culto Tools: Stage Alerts, Projector Alerts & Countdown Timer ---
+@app.post("/api/alerts/stage")
+async def api_set_stage_alert(req: StageAlertRequest):
+    await state_manager.set_stage_alert(req.message)
+    return {"status": "ok", "message": req.message}
+
+@app.delete("/api/alerts/stage")
+async def api_clear_stage_alert():
+    await state_manager.clear_stage_alert()
+    return {"status": "ok"}
+
+@app.post("/api/alerts/projector")
+async def api_set_projector_alert(req: ProjectorAlertRequest):
+    await state_manager.set_projector_alert(req.message, req.alert_type or "general")
+    return {"status": "ok", "message": req.message}
+
+@app.delete("/api/alerts/projector")
+async def api_clear_projector_alert():
+    await state_manager.clear_projector_alert()
+    return {"status": "ok"}
+
+@app.post("/api/timer/start")
+async def api_start_timer(req: TimerStartRequest):
+    await state_manager.start_timer(req.minutes, req.label or "Pregação")
+    return {"status": "ok", "state": state_manager.get_state()}
+
+@app.post("/api/timer/stop")
+async def api_stop_timer():
+    await state_manager.stop_timer()
+    return {"status": "ok"}
+
+@app.post("/api/timer/reset")
+async def api_reset_timer():
+    await state_manager.reset_timer()
+    return {"status": "ok"}

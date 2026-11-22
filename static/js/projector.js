@@ -255,6 +255,32 @@
       logoScreen.style.display = 'flex';
       slideScreen.style.display = 'none';
     }
+
+    // 7. Projector Alert Banner (Berçário, Estacionamento, Comunicados)
+    const alertBanner = document.getElementById('projector-alert-banner');
+    const alertIcon = document.getElementById('alert-icon');
+    const alertTypeText = document.getElementById('alert-type-text');
+    const alertText = document.getElementById('projector-alert-text');
+
+    if (alertBanner && state.projector_alert && state.projector_alert.trim()) {
+      if (alertText) alertText.textContent = state.projector_alert.trim();
+      
+      const type = state.projector_alert_type || 'general';
+      if (type === 'nursery') {
+        if (alertIcon) alertIcon.textContent = '👶';
+        if (alertTypeText) alertTypeText.textContent = 'BERÇÁRIO';
+      } else if (type === 'car') {
+        if (alertIcon) alertIcon.textContent = '🚗';
+        if (alertTypeText) alertTypeText.textContent = 'ESTACIONAMENTO';
+      } else {
+        if (alertIcon) alertIcon.textContent = '🔔';
+        if (alertTypeText) alertTypeText.textContent = 'COMUNICADO';
+      }
+
+      alertBanner.style.display = 'flex';
+    } else if (alertBanner) {
+      alertBanner.style.display = 'none';
+    }
   }
 
   // Double click for fullscreen toggle
