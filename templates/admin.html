@@ -10,7 +10,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Remidos Media">
   <link rel="apple-touch-icon" href="/static/img/icons/icon-192.png">
-  <link rel="stylesheet" href="/static/css/admin.css">
+  <link rel="stylesheet" href="/static/css/admin.css?v=2.2">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -47,6 +47,11 @@
       <button class="nav-btn mob-only-tab" data-tab="tab-deck">
         <svg class="tab-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
         <span>No Ar (Deck)</span>
+      </button>
+
+      <button class="nav-btn" data-tab="tab-altar">
+        <svg class="tab-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        <span>Culto & Altar</span>
       </button>
 
       <button class="nav-btn ai-tab" data-tab="tab-ai">
@@ -445,6 +450,152 @@
         </div>
       </div>
 
+      <!-- TAB 5: FERRAMENTAS DE CULTO & ALTAR -->
+      <div id="tab-altar" class="tab-pane">
+        
+        <div class="altar-dashboard-banner">
+          <div class="altar-banner-info">
+            <div class="altar-title-row">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" class="gold-book-icon"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              <h3>Ferramentas de Culto & Altar</h3>
+            </div>
+            <p class="altar-banner-sub">Cronômetro do pregador para o retorno de palco, recados confidenciais aos músicos e avisos rápidos no telão.</p>
+          </div>
+        </div>
+
+        <div class="altar-dashboard-grid">
+          
+          <!-- CARD 1: CRONÔMETRO DE CULTO / PREGADOR -->
+          <div class="altar-card">
+            <div class="altar-card-header">
+              <div class="card-title-group">
+                <span class="badge-accent">1</span>
+                <h4>Cronômetro do Pregador (Monitor de Palco)</h4>
+              </div>
+              <span id="tab-timer-status" class="timer-live-badge inactive">PARADO</span>
+            </div>
+
+            <div class="altar-card-body">
+              <div class="timer-main-display">
+                <div id="tab-timer-clock" class="admin-timer-numbers normal">40:00</div>
+                <div id="tab-timer-desc" class="admin-timer-label">Pregação</div>
+              </div>
+
+              <div class="timer-controls-group">
+                <label class="section-micro-label">DURAÇÕES RÁPIDAS</label>
+                <div class="timer-quick-presets">
+                  <button type="button" class="tab-timer-chip timer-chip" data-min="15" data-label="Louvor / Oração">15 min</button>
+                  <button type="button" class="tab-timer-chip timer-chip" data-min="30" data-label="Palavra">30 min</button>
+                  <button type="button" class="tab-timer-chip timer-chip active" data-min="40" data-label="Pregação">40 min</button>
+                  <button type="button" class="tab-timer-chip timer-chip" data-min="45" data-label="Pregação">45 min</button>
+                  <button type="button" class="tab-timer-chip timer-chip" data-min="60" data-label="Culto">60 min</button>
+                </div>
+
+                <div class="timer-custom-inputs">
+                  <div class="field-mini">
+                    <label>Minutos</label>
+                    <input type="number" id="tab-input-timer-minutes" value="40" min="1" max="180" class="studio-text-input num-input">
+                  </div>
+                  <div class="field-flex">
+                    <label>Rótulo</label>
+                    <input type="text" id="tab-input-timer-label" value="Pregação" class="studio-text-input label-input" placeholder="Ex: Pregação, Oração">
+                  </div>
+                </div>
+
+                <div class="timer-actions-row">
+                  <button id="tab-btn-timer-start" class="gold-action-btn">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    <span>Iniciar Cronômetro</span>
+                  </button>
+                  <button id="tab-btn-timer-stop" class="subtle-btn">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect width="14" height="14" x="5" y="5" rx="2"/></svg>
+                    <span>Pausar</span>
+                  </button>
+                  <button id="tab-btn-timer-reset" class="subtle-btn ghost">
+                    <span>Zerar</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2: RECADO PRIVADO PARA O RETORNO DE PALCO -->
+          <div class="altar-card">
+            <div class="altar-card-header">
+              <div class="card-title-group">
+                <span class="badge-accent">2</span>
+                <h4>Recado Privado para o Palco (Apenas Músicos / Pregador)</h4>
+              </div>
+              <span id="tab-stage-alert-status" class="status-indicator-pill off">Nenhum aviso</span>
+            </div>
+
+            <div class="altar-card-body">
+              <p class="card-hint-text">Esta mensagem é exibida exclusivamente no monitor de palco (/stage). Ela <strong>nunca</strong> é projetada no telão nem transmitida na live.</p>
+              
+              <label class="section-micro-label">MENSAGENS RÁPIDAS</label>
+              <div class="preset-chips-scroll">
+                <button type="button" class="tab-chip-stage chip-preset-stage" data-text="Abaixar o retorno do violão">Abaixar Retorno</button>
+                <button type="button" class="tab-chip-stage chip-preset-stage" data-text="Aumentar a voz principal">Aumentar Voz</button>
+                <button type="button" class="tab-chip-stage chip-preset-stage" data-text="Repetir o refrão suave">Repetir Refrão</button>
+                <button type="button" class="tab-chip-stage chip-preset-stage" data-text="Mais 5 minutos para conclusão">Mais 5 Minutos</button>
+                <button type="button" class="tab-chip-stage chip-preset-stage" data-text="Concluir para a oração final">Concluir p/ Oração</button>
+              </div>
+
+              <div class="input-action-row">
+                <input type="text" id="tab-input-stage-alert" placeholder="Digite uma mensagem confidencial para o retorno de palco..." class="studio-text-input">
+                <button id="tab-btn-send-stage-alert" class="gold-action-btn">Enviar ao Palco</button>
+                <button id="tab-btn-clear-stage-alert" class="subtle-btn ghost">Limpar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 3: AVISOS NO TELÃO (BERÇÁRIO / ESTACIONAMENTO / GERAL) -->
+          <div class="altar-card">
+            <div class="altar-card-header">
+              <div class="card-title-group">
+                <span class="badge-accent">3</span>
+                <h4>Avisos no Telão (Banner Inferior Discreto)</h4>
+              </div>
+              <span id="tab-proj-alert-status" class="status-indicator-pill off">Nenhum alerta no ar</span>
+            </div>
+
+            <div class="altar-card-body">
+              <p class="card-hint-text">Exibido discretamente na base do telão de projeção (/projector) sem cobrir letras de louvores ou versículos bíblicos.</p>
+
+              <div class="proj-type-selector">
+                <label class="type-pill-opt">
+                  <input type="radio" name="tab_proj_alert_type" value="nursery" checked>
+                  <span>👶 Berçário</span>
+                </label>
+                <label class="type-pill-opt">
+                  <input type="radio" name="tab_proj_alert_type" value="car">
+                  <span>🚗 Estacionamento</span>
+                </label>
+                <label class="type-pill-opt">
+                  <input type="radio" name="tab_proj_alert_type" value="general">
+                  <span>🔔 Comunicado Geral</span>
+                </label>
+              </div>
+
+              <label class="section-micro-label">MENSAGENS RÁPIDAS</label>
+              <div class="preset-chips-scroll">
+                <button type="button" class="tab-chip-proj chip-preset-proj" data-type="nursery" data-text="Mãe da Maria, favor comparecer ao Berçário.">Mãe da Maria (Berçário)</button>
+                <button type="button" class="tab-chip-proj chip-preset-proj" data-type="nursery" data-text="Pais do Davi, favor comparecer à Salinha.">Pais do Davi (Salinha)</button>
+                <button type="button" class="tab-chip-proj chip-preset-proj" data-type="car" data-text="Veículo placa ABC-1234 com farol aceso no estacionamento.">Carro farol aceso</button>
+                <button type="button" class="tab-chip-proj chip-preset-proj" data-type="car" data-text="Veículo placa ABC-1234 bloqueando a saída do estacionamento.">Carro bloqueando saída</button>
+              </div>
+
+              <div class="input-action-row">
+                <input type="text" id="tab-input-proj-alert" placeholder="Mãe da Maria, favor comparecer ao Berçário..." class="studio-text-input">
+                <button id="tab-btn-send-proj-alert" class="gold-action-btn">Projetar no Telão</button>
+                <button id="tab-btn-clear-proj-alert" class="subtle-btn ghost">Remover do Telão</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </section>
 
     <!-- RIGHT PANEL: 30% MASTER TRANSMISSION CONTROL -->
@@ -819,6 +970,6 @@ Te amo, Deus, Tua graça nunca falha...
     </div>
   </div>
 
-  <script src="/static/js/admin.js"></script>
+  <script src="/static/js/admin.js?v=2.2"></script>
 </body>
 </html>

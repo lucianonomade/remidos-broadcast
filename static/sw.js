@@ -1,14 +1,15 @@
-const CACHE_NAME = 'remidos-broadcast-v1';
+const CACHE_NAME = 'remidos-broadcast-v2';
 const STATIC_ASSETS = [
   '/',
   '/admin',
   '/stage',
   '/projector',
-  '/static/css/admin.css',
-  '/static/css/stage.css',
-  '/static/css/projector.css',
-  '/static/js/admin.js',
-  '/static/js/stage.js',
+  '/static/css/admin.css?v=2.2',
+  '/static/css/stage.css?v=2.2',
+  '/static/css/projector.css?v=2.2',
+  '/static/js/admin.js?v=2.2',
+  '/static/js/stage.js?v=2.2',
+  '/static/js/projector.js?v=2.2',
   '/static/img/logo_transparent.png',
   '/static/img/icons/icon-192.png',
   '/static/manifest.json'
@@ -29,7 +30,12 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
       return Promise.all(
-        keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
+        keys.map((key) => {
+          if (key !== CACHE_NAME) {
+            console.log('Clearing old cache:', key);
+            return caches.delete(key);
+          }
+        })
       );
     })
   );
@@ -44,15 +50,23 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Network first for HTML pages, cache fallback
-  if (event.request.mode === 'navigate') {
+  // Network-First for HTML navigation, JS scripts, and CSS stylesheets to ensure latest updates
+  if (event.request.mode === 'navigate' || url.pathname.endsWith('.js') || url.pathname.endsWith('.css') || url.search.includes('v=')) {
     event.respondWith(
-      fetch(event.request).catch(() => caches.match(event.request))
+      fetch(event.request)
+        .then((response) => {
+          if (response && response.status === 200) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
+          return response;
+        })
+        .catch(() => caches.match(event.request))
     );
     return;
   }
 
-  // Stale-while-revalidate for static assets
+  // Stale-while-revalidate for static image assets
   event.respondWith(
     caches.match(event.request).then((cached) => {
       const networked = fetch(event.request).then((response) => {
@@ -63,7 +77,7 @@ self.addEventListener('fetch', (event) => {
         return response;
       }).catch(() => cached);
 
-      return cached || networked;
+      return networked || cached;
     })
   );
 });

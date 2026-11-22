@@ -1720,6 +1720,12 @@ kbd {
     font-weight: 600;
   }
 
+  .feed-btn#btn-open-alerts-header::after {
+    content: 'Alertas';
+    font-size: 12px;
+    font-weight: 600;
+  }
+
   /* Horizontal Scrollable Tabs */
   .header-center.sub-nav {
     display: flex;
@@ -2336,4 +2342,147 @@ kbd {
     flex-direction: column;
     align-items: stretch;
   }
+}
+
+/* =========================================================================
+   ALTAR & CULTO TAB DASHBOARD
+   ========================================================================= */
+.altar-dashboard-banner {
+  background: radial-gradient(ellipse 60% 120% at 90% 0%, rgba(214, 168, 79, 0.15) 0%, transparent 70%), var(--bg-surface);
+  border: 1px solid var(--border-gold);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+}
+
+.altar-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.altar-title-row h3 {
+  font-family: var(--font-brand);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gold-light);
+  letter-spacing: 0.5px;
+}
+
+.altar-banner-sub {
+  font-size: 13px;
+  color: var(--text-gray);
+  margin-top: 4px;
+}
+
+.altar-dashboard-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.altar-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+.altar-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.card-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.badge-accent {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--gold-primary);
+  color: #0c0e12;
+  font-size: 12px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-title-group h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #f3f4f6;
+  margin: 0;
+}
+
+.altar-card-body {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card-hint-text {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.section-micro-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gold-primary);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.timer-main-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: var(--bg-deep);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.timer-main-display .admin-timer-numbers {
+  font-size: clamp(38px, 5vw, 56px);
+}
+
+.timer-controls-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.field-mini {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100px;
+}
+
+.field-mini label, .field-flex label {
+  font-size: 12px;
+  color: var(--text-gray);
+  font-weight: 600;
+}
+
+.field-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
 }

@@ -1204,7 +1204,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const btnCloseAlertsModal = document.getElementById('btn-close-alerts-modal');
   const btnCloseAlertsFooter = document.getElementById('btn-close-alerts-footer');
 
-  // Timer UI elements
+  // Modal UI elements
   const adminTimerStatus = document.getElementById('admin-timer-status');
   const adminTimerClock = document.getElementById('admin-timer-clock');
   const adminTimerDesc = document.getElementById('admin-timer-desc');
@@ -1214,22 +1214,36 @@ document.addEventListener('DOMContentLoaded', function() {
   const btnTimerStart = document.getElementById('btn-timer-start');
   const btnTimerStop = document.getElementById('btn-timer-stop');
   const btnTimerReset = document.getElementById('btn-timer-reset');
-  const timerChips = document.querySelectorAll('.timer-chip');
+
+  // Tab UI elements (Dedicated Culto & Altar Tab)
+  const tabTimerStatus = document.getElementById('tab-timer-status');
+  const tabTimerClock = document.getElementById('tab-timer-clock');
+  const tabTimerDesc = document.getElementById('tab-timer-desc');
+  const tabInputTimerMinutes = document.getElementById('tab-input-timer-minutes');
+  const tabInputTimerLabel = document.getElementById('tab-input-timer-label');
+  const tabBtnTimerStart = document.getElementById('tab-btn-timer-start');
+  const tabBtnTimerStop = document.getElementById('tab-btn-timer-stop');
+  const tabBtnTimerReset = document.getElementById('tab-btn-timer-reset');
 
   // Stage Alert UI elements
   const adminStageAlertStatus = document.getElementById('admin-stage-alert-status');
+  const tabStageAlertStatus = document.getElementById('tab-stage-alert-status');
   const inputStageAlert = document.getElementById('input-stage-alert');
+  const tabInputStageAlert = document.getElementById('tab-input-stage-alert');
   const btnSendStageAlert = document.getElementById('btn-send-stage-alert');
+  const tabBtnSendStageAlert = document.getElementById('tab-btn-send-stage-alert');
   const btnClearStageAlert = document.getElementById('btn-clear-stage-alert');
-  const stageAlertChips = document.querySelectorAll('.chip-preset-stage');
+  const tabBtnClearStageAlert = document.getElementById('tab-btn-clear-stage-alert');
 
   // Projector Alert UI elements
   const adminProjAlertStatus = document.getElementById('admin-proj-alert-status');
+  const tabProjAlertStatus = document.getElementById('tab-proj-alert-status');
   const inputProjAlert = document.getElementById('input-proj-alert');
+  const tabInputProjAlert = document.getElementById('tab-input-proj-alert');
   const btnSendProjAlert = document.getElementById('btn-send-proj-alert');
+  const tabBtnSendProjAlert = document.getElementById('tab-btn-send-proj-alert');
   const btnClearProjAlert = document.getElementById('btn-clear-proj-alert');
-  const projAlertChips = document.querySelectorAll('.chip-preset-proj');
-  const projTypeRadios = document.querySelectorAll('input[name="proj_alert_type"]');
+  const tabBtnClearProjAlert = document.getElementById('tab-btn-clear-proj-alert');
 
   let adminTimer = {
     active: false,
@@ -1237,6 +1251,16 @@ document.addEventListener('DOMContentLoaded', function() {
     label: 'Pregação',
     duration: 40
   };
+
+  function activateAltarTab() {
+    const altarNavBtn = document.querySelector('.nav-btn[data-tab="tab-altar"]');
+    if (altarNavBtn) {
+      altarNavBtn.click();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      openAlertsModal();
+    }
+  }
 
   function openAlertsModal() {
     if (modalAlertsTimer) modalAlertsTimer.style.display = 'flex';
@@ -1246,9 +1270,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (modalAlertsTimer) modalAlertsTimer.style.display = 'none';
   }
 
-  if (btnOpenAlertsHeader) btnOpenAlertsHeader.addEventListener('click', openAlertsModal);
+  if (btnOpenAlertsHeader) btnOpenAlertsHeader.addEventListener('click', activateAltarTab);
   if (btnOpenAlertsDeck) btnOpenAlertsDeck.addEventListener('click', openAlertsModal);
-  if (mobBtnAlerts) mobBtnAlerts.addEventListener('click', openAlertsModal);
+  if (mobBtnAlerts) mobBtnAlerts.addEventListener('click', activateAltarTab);
   if (btnCloseAlertsModal) btnCloseAlertsModal.addEventListener('click', closeAlertsModal);
   if (btnCloseAlertsFooter) btnCloseAlertsFooter.addEventListener('click', closeAlertsModal);
   if (modalAlertsTimer) {
@@ -1264,6 +1288,10 @@ document.addEventListener('DOMContentLoaded', function() {
         adminTimerStatus.textContent = 'PARADO';
         adminTimerStatus.className = 'timer-live-badge inactive';
       }
+      if (tabTimerStatus) {
+        tabTimerStatus.textContent = 'PARADO';
+        tabTimerStatus.className = 'timer-live-badge inactive';
+      }
       if (activeTimerIndicator) {
         activeTimerIndicator.style.display = 'none';
       }
@@ -1274,28 +1302,40 @@ document.addEventListener('DOMContentLoaded', function() {
       adminTimerStatus.textContent = 'EM CONTAGEM';
       adminTimerStatus.className = 'timer-live-badge active';
     }
+    if (tabTimerStatus) {
+      tabTimerStatus.textContent = 'EM CONTAGEM';
+      tabTimerStatus.className = 'timer-live-badge active';
+    }
 
     const nowSec = Date.now() / 1000;
     const diff = Math.round(adminTimer.targetTimestamp - nowSec);
 
     let timeText = '00:00';
+    let styleClass = 'admin-timer-numbers normal';
     if (diff <= 0) {
       const over = Math.abs(diff);
       const m = String(Math.floor(over / 60)).padStart(2, '0');
       const s = String(over % 60).padStart(2, '0');
       timeText = `-${m}:${s}`;
-      if (adminTimerClock) adminTimerClock.className = 'admin-timer-numbers overtime';
+      styleClass = 'admin-timer-numbers overtime';
     } else {
       const m = String(Math.floor(diff / 60)).padStart(2, '0');
       const s = String(diff % 60).padStart(2, '0');
       timeText = `${m}:${s}`;
-      if (adminTimerClock) {
-        adminTimerClock.className = diff <= 300 ? 'admin-timer-numbers warning' : 'admin-timer-numbers normal';
-      }
+      styleClass = diff <= 300 ? 'admin-timer-numbers warning' : 'admin-timer-numbers normal';
     }
 
-    if (adminTimerClock) adminTimerClock.textContent = timeText;
+    if (adminTimerClock) {
+      adminTimerClock.textContent = timeText;
+      adminTimerClock.className = styleClass;
+    }
+    if (tabTimerClock) {
+      tabTimerClock.textContent = timeText;
+      tabTimerClock.className = styleClass;
+    }
     if (adminTimerDesc) adminTimerDesc.textContent = adminTimer.label || 'Pregação';
+    if (tabTimerDesc) tabTimerDesc.textContent = adminTimer.label || 'Pregação';
+
     if (activeTimerIndicator) {
       activeTimerIndicator.textContent = timeText;
       activeTimerIndicator.style.display = 'inline-block';
@@ -1304,27 +1344,35 @@ document.addEventListener('DOMContentLoaded', function() {
   setInterval(tickAdminTimer, 1000);
 
   // Sync state handler
-  window.updateAltarAlertsUI = function(state) {
+  function updateAltarAlertsUI(state) {
+    if (!state) return;
+
     // 1. Stage Alert sync
+    const stageMsg = state.stage_alert ? state.stage_alert.trim() : '';
+    const stageStatusText = stageMsg ? ('Ativo no Palco: ' + stageMsg) : 'Nenhum aviso';
+    const stageStatusClass = stageMsg ? 'status-indicator-pill active' : 'status-indicator-pill off';
+
     if (adminStageAlertStatus) {
-      if (state.stage_alert && state.stage_alert.trim()) {
-        adminStageAlertStatus.className = 'status-indicator-pill active';
-        adminStageAlertStatus.textContent = 'Ativo no Palco: ' + state.stage_alert.trim();
-      } else {
-        adminStageAlertStatus.className = 'status-indicator-pill off';
-        adminStageAlertStatus.textContent = 'Nenhum aviso';
-      }
+      adminStageAlertStatus.className = stageStatusClass;
+      adminStageAlertStatus.textContent = stageStatusText;
+    }
+    if (tabStageAlertStatus) {
+      tabStageAlertStatus.className = stageStatusClass;
+      tabStageAlertStatus.textContent = stageStatusText;
     }
 
     // 2. Projector Alert sync
+    const projMsg = state.projector_alert ? state.projector_alert.trim() : '';
+    const projStatusText = projMsg ? ('Projetando: ' + projMsg) : 'Nenhum alerta no ar';
+    const projStatusClass = projMsg ? 'status-indicator-pill active' : 'status-indicator-pill off';
+
     if (adminProjAlertStatus) {
-      if (state.projector_alert && state.projector_alert.trim()) {
-        adminProjAlertStatus.className = 'status-indicator-pill active';
-        adminProjAlertStatus.textContent = 'Projetando: ' + state.projector_alert.trim();
-      } else {
-        adminProjAlertStatus.className = 'status-indicator-pill off';
-        adminProjAlertStatus.textContent = 'Nenhum alerta no ar';
-      }
+      adminProjAlertStatus.className = projStatusClass;
+      adminProjAlertStatus.textContent = projStatusText;
+    }
+    if (tabProjAlertStatus) {
+      tabProjAlertStatus.className = projStatusClass;
+      tabProjAlertStatus.textContent = projStatusText;
     }
 
     // 3. Timer sync
@@ -1333,156 +1381,182 @@ document.addEventListener('DOMContentLoaded', function() {
     adminTimer.label = state.timer_label || 'Pregação';
     adminTimer.duration = state.timer_duration_minutes || 40;
     tickAdminTimer();
-  };
+  }
+  window.updateAltarAlertsUI = updateAltarAlertsUI;
 
   // Timer Presets & Controls
-  timerChips.forEach(chip => {
+  const allTimerChips = document.querySelectorAll('.timer-chip');
+  allTimerChips.forEach(chip => {
     chip.addEventListener('click', () => {
-      timerChips.forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
       const min = chip.getAttribute('data-min');
       const label = chip.getAttribute('data-label');
+      allTimerChips.forEach(c => {
+        c.classList.toggle('active', c.getAttribute('data-min') === min);
+      });
       if (inputTimerMinutes) inputTimerMinutes.value = min;
+      if (tabInputTimerMinutes) tabInputTimerMinutes.value = min;
       if (inputTimerLabel) inputTimerLabel.value = label;
-      if (adminTimerClock && !adminTimer.active) {
-        adminTimerClock.textContent = `${String(min).padStart(2, '0')}:00`;
-        adminTimerClock.className = 'admin-timer-numbers normal';
-      }
-      if (adminTimerDesc) adminTimerDesc.textContent = label;
-    });
-  });
+      if (tabInputTimerLabel) tabInputTimerLabel.value = label;
 
-  if (btnTimerStart) {
-    btnTimerStart.addEventListener('click', async () => {
-      const minutes = parseInt(inputTimerMinutes ? inputTimerMinutes.value : 40) || 40;
-      const label = (inputTimerLabel ? inputTimerLabel.value : 'Pregação') || 'Pregação';
-      try {
-        await fetch('/api/timer/start', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ minutes, label })
-        });
-      } catch (err) {
-        alert('Erro ao iniciar cronômetro: ' + err.message);
-      }
-    });
-  }
-
-  if (btnTimerStop) {
-    btnTimerStop.addEventListener('click', async () => {
-      try {
-        await fetch('/api/timer/stop', { method: 'POST' });
-      } catch (err) {
-        alert('Erro ao pausar cronômetro: ' + err.message);
-      }
-    });
-  }
-
-  if (btnTimerReset) {
-    btnTimerReset.addEventListener('click', async () => {
-      try {
-        await fetch('/api/timer/reset', { method: 'POST' });
+      if (!adminTimer.active) {
+        const previewText = `${String(min).padStart(2, '0')}:00`;
         if (adminTimerClock) {
-          const min = inputTimerMinutes ? inputTimerMinutes.value : '40';
-          adminTimerClock.textContent = `${String(min).padStart(2, '0')}:00`;
+          adminTimerClock.textContent = previewText;
           adminTimerClock.className = 'admin-timer-numbers normal';
         }
-      } catch (err) {
-        alert('Erro ao zerar cronômetro: ' + err.message);
+        if (tabTimerClock) {
+          tabTimerClock.textContent = previewText;
+          tabTimerClock.className = 'admin-timer-numbers normal';
+        }
       }
-    });
-  }
-
-  // Stage Alert Presets & Buttons
-  stageAlertChips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      if (inputStageAlert) {
-        inputStageAlert.value = chip.getAttribute('data-text') || '';
-        inputStageAlert.focus();
-      }
+      if (adminTimerDesc) adminTimerDesc.textContent = label;
+      if (tabTimerDesc) tabTimerDesc.textContent = label;
     });
   });
 
-  if (btnSendStageAlert) {
-    btnSendStageAlert.addEventListener('click', async () => {
-      const msg = inputStageAlert ? inputStageAlert.value.trim() : '';
-      if (!msg) return alert('Digite a mensagem para o palco.');
-      try {
-        await fetch('/api/alerts/stage', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: msg })
-        });
-      } catch (err) {
-        alert('Erro ao enviar mensagem ao palco: ' + err.message);
-      }
-    });
+  async function handleTimerStart(sourceInputMinutes, sourceInputLabel) {
+    const minutes = parseInt(sourceInputMinutes ? sourceInputMinutes.value : 40) || 40;
+    const label = (sourceInputLabel ? sourceInputLabel.value : 'Pregação') || 'Pregação';
+    try {
+      await fetch('/api/timer/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ minutes, label })
+      });
+    } catch (err) {
+      alert('Erro ao iniciar cronômetro: ' + err.message);
+    }
   }
 
-  if (btnClearStageAlert) {
-    btnClearStageAlert.addEventListener('click', async () => {
-      try {
-        await fetch('/api/alerts/stage', { method: 'DELETE' });
-        if (inputStageAlert) inputStageAlert.value = '';
-      } catch (err) {
-        alert('Erro ao limpar mensagem do palco: ' + err.message);
-      }
-    });
+  async function handleTimerStop() {
+    try {
+      await fetch('/api/timer/stop', { method: 'POST' });
+    } catch (err) {
+      alert('Erro ao pausar cronômetro: ' + err.message);
+    }
   }
+
+  async function handleTimerReset(sourceInputMinutes) {
+    try {
+      await fetch('/api/timer/reset', { method: 'POST' });
+      const min = sourceInputMinutes ? sourceInputMinutes.value : '40';
+      const previewText = `${String(min).padStart(2, '0')}:00`;
+      if (adminTimerClock) {
+        adminTimerClock.textContent = previewText;
+        adminTimerClock.className = 'admin-timer-numbers normal';
+      }
+      if (tabTimerClock) {
+        tabTimerClock.textContent = previewText;
+        tabTimerClock.className = 'admin-timer-numbers normal';
+      }
+    } catch (err) {
+      alert('Erro ao zerar cronômetro: ' + err.message);
+    }
+  }
+
+  if (btnTimerStart) btnTimerStart.addEventListener('click', () => handleTimerStart(inputTimerMinutes, inputTimerLabel));
+  if (tabBtnTimerStart) tabBtnTimerStart.addEventListener('click', () => handleTimerStart(tabInputTimerMinutes, tabInputTimerLabel));
+  if (btnTimerStop) btnTimerStop.addEventListener('click', handleTimerStop);
+  if (tabBtnTimerStop) tabBtnTimerStop.addEventListener('click', handleTimerStop);
+  if (btnTimerReset) btnTimerReset.addEventListener('click', () => handleTimerReset(inputTimerMinutes));
+  if (tabBtnTimerReset) tabBtnTimerReset.addEventListener('click', () => handleTimerReset(tabInputTimerMinutes));
+
+  // Stage Alert Presets & Buttons
+  const allStageChips = document.querySelectorAll('.chip-preset-stage');
+  allStageChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const text = chip.getAttribute('data-text') || '';
+      if (inputStageAlert) inputStageAlert.value = text;
+      if (tabInputStageAlert) tabInputStageAlert.value = text;
+    });
+  });
+
+  async function handleSendStageAlert(sourceInput) {
+    const msg = sourceInput ? sourceInput.value.trim() : '';
+    if (!msg) return alert('Digite a mensagem para o palco.');
+    try {
+      await fetch('/api/alerts/stage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg })
+      });
+      alert('Recado enviado ao retorno de palco com sucesso!');
+    } catch (err) {
+      alert('Erro ao enviar mensagem ao palco: ' + err.message);
+    }
+  }
+
+  async function handleClearStageAlert() {
+    try {
+      await fetch('/api/alerts/stage', { method: 'DELETE' });
+      if (inputStageAlert) inputStageAlert.value = '';
+      if (tabInputStageAlert) tabInputStageAlert.value = '';
+    } catch (err) {
+      alert('Erro ao limpar mensagem do palco: ' + err.message);
+    }
+  }
+
+  if (btnSendStageAlert) btnSendStageAlert.addEventListener('click', () => handleSendStageAlert(inputStageAlert));
+  if (tabBtnSendStageAlert) tabBtnSendStageAlert.addEventListener('click', () => handleSendStageAlert(tabInputStageAlert));
+  if (btnClearStageAlert) btnClearStageAlert.addEventListener('click', handleClearStageAlert);
+  if (tabBtnClearStageAlert) tabBtnClearStageAlert.addEventListener('click', handleClearStageAlert);
 
   // Projector Alert Presets & Buttons
-  projAlertChips.forEach(chip => {
+  const allProjChips = document.querySelectorAll('.chip-preset-proj');
+  allProjChips.forEach(chip => {
     chip.addEventListener('click', () => {
       const type = chip.getAttribute('data-type') || 'general';
       const text = chip.getAttribute('data-text') || '';
-      projTypeRadios.forEach(r => {
+      document.querySelectorAll('input[name="proj_alert_type"], input[name="tab_proj_alert_type"]').forEach(r => {
         if (r.value === type) r.checked = true;
       });
-      if (inputProjAlert) {
-        inputProjAlert.value = text;
-        inputProjAlert.focus();
-      }
+      if (inputProjAlert) inputProjAlert.value = text;
+      if (tabInputProjAlert) tabInputProjAlert.value = text;
     });
   });
 
-  if (btnSendProjAlert) {
-    btnSendProjAlert.addEventListener('click', async () => {
-      const msg = inputProjAlert ? inputProjAlert.value.trim() : '';
-      if (!msg) return alert('Digite a mensagem para o telão.');
-      let selectedType = 'general';
-      projTypeRadios.forEach(r => {
-        if (r.checked) selectedType = r.value;
+  async function handleSendProjAlert(sourceInput, radioName) {
+    const msg = sourceInput ? sourceInput.value.trim() : '';
+    if (!msg) return alert('Digite a mensagem para o telão.');
+    let selectedType = 'general';
+    const checkedRadio = document.querySelector(`input[name="${radioName}"]:checked`);
+    if (checkedRadio) selectedType = checkedRadio.value;
+    try {
+      await fetch('/api/alerts/projector', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg, alert_type: selectedType })
       });
-      try {
-        await fetch('/api/alerts/projector', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: msg, alert_type: selectedType })
-        });
-      } catch (err) {
-        alert('Erro ao projetar alerta: ' + err.message);
-      }
-    });
+      alert('Alerta projetado na base do telão com sucesso!');
+    } catch (err) {
+      alert('Erro ao projetar alerta: ' + err.message);
+    }
   }
 
-  if (btnClearProjAlert) {
-    btnClearProjAlert.addEventListener('click', async () => {
-      try {
-        await fetch('/api/alerts/projector', { method: 'DELETE' });
-        if (inputProjAlert) inputProjAlert.value = '';
-      } catch (err) {
-        alert('Erro ao remover alerta do telão: ' + err.message);
-      }
-    });
+  async function handleClearProjAlert() {
+    try {
+      await fetch('/api/alerts/projector', { method: 'DELETE' });
+      if (inputProjAlert) inputProjAlert.value = '';
+      if (tabInputProjAlert) tabInputProjAlert.value = '';
+    } catch (err) {
+      alert('Erro ao remover alerta do telão: ' + err.message);
+    }
   }
+
+  if (btnSendProjAlert) btnSendProjAlert.addEventListener('click', () => handleSendProjAlert(inputProjAlert, 'proj_alert_type'));
+  if (tabBtnSendProjAlert) tabBtnSendProjAlert.addEventListener('click', () => handleSendProjAlert(tabInputProjAlert, 'tab_proj_alert_type'));
+  if (btnClearProjAlert) btnClearProjAlert.addEventListener('click', handleClearProjAlert);
+  if (tabBtnClearProjAlert) tabBtnClearProjAlert.addEventListener('click', handleClearProjAlert);
 
   // =========================================================================
-  // PWA SERVICE WORKER REGISTRATION
+  // PWA SERVICE WORKER REGISTRATION (AUTO-UPDATING)
   // =========================================================================
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('/sw.js').then((reg) => {
         console.log('PWA Service Worker registered:', reg.scope);
+        // Prompt immediate update
+        reg.update();
       }).catch((err) => {
         console.log('PWA registration notice:', err);
       });
