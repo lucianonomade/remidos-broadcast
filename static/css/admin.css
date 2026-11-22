@@ -1471,7 +1471,7 @@ kbd {
   }
 
   .brand-subtitle {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   /* Feed Buttons in Header on Mobile */
@@ -1805,13 +1805,11 @@ kbd {
 }
 
 @media (max-width: 480px) {
-  .mob-action-btn span:not(.mob-dot) {
-    font-size: 11px;
-  }
   .mob-bar-group.actions {
     gap: 4px;
   }
   .mob-action-btn {
-    padding: 0 7px;
+    padding: 0 8px;
+    font-size: 12px;
   }
 }
