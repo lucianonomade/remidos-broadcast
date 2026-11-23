@@ -3,80 +3,95 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Remidos em Cristo — Retorno de Palco | Confidence Monitor</title>
+  <title>Remidos em Cristo — Retorno de Palco</title>
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#080a0d">
+  <meta name="theme-color" content="#06070a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Remidos Palco">
   <link rel="apple-touch-icon" href="/static/img/icons/icon-192.png">
-  <link rel="stylesheet" href="/static/css/stage.css?v=3.0">
+  <link rel="stylesheet" href="/static/css/stage.css?v=3.1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body class="stage-frame">
 
-  <!-- TOP HEADER -->
+  <!-- TOP HEADER (BROADCAST RETORNO BAR) -->
   <header class="stage-header">
     <div class="header-left-brand">
       <div class="brand-seal-wrapper">
-        <img src="/static/img/logo_transparent.png" alt="Remidos" class="stage-logo-seal" onerror="this.src='/static/img/logo.jpg'">
+        <img src="/static/img/logo_transparent.png" alt="Remidos em Cristo" class="stage-logo-seal" onerror="this.src='/static/img/logo.jpg'">
       </div>
       <div class="brand-text-block">
         <div class="brand-primary-line">
-          <span class="church-name">REMIDOS EM CRISTO</span>
-          <span class="church-bullet">•</span>
-          <span class="church-sub">NOVA ALIANÇA</span>
+          <span class="church-name">Remidos em Cristo</span>
+          <span class="church-bullet">·</span>
+          <span class="church-sub">Nova Aliança</span>
         </div>
-        <div class="brand-sub-line">STAGE CONFIDENCE MONITOR</div>
+        <div class="brand-sub-line">Retorno de palco</div>
       </div>
     </div>
 
-    <!-- CENTER: VIEW SWITCHER PILLS -->
-    <div class="header-center-modes">
-      <button class="stage-mode-btn active" data-mode="auto" title="Alternar automaticamente de acordo com o momento do culto">
-        <span>⚡ Auto</span>
+    <!-- CENTER: SEGMENTED VIEW SWITCHER -->
+    <nav class="header-center-modes" aria-label="Modo de visualização">
+      <button class="stage-mode-btn active" data-mode="auto" title="Alternância automática pelo momento do culto">
+        <svg class="mode-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+        <span>Automático</span>
       </button>
-      <button class="stage-mode-btn" data-mode="lyrics" title="Exibir letras dos louvores e versículos bíblicos">
-        <span>🎵 Louvor</span>
+      <button class="stage-mode-btn" data-mode="lyrics" title="Exibir letras e versículos">
+        <svg class="mode-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18V5l12-2v13"></path>
+          <circle cx="6" cy="18" r="3"></circle>
+          <circle cx="18" cy="16" r="3"></circle>
+        </svg>
+        <span>Louvor</span>
       </button>
-      <button class="stage-mode-btn" data-mode="preacher" title="Exibir cronômetro gigante para o pregador no altar">
-        <span>⏱️ Pregador</span>
+      <button class="stage-mode-btn" data-mode="preacher" title="Cronômetro do pregador">
+        <svg class="mode-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span>Pregador</span>
       </button>
-    </div>
+    </nav>
 
     <!-- RIGHT TOOLS: FULLSCREEN, MINI-TIMER & WALL CLOCK -->
     <div class="header-right-tools">
-      <button id="stage-fullscreen-btn" class="stage-fs-button" title="Alternar Tela Cheia (Ideal para Tablet / Monitor)">
-        <svg class="fs-icon enter" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2">
+      <button id="stage-fullscreen-btn" class="stage-fs-button" title="Alternar tela cheia" aria-label="Alternar tela cheia">
+        <svg class="fs-icon enter" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
         </svg>
-        <svg class="fs-icon exit" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" style="display: none;">
+        <svg class="fs-icon exit" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
           <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path>
         </svg>
-        <span class="fs-text">Tela Cheia</span>
+        <span class="fs-text">Tela cheia</span>
       </button>
 
       <!-- MINI COUNTDOWN TIMER (SYNCED IN HEADER) -->
-      <div id="stage-mini-timer" class="header-metric mini-timer" style="display:none;">
-        <span class="metric-label" id="mini-timer-label">PREGAÇÃO</span>
+      <div id="stage-mini-timer" class="header-metric mini-timer" style="display: none;">
+        <span class="metric-label" id="mini-timer-label">Pregação</span>
         <span class="metric-val" id="mini-timer-display">40:00</span>
       </div>
 
       <!-- CURRENT WALL CLOCK -->
       <div class="header-metric wall-clock">
-        <span class="metric-label">HORÁRIO ATUAL</span>
+        <span class="metric-label">Horário local</span>
         <span id="stage-clock" class="metric-val">00:00:00</span>
       </div>
     </div>
   </header>
 
-  <!-- PRIVATE STAGE ALERT BANNER (ONLY ON STAGE) -->
-  <div id="stage-alert-banner" class="stage-alert-banner" style="display: none;">
+  <!-- PRIVATE STAGE ALERT BANNER -->
+  <div id="stage-alert-banner" class="stage-alert-banner" style="display: none;" role="alert">
     <div class="alert-pulse-badge">
-      <span class="alert-bell-icon">🔔</span>
-      <span>AVISO DA CABINE</span>
+      <svg class="alert-bell-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+      </svg>
+      <span>Aviso da cabine</span>
     </div>
     <div id="stage-alert-text" class="alert-message">
       Abaixar retorno do violão
@@ -96,17 +111,27 @@
         <header class="cue-header">
           <div class="cue-identity">
             <span class="cue-pill live-pill">
-              <span class="pulse-dot"></span>
-              <span>NO AR</span>
+              <span class="status-indicator-dot"></span>
+              <span class="cue-pill-title">No ar</span>
             </span>
             <span id="stage-current-ref" class="cue-reference">Louvor ou Leitura</span>
           </div>
-          <span id="stage-status-tag" class="cue-aux-tag">AO VIVO</span>
+          <span id="stage-status-tag" class="cue-aux-tag">Ao vivo</span>
         </header>
 
         <div class="cue-text-chamber">
+          <!-- Text element when slide is active -->
           <div id="stage-current-text" class="lyrics-rendered-text program-text">
-            Aguardando seleção no painel de transmissão...
+            Aguardando seleção na mesa de projeção...
+          </div>
+
+          <!-- Standby state inside lyrics card (e.g. logo or blackout) -->
+          <div id="stage-current-standby" class="program-standby-state" style="display: none;">
+            <div class="standby-mini-emblem">
+              <img src="/static/img/logo_transparent.png" alt="Remidos" class="standby-mini-logo" onerror="this.src='/static/img/logo.jpg'">
+            </div>
+            <div id="stage-standby-title" class="standby-state-title">Logo em exibição no telão</div>
+            <div id="stage-standby-subtitle" class="standby-state-subtitle">Telão principal ativo em descanso litúrgico</div>
           </div>
         </div>
       </section>
@@ -116,7 +141,7 @@
         <header class="cue-header next-header">
           <div class="cue-identity">
             <span class="cue-pill next-pill">
-              <span>A SEGUIR</span>
+              <span class="cue-pill-title">A seguir</span>
             </span>
             <span id="stage-next-ref" class="cue-reference next-ref">Próxima estrofe</span>
           </div>
@@ -124,7 +149,7 @@
 
         <div class="cue-text-chamber next-chamber">
           <div id="stage-next-text" class="lyrics-rendered-text next-text">
-            ---
+            —
           </div>
         </div>
       </section>
@@ -134,12 +159,12 @@
     <!-- =========================================================================
          VIEW 2: PREACHER / ALTAR COUNTDOWN TIMER VIEW (BIG CLOCK)
          ========================================================================= -->
-    <div id="view-preacher" class="stage-view-pane preacher-view" style="display:none;">
+    <div id="view-preacher" class="stage-view-pane preacher-view" style="display: none;">
       
       <div class="preacher-timer-card">
         <div class="preacher-header-row">
-          <div class="preacher-badge-pill">CRONÔMETRO DO ALTAR</div>
-          <div id="big-timer-label" class="preacher-label-tag">PREGAÇÃO</div>
+          <div class="preacher-badge-pill">Cronômetro do altar</div>
+          <div id="big-timer-label" class="preacher-label-tag">Pregação</div>
         </div>
 
         <div class="big-countdown-chamber">
@@ -148,20 +173,20 @@
 
         <div class="preacher-footer-row">
           <div class="clock-sync-unit">
-            <span class="sync-caption">HORÁRIO ATUAL:</span>
+            <span class="sync-caption">Horário local</span>
             <span id="preacher-wall-clock" class="sync-clock-val">00:00:00</span>
           </div>
-          <div id="big-timer-status" class="sync-status-badge active">EM CONTAGEM</div>
+          <div id="big-timer-status" class="sync-status-badge active">Em andamento</div>
         </div>
       </div>
 
       <!-- LOWER MINI CURRENT SLIDE / VERSE (IF PREACHER IS CITING SCRIPTURE) -->
-      <div id="preacher-verse-preview" class="preacher-verse-card" style="display:none;">
+      <div id="preacher-verse-preview" class="preacher-verse-card" style="display: none;">
         <div class="preacher-verse-header">
-          <span class="mini-tag">VERSÍCULO NO TELÃO:</span>
+          <span class="mini-tag">Versículo no telão</span>
           <span id="preacher-verse-ref" class="preacher-verse-ref">João 3:16</span>
         </div>
-        <div id="preacher-verse-text" class="preacher-verse-text">"Porque Deus tanto amou o mundo..."</div>
+        <div id="preacher-verse-text" class="preacher-verse-text">"Porque Deus amou o mundo de tal maneira..."</div>
       </div>
 
     </div>
@@ -169,20 +194,22 @@
     <!-- =========================================================================
          VIEW 3: LITURGICAL STANDBY SCREEN (WHEN IDLE / CHURCH LOGO)
          ========================================================================= -->
-    <div id="view-standby" class="stage-view-pane standby-view" style="display:none;">
+    <div id="view-standby" class="stage-view-pane standby-view" style="display: none;">
       <div class="standby-composition">
-        <img src="/static/img/logo_transparent.png" alt="Remidos" class="standby-logo-seal" onerror="this.src='/static/img/logo.jpg'">
-        <h2 class="standby-church-title">REMIDOS EM CRISTO</h2>
-        <div class="standby-church-subtitle">NOVA ALIANÇA • MONITOR DE RETORNO</div>
+        <div class="standby-seal-container">
+          <img src="/static/img/logo_transparent.png" alt="Remidos em Cristo" class="standby-logo-seal" onerror="this.src='/static/img/logo.jpg'">
+        </div>
+        <h2 class="standby-church-title">Remidos em Cristo</h2>
+        <div class="standby-church-subtitle">Nova Aliança · Monitor de Retorno</div>
         <div class="standby-status-pill">
-          <span class="pulse-dot gold"></span>
-          <span id="standby-status-text">LOGO TRANSMITIDA NO TELÃO PRINCIPAL</span>
+          <span class="status-indicator-dot gold"></span>
+          <span id="standby-status-text">Logo em exibição no telão principal</span>
         </div>
       </div>
     </div>
 
   </main>
 
-  <script src="/static/js/stage.js?v=3.0"></script>
+  <script src="/static/js/stage.js?v=3.1"></script>
 </body>
 </html>

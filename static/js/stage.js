@@ -25,6 +25,9 @@
   // Lyrics View Elements
   const stageCurrentText = document.getElementById('stage-current-text');
   const stageCurrentRef = document.getElementById('stage-current-ref');
+  const stageCurrentStandby = document.getElementById('stage-current-standby');
+  const stageStandbyTitle = document.getElementById('stage-standby-title');
+  const stageStandbySubtitle = document.getElementById('stage-standby-subtitle');
   const stageNextText = document.getElementById('stage-next-text');
   const stageNextRef = document.getElementById('stage-next-ref');
   const stageStatusTag = document.getElementById('stage-status-tag');
@@ -46,7 +49,7 @@
     duration: 40
   };
 
-  // Wall Clock (Every Second)
+  // Wall Clock (Synchronized every second)
   function updateClock() {
     const now = new Date();
     const h = String(now.getHours()).padStart(2, '0');
@@ -85,7 +88,7 @@
     if (!currentTimer.active || !currentTimer.targetTimestamp) {
       if (stageMiniTimer) stageMiniTimer.style.display = 'none';
       if (bigTimerStatus) {
-        bigTimerStatus.textContent = 'PARADO';
+        bigTimerStatus.textContent = 'Pausado';
         bigTimerStatus.className = 'sync-status-badge inactive';
       }
       return;
@@ -115,16 +118,16 @@
       bigTimerDisplay.className = styleClass;
     }
     if (bigTimerLabel) {
-      bigTimerLabel.textContent = (currentTimer.label || 'PREGAÇÃO').toUpperCase();
+      bigTimerLabel.textContent = currentTimer.label || 'Pregação';
     }
     if (bigTimerStatus) {
-      bigTimerStatus.textContent = 'EM CONTAGEM';
+      bigTimerStatus.textContent = 'Em andamento';
       bigTimerStatus.className = 'sync-status-badge active';
     }
 
     if (stageMiniTimer) {
       if (miniTimerDisplay) miniTimerDisplay.textContent = timeText;
-      if (miniTimerLabel) miniTimerLabel.textContent = (currentTimer.label || 'PREGAÇÃO').toUpperCase();
+      if (miniTimerLabel) miniTimerLabel.textContent = currentTimer.label || 'Pregação';
       stageMiniTimer.style.display = 'flex';
     }
   }
@@ -185,55 +188,73 @@
       stageAlertBanner.style.display = 'none';
     }
 
-    // 3. Status Tag
-    if (stageStatusTag) {
-      if (state.is_blackout) {
-        stageStatusTag.textContent = 'TELÃO APAGADO';
-      } else if (state.is_logo) {
-        stageStatusTag.textContent = 'LOGO NO TELÃO';
-      } else if (state.is_clear) {
-        stageStatusTag.textContent = 'TEXTO OCULTO';
-      } else {
-        stageStatusTag.textContent = 'AO VIVO';
-      }
-    }
-
-    // 4. Standby Message
-    if (standbyStatusText) {
-      if (state.is_blackout) {
-        standbyStatusText.textContent = 'TELÃO PRINCIPAL APAGADO (BLACKOUT)';
-      } else if (state.is_logo) {
-        standbyStatusText.textContent = 'LOGO DA IGREJA NO TELÃO PRINCIPAL';
-      } else {
-        standbyStatusText.textContent = 'AGUARDANDO PROJEÇÃO DA MESA';
-      }
-    }
-
-    // 5. Lyrics / Slides View
+    // 3. Status Tag & Current Slide Chamber
     const cur = state.current_slide;
-    if (cur && cur.text && !state.is_blackout && !state.is_clear) {
-      if (stageCurrentText) stageCurrentText.textContent = cur.text;
-      if (stageCurrentRef) stageCurrentRef.textContent = cur.reference || cur.title || 'Louvor';
+    const isShowingSlide = cur && cur.text && !state.is_blackout && !state.is_logo && !state.is_clear;
 
-      // Preacher mini verse view
+    if (isShowingSlide) {
+      if (stageCurrentText) {
+        stageCurrentText.textContent = cur.text;
+        stageCurrentText.style.display = 'block';
+      }
+      if (stageCurrentStandby) stageCurrentStandby.style.display = 'none';
+      if (stageCurrentRef) stageCurrentRef.textContent = cur.reference || cur.title || 'Louvor';
+      if (stageStatusTag) stageStatusTag.textContent = 'Ao vivo';
+
+      // Preacher mini verse preview
       if (preacherVersePreview) {
-        if (preacherVerseRef) preacherVerseRef.textContent = cur.reference || cur.title || 'Leitura Bíblica';
+        if (preacherVerseRef) preacherVerseRef.textContent = cur.reference || cur.title || 'Leitura bíblica';
         if (preacherVerseText) preacherVerseText.textContent = cur.text;
         preacherVersePreview.style.display = 'flex';
       }
     } else {
-      if (stageCurrentText) stageCurrentText.textContent = 'Aguardando projeção da cabine...';
-      if (stageCurrentRef) stageCurrentRef.textContent = 'Standby';
+      // Standby / Logo / Blackout states in program card
+      if (stageCurrentText) stageCurrentText.style.display = 'none';
+      if (stageCurrentStandby) stageCurrentStandby.style.display = 'flex';
       if (preacherVersePreview) preacherVersePreview.style.display = 'none';
+
+      if (state.is_blackout) {
+        if (stageStandbyTitle) stageStandbyTitle.textContent = 'Telão apagado';
+        if (stageStandbySubtitle) stageStandbySubtitle.textContent = 'Modo blackout ativo na mesa';
+        if (stageCurrentRef) stageCurrentRef.textContent = 'Blackout';
+        if (stageStatusTag) stageStatusTag.textContent = 'Apagado';
+      } else if (state.is_logo) {
+        if (stageStandbyTitle) stageStandbyTitle.textContent = 'Logo em exibição no telão';
+        if (stageStandbySubtitle) stageStandbySubtitle.textContent = 'Telão principal transmitindo a insígnia da igreja';
+        if (stageCurrentRef) stageCurrentRef.textContent = 'Transmissão da Logo';
+        if (stageStatusTag) stageStatusTag.textContent = 'Logo ativa';
+      } else if (state.is_clear) {
+        if (stageStandbyTitle) stageStandbyTitle.textContent = 'Texto oculto';
+        if (stageStandbySubtitle) stageStandbySubtitle.textContent = 'Aguardando liberação do texto na mesa';
+        if (stageCurrentRef) stageCurrentRef.textContent = 'Oculto';
+        if (stageStatusTag) stageStatusTag.textContent = 'Standby';
+      } else {
+        if (stageStandbyTitle) stageStandbyTitle.textContent = 'Aguardando projeção';
+        if (stageStandbySubtitle) stageStandbySubtitle.textContent = 'Selecione um louvor ou versículo na cabine';
+        if (stageCurrentRef) stageCurrentRef.textContent = 'Pronto';
+        if (stageStatusTag) stageStatusTag.textContent = 'Em espera';
+      }
     }
 
+    // 4. Standby View Elements
+    if (standbyStatusText) {
+      if (state.is_blackout) {
+        standbyStatusText.textContent = 'Telão principal apagado (Blackout)';
+      } else if (state.is_logo) {
+        standbyStatusText.textContent = 'Logo em exibição no telão principal';
+      } else {
+        standbyStatusText.textContent = 'Aguardando projeção da mesa';
+      }
+    }
+
+    // 5. Next Slide (NEXT)
     const nxt = state.next_slide;
     if (nxt && nxt.text && !state.is_blackout && !state.is_clear) {
       if (stageNextText) stageNextText.textContent = nxt.text;
-      if (stageNextRef) stageNextRef.textContent = nxt.reference || nxt.title || 'Próximo Verso';
+      if (stageNextRef) stageNextRef.textContent = nxt.reference || nxt.title || 'Próxima estrofe';
     } else {
-      if (stageNextText) stageNextText.textContent = 'Fim da sequência';
-      if (stageNextRef) stageNextRef.textContent = '---';
+      if (stageNextText) stageNextText.textContent = '—';
+      if (stageNextRef) stageNextRef.textContent = 'Fim da sequência';
     }
 
     // 6. View Activation
@@ -252,7 +273,7 @@
         iconEnter.style.display = isFs ? 'none' : 'block';
         iconExit.style.display = isFs ? 'block' : 'none';
       }
-      if (fsText) fsText.textContent = isFs ? 'Sair' : 'Tela Cheia';
+      if (fsText) fsText.textContent = isFs ? 'Sair' : 'Tela cheia';
     }
 
     fsBtn.addEventListener('click', function(e) {
