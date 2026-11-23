@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Remidos — Telão do Projetor</title>
-  <link rel="stylesheet" href="/static/css/projector.css?v=2.3">
+  <title>Remidos em Cristo — Telão de Projeção</title>
+  <link rel="stylesheet" href="/static/css/projector.css?v=3.0">
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#080a0d">
+  <meta name="theme-color" content="#050608">
   <link rel="apple-touch-icon" href="/static/img/icons/icon-192.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Outfit:wght@500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
 </head>
 <body id="projector-body" class="projector-canvas">
 
@@ -38,26 +38,31 @@
     <div id="slide-screen" class="screen-view slide-view" style="display: none;">
       <div class="verse-chamber" id="verse-chamber">
         <div id="slide-text" class="verse-projection-text"></div>
-        <div id="slide-meta" class="verse-reference-pill" style="display:none;">
+        <div id="slide-meta" class="verse-reference-pill" style="display: none;">
           <span id="slide-reference" class="reference-title"></span>
-          <span id="slide-type-badge" class="reference-tag" style="display:none;"></span>
+          <span id="slide-type-badge" class="reference-tag" style="display: none;"></span>
         </div>
       </div>
     </div>
 
     <!-- LITURGICAL LOWER BANNER ALERT (BERÇÁRIO / ESTACIONAMENTO / COMUNICADOS) -->
-    <div id="projector-alert-banner" class="projector-alert-banner" style="display: none;">
+    <div id="projector-alert-banner" class="projector-alert-banner" style="display: none;" role="alert">
       <div class="alert-banner-badge" id="alert-banner-badge">
-        <span class="alert-icon" id="alert-icon">🔔</span>
-        <span class="alert-type-text" id="alert-type-text">COMUNICADO</span>
+        <span class="alert-icon-chamber" id="alert-icon-chamber">
+          <svg class="alert-svg-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+        </span>
+        <span class="alert-type-text" id="alert-type-text">Comunicado</span>
       </div>
       <div class="alert-banner-body" id="projector-alert-text">
-        ---
+        —
       </div>
     </div>
 
   </div>
 
-  <script src="/static/js/projector.js?v=2.3"></script>
+  <script src="/static/js/projector.js?v=3.0"></script>
 </body>
 </html>

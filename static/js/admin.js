@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (state.is_blackout) {
       btnBlackout.classList.add('active');
       liveBadge.className = 'live-badge off-air';
-      liveStatusText.textContent = 'TELÃO APAGADO';
+      liveStatusText.textContent = 'Telão apagado';
       prevOverlayBlackout.style.display = 'flex';
       prevOverlayClear.style.display = 'none';
       prevOverlayLogo.style.display = 'none';
@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (state.is_logo) {
         btnLogo.classList.add('active');
         liveBadge.className = 'live-badge on-air';
-        liveStatusText.textContent = 'LOGO NO TELÃO';
+        liveStatusText.textContent = 'Logo no telão';
         prevOverlayLogo.style.display = 'flex';
         prevOverlayClear.style.display = 'none';
         prevContent.style.display = 'none';
@@ -184,13 +184,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (state.is_clear) {
           btnClear.classList.add('active');
-          liveStatusText.textContent = 'TEXTO OCULTO';
+          liveStatusText.textContent = 'Texto oculto';
           prevOverlayClear.style.display = 'flex';
           prevContent.style.display = 'none';
         } else {
           btnClear.classList.remove('active');
           liveBadge.className = 'live-badge on-air';
-          liveStatusText.textContent = 'NO AR';
+          liveStatusText.textContent = 'No ar';
           prevOverlayClear.style.display = 'none';
 
           if (state.current_slide && state.current_slide.text) {
@@ -220,7 +220,14 @@ document.addEventListener('DOMContentLoaded', function() {
       if (state.projector_alert && state.projector_alert.trim() && !state.is_blackout) {
         if (prevAlertText) prevAlertText.textContent = state.projector_alert.trim();
         if (prevAlertIcon) {
-          prevAlertIcon.textContent = (state.projector_alert_type === 'nursery') ? '👶' : (state.projector_alert_type === 'car') ? '🚗' : '🔔';
+          const type = state.projector_alert_type || 'general';
+          if (type === 'nursery') {
+            prevAlertIcon.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>';
+          } else if (type === 'car') {
+            prevAlertIcon.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="10" x="3" y="10" rx="2"/><circle cx="7" cy="15" r="1.5"/><circle cx="17" cy="15" r="1.5"/><path d="M5 10l2-5h10l2 5"/></svg>';
+          } else {
+            prevAlertIcon.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>';
+          }
         }
         prevAlert.style.display = 'flex';
       } else {
@@ -1301,11 +1308,11 @@ document.addEventListener('DOMContentLoaded', function() {
   function tickAdminTimer() {
     if (!adminTimer.active || !adminTimer.targetTimestamp) {
       if (adminTimerStatus) {
-        adminTimerStatus.textContent = 'PARADO';
+        adminTimerStatus.textContent = 'Pausado';
         adminTimerStatus.className = 'timer-live-badge inactive';
       }
       if (tabTimerStatus) {
-        tabTimerStatus.textContent = 'PARADO';
+        tabTimerStatus.textContent = 'Pausado';
         tabTimerStatus.className = 'timer-live-badge inactive';
       }
       if (activeTimerIndicator) {
@@ -1315,11 +1322,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (adminTimerStatus) {
-      adminTimerStatus.textContent = 'EM CONTAGEM';
+      adminTimerStatus.textContent = 'Em andamento';
       adminTimerStatus.className = 'timer-live-badge active';
     }
     if (tabTimerStatus) {
-      tabTimerStatus.textContent = 'EM CONTAGEM';
+      tabTimerStatus.textContent = 'Em andamento';
       tabTimerStatus.className = 'timer-live-badge active';
     }
 

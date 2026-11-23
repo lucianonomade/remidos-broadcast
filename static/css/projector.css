@@ -1,10 +1,12 @@
 :root {
-  --font-active: 'Outfit', sans-serif;
-  --font-seal: 'Cinzel', serif;
+  --font-active: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-seal: 'Cinzel', Georgia, serif;
   --font-size-val: 50px;
-  --font-weight-val: 700;
+  --font-weight-val: 600;
   --text-align-val: center;
   --gold-liturgical: #dfb76c;
+  --gold-border: rgba(223, 183, 108, 0.4);
+  --gold-bg-subtle: rgba(223, 183, 108, 0.14);
   --bg-dim-val: 0.18;
 }
 
@@ -22,6 +24,7 @@ html, body {
   font-family: var(--font-active);
   overflow: hidden;
   user-select: none;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* BACKDROP WITH THE CHURCH IMAGE */
@@ -32,7 +35,7 @@ html, body {
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  background-color: #000;
+  background-color: #050608;
   z-index: 1;
 }
 
@@ -50,7 +53,7 @@ html, body {
   position: absolute;
   inset: 0;
   background-color: rgba(0, 0, 0, var(--bg-dim-val));
-  transition: background-color 0.3s ease;
+  transition: background-color 0.25s ease;
   z-index: 2;
 }
 
@@ -86,7 +89,7 @@ html, body {
 
 /* LOGO VIEW */
 .logo-view {
-  animation: fadeIn 0.35s ease-out;
+  animation: fadeIn 0.3s ease-out;
 }
 
 .logo-composition {
@@ -98,36 +101,36 @@ html, body {
 }
 
 .church-seal-img {
-  width: clamp(280px, 36vw, 540px);
+  width: clamp(280px, 34vw, 520px);
   max-height: 70vh;
   object-fit: contain;
   background: transparent;
   border: none;
   border-radius: 0;
   box-shadow: none;
-  filter: drop-shadow(0 4px 24px rgba(0, 0, 0, 0.95));
+  filter: drop-shadow(0 6px 28px rgba(0, 0, 0, 0.95));
 }
 
 /* VERSE CHAMBER */
 .slide-view {
-  animation: slideFade 0.22s ease-out;
+  animation: slideFade 0.2s ease-out;
 }
 
 @keyframes slideFade {
-  from { opacity: 0; transform: translateY(6px); }
+  from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .verse-chamber {
-  max-width: 58vw;
+  max-width: 60vw;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(18px, 3vh, 36px);
+  gap: clamp(16px, 2.5vh, 32px);
   text-align: var(--text-align-val);
-  margin-top: -2vh; /* Slightly raised for golden ratio balance */
+  margin-top: -2vh;
 }
 
 .verse-chamber.align-left {
@@ -145,17 +148,18 @@ html, body {
 
 .verse-projection-text {
   font-family: var(--font-active);
-  font-size: clamp(32px, 4.4vw, 62px);
+  font-size: clamp(32px, 4.2vw, 60px);
   font-weight: var(--font-weight-val);
-  line-height: 1.38;
+  line-height: 1.34;
   color: #ffffff;
-  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.95), 0 5px 20px rgba(0, 0, 0, 0.9);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95), 0 6px 24px rgba(0, 0, 0, 0.9);
   white-space: pre-line;
   letter-spacing: -0.01em;
+  word-break: break-word;
 }
 
 .verse-projection-text.shadow-soft {
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
 }
 
 .verse-projection-text.shadow-none {
@@ -165,32 +169,31 @@ html, body {
 .verse-reference-pill {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  background: rgba(10, 12, 18, 0.88);
-  backdrop-filter: blur(8px);
-  padding: 6px 20px;
-  border-radius: 24px;
-  border: 1px solid rgba(223, 183, 108, 0.5);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+  gap: 10px;
+  background: rgba(10, 12, 18, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 6px 18px;
+  border-radius: 8px;
+  border: 1px solid var(--gold-border);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
 }
 
 .reference-title {
   font-family: var(--font-seal);
-  font-size: clamp(14px, 1.5vw, 22px);
+  font-size: clamp(14px, 1.4vw, 20px);
   font-weight: 700;
   color: var(--gold-liturgical);
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
+  letter-spacing: 1.2px;
 }
 
 .reference-tag {
-  font-size: clamp(12px, 1.1vw, 15px);
-  font-weight: 700;
+  font-size: clamp(12px, 1.1vw, 14px);
+  font-weight: 600;
   color: #cbd5e1;
-  background: rgba(255, 255, 255, 0.12);
-  padding: 2px 10px;
-  border-radius: 12px;
-  letter-spacing: 0.5px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
 }
 
 /* =========================================================================
@@ -204,19 +207,20 @@ html, body {
   z-index: 100;
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 12px 28px;
-  background: rgba(10, 12, 18, 0.92);
-  backdrop-filter: blur(12px);
-  border: 1.5px solid rgba(223, 183, 108, 0.6);
-  border-radius: 40px;
-  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.75);
+  gap: 14px;
+  padding: 10px 24px;
+  background: rgba(8, 10, 15, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.8);
   max-width: 85vw;
-  animation: alertBannerSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: alertBannerSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes alertBannerSlideUp {
-  from { opacity: 0; transform: translate(-50%, 20px); }
+  from { opacity: 0; transform: translate(-50%, 12px); }
   to { opacity: 1; transform: translate(-50%, 0); }
 }
 
@@ -224,32 +228,34 @@ html, body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(223, 183, 108, 0.2);
-  border: 1px solid rgba(223, 183, 108, 0.4);
-  padding: 4px 14px;
-  border-radius: 20px;
+  background: var(--gold-bg-subtle);
+  border: 1px solid var(--gold-border);
+  padding: 4px 12px;
+  border-radius: 6px;
   flex-shrink: 0;
 }
 
-.alert-icon {
-  font-size: 18px;
-  line-height: 1;
+.alert-icon-chamber {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-liturgical);
 }
 
 .alert-type-text {
   font-family: var(--font-seal);
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--gold-liturgical);
-  letter-spacing: 1.2px;
+  letter-spacing: 0.8px;
 }
 
 .alert-banner-body {
   font-family: var(--font-active);
-  font-size: clamp(18px, 2vw, 28px);
+  font-size: clamp(16px, 1.8vw, 24px);
   font-weight: 600;
   color: #ffffff;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.2px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

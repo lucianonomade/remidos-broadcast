@@ -1997,57 +1997,57 @@ kbd {
   }
 
   .mob-action-btn {
-    height: 40px;
+    height: 42px;
     padding: 0 10px;
     border-radius: 6px;
     background: var(--bg-surface);
     border: 1px solid var(--border-color);
     color: var(--text-muted);
     font-family: var(--font-ui);
-    font-size: 12px;
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: 600;
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
     cursor: pointer;
     transition: all 0.15s;
     -webkit-tap-highlight-color: transparent;
   }
 
   .mob-action-btn:active {
-    transform: scale(0.95);
+    transform: scale(0.96);
   }
 
-  .mob-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: currentColor;
+  .mob-btn-svg {
+    flex-shrink: 0;
+    opacity: 0.8;
   }
 
-  .mob-dot.red { background: var(--red-live); }
-  .mob-dot.gold { background: var(--gold-primary); }
+  .mob-action-btn:hover .mob-btn-svg,
+  .mob-action-btn.active .mob-btn-svg {
+    opacity: 1;
+  }
 
   .mob-action-btn.blackout.active {
-    background: rgba(239, 68, 68, 0.25);
+    background: rgba(239, 68, 68, 0.2);
     border-color: var(--red-live);
-    color: var(--red-live);
+    color: #fca5a5;
   }
 
   .mob-action-btn.clear.active {
-    background: rgba(131, 169, 214, 0.25);
+    background: rgba(131, 169, 214, 0.2);
     border-color: var(--blue-info);
-    color: var(--blue-info);
+    color: #bae6fd;
   }
 
   .mob-action-btn.logo.active {
-    background: rgba(214, 168, 79, 0.25);
+    background: rgba(214, 168, 79, 0.2);
     border-color: var(--gold-primary);
     color: var(--gold-light);
   }
 
   .mob-action-btn.deck {
-    background: rgba(214, 168, 79, 0.12);
+    background: rgba(214, 168, 79, 0.1);
     border-color: var(--border-gold);
     color: var(--gold-light);
   }
@@ -2344,21 +2344,28 @@ kbd {
 }
 
 .type-pill-opt {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-gray);
   cursor: pointer;
+}
+
+.type-pill-opt .opt-svg {
+  opacity: 0.75;
+  flex-shrink: 0;
+}
+
+.type-pill-opt input:checked + .opt-svg,
+.type-pill-opt:hover .opt-svg {
+  opacity: 1;
+  color: var(--gold-light);
 }
 
 .type-pill-opt input {
   accent-color: var(--gold-primary);
   cursor: pointer;
-}
-
-.mob-dot.amber {
-  background: #fbbf24;
 }
 
 @media (max-width: 600px) {

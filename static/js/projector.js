@@ -254,23 +254,29 @@
 
     // 5. Projector Lower Alert Banner (Berçário, Estacionamento, Comunicados)
     const alertBanner = document.getElementById('projector-alert-banner');
-    const alertIcon = document.getElementById('alert-icon');
+    const alertIconChamber = document.getElementById('alert-icon-chamber');
     const alertTypeText = document.getElementById('alert-type-text');
     const alertText = document.getElementById('projector-alert-text');
+
+    const svgIcons = {
+      nursery: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>',
+      car: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="10" x="3" y="10" rx="2"/><circle cx="7" cy="15" r="1.5"/><circle cx="17" cy="15" r="1.5"/><path d="M5 10l2-5h10l2 5"/></svg>',
+      general: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>'
+    };
 
     if (alertBanner && !state.is_blackout && state.projector_alert && state.projector_alert.trim()) {
       if (alertText) alertText.textContent = state.projector_alert.trim();
       
       const type = state.projector_alert_type || 'general';
       if (type === 'nursery') {
-        if (alertIcon) alertIcon.textContent = '👶';
-        if (alertTypeText) alertTypeText.textContent = 'BERÇÁRIO';
+        if (alertIconChamber) alertIconChamber.innerHTML = svgIcons.nursery;
+        if (alertTypeText) alertTypeText.textContent = 'Berçário';
       } else if (type === 'car') {
-        if (alertIcon) alertIcon.textContent = '🚗';
-        if (alertTypeText) alertTypeText.textContent = 'ESTACIONAMENTO';
+        if (alertIconChamber) alertIconChamber.innerHTML = svgIcons.car;
+        if (alertTypeText) alertTypeText.textContent = 'Estacionamento';
       } else {
-        if (alertIcon) alertIcon.textContent = '🔔';
-        if (alertTypeText) alertTypeText.textContent = 'COMUNICADO';
+        if (alertIconChamber) alertIconChamber.innerHTML = svgIcons.general;
+        if (alertTypeText) alertTypeText.textContent = 'Comunicado';
       }
 
       alertBanner.style.display = 'flex';
