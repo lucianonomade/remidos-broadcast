@@ -10,7 +10,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Remidos Media">
   <link rel="apple-touch-icon" href="/static/img/icons/icon-192.png">
-  <link rel="stylesheet" href="/static/css/admin.css?v=2.3">
+  <link rel="stylesheet" href="/static/css/admin.css?v=5.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -19,15 +19,39 @@
 
   <!-- TOP HEADER -->
   <header class="master-header">
-    
-    <!-- LEFT: BRAND & CHURCH LOGO -->
-    <div class="header-left">
-      <div class="brand-church-logo">
-        <img src="/static/img/logo_transparent.png" alt="Remidos em Cristo" class="church-header-logo" onerror="this.src='/static/img/logo.jpg'">
+    <div class="header-main-bar">
+      <!-- LEFT: BRAND & CHURCH LOGO -->
+      <div class="header-left">
+        <div class="brand-church-logo">
+          <img src="/static/img/logo_transparent.png" alt="Remidos em Cristo" class="church-header-logo" onerror="this.src='/static/img/logo.jpg'">
+        </div>
+        <div class="brand-text-block">
+          <span class="brand-name">Remidos em Cristo</span>
+          <span class="brand-subtitle">Nova Aliança</span>
+        </div>
       </div>
-      <div class="brand-text-block">
-        <span class="brand-name">Remidos em Cristo</span>
-        <span class="brand-subtitle">Nova Aliança · Mesa de Transmissão</span>
+
+      <!-- RIGHT: FEED OUTPUT BUTTONS -->
+      <div class="header-right">
+        <button id="btn-open-alerts-header" class="feed-btn alert-trigger-btn" title="Alertas de Palco, Berçário e Cronômetro" aria-label="Alertas e Cronômetro">
+          <svg class="feed-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+          <span class="feed-btn-label">Alertas</span>
+        </button>
+
+        <button id="btn-open-projector" class="feed-btn" title="Abrir Projetor / Segundo Monitor (F11)" aria-label="Abrir Telão">
+          <svg class="feed-icon" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+          <span class="feed-btn-label">Telão</span>
+        </button>
+
+        <button id="btn-open-stage" class="feed-btn" title="Abrir Retorno de Palco para Músicos" aria-label="Abrir Retorno de Palco">
+          <svg class="feed-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span class="feed-btn-label">Palco</span>
+        </button>
+
+        <button id="btn-open-obs" class="feed-btn" title="Copiar feed transparente para OBS Studio" aria-label="Feed OBS">
+          <svg class="feed-icon" viewBox="0 0 24 24"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19.1"/></svg>
+          <span class="feed-btn-label">OBS</span>
+        </button>
       </div>
     </div>
 
@@ -70,29 +94,6 @@
       </button>
     </nav>
 
-    <!-- RIGHT: FEED OUTPUT BUTTONS -->
-    <div class="header-right">
-      <button id="btn-open-alerts-header" class="feed-btn alert-trigger-btn" title="Alertas de Palco, Berçário e Cronômetro">
-        <svg class="feed-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-        <span>Alertas & Timer</span>
-      </button>
-
-      <button id="btn-open-projector" class="feed-btn" title="Abrir Projetor / Segundo Monitor (F11)">
-        <svg class="feed-icon" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
-        <span>Projetor (F11)</span>
-      </button>
-
-      <button id="btn-open-stage" class="feed-btn" title="Abrir Retorno de Palco para Músicos">
-        <svg class="feed-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <span>Retorno Palco</span>
-      </button>
-
-      <button id="btn-open-obs" class="feed-btn" title="Copiar feed transparente para OBS Studio">
-        <svg class="feed-icon" viewBox="0 0 24 24"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19.1"/></svg>
-        <span>OBS Feed</span>
-      </button>
-    </div>
-
     <!-- Live Status Indicator for Code/Observer -->
     <div id="live-badge" style="display:none;">
       <span id="live-status-text">ON AIR</span>
@@ -111,7 +112,7 @@
         <!-- SEARCH ROW WITH SOLID GOLD BUTTON -->
         <div class="search-capsule">
           <svg class="search-lead-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-          <input type="text" id="bible-search-input" placeholder="Pesquise por referência, palavra ou versículo..." autocomplete="off">
+          <input type="text" id="bible-search-input" placeholder="Pesquisar versículo ou livro..." autocomplete="off">
           <button id="btn-bible-search" class="gold-search-btn">
             <svg class="btn-search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             <span>Buscar</span>
@@ -984,6 +985,6 @@ Te amo, Deus, Tua graça nunca falha...
     </div>
   </div>
 
-  <script src="/static/js/admin.js?v=2.3"></script>
+  <script src="/static/js/admin.js?v=5.0"></script>
 </body>
 </html>

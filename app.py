@@ -118,24 +118,40 @@ async def manifest_endpoint():
 
 @app.get("/sw.js")
 async def sw_endpoint():
-    return FileResponse(os.path.join(STATIC_DIR, "sw.js"), media_type="application/javascript")
+    return FileResponse(
+        os.path.join(STATIC_DIR, "sw.js"),
+        media_type="application/javascript",
+        headers={"Cache-Control": "no-cache, no-store, must-revalidate", "Pragma": "no-cache", "Expires": "0"}
+    )
 
 @app.get("/", response_class=FileResponse)
 @app.get("/admin", response_class=FileResponse)
 async def admin_page():
-    return FileResponse(os.path.join(TEMPLATES_DIR, "admin.html"))
+    return FileResponse(
+        os.path.join(TEMPLATES_DIR, "admin.html"),
+        headers={"Cache-Control": "no-cache, no-store, must-revalidate", "Pragma": "no-cache", "Expires": "0"}
+    )
 
 @app.get("/projector", response_class=FileResponse)
 async def projector_page():
-    return FileResponse(os.path.join(TEMPLATES_DIR, "projector.html"))
+    return FileResponse(
+        os.path.join(TEMPLATES_DIR, "projector.html"),
+        headers={"Cache-Control": "no-cache, no-store, must-revalidate", "Pragma": "no-cache", "Expires": "0"}
+    )
 
 @app.get("/stage", response_class=FileResponse)
 async def stage_page():
-    return FileResponse(os.path.join(TEMPLATES_DIR, "stage.html"))
+    return FileResponse(
+        os.path.join(TEMPLATES_DIR, "stage.html"),
+        headers={"Cache-Control": "no-cache, no-store, must-revalidate", "Pragma": "no-cache", "Expires": "0"}
+    )
 
 @app.get("/obs", response_class=FileResponse)
 async def obs_page():
-    return FileResponse(os.path.join(TEMPLATES_DIR, "obs.html"))
+    return FileResponse(
+        os.path.join(TEMPLATES_DIR, "obs.html"),
+        headers={"Cache-Control": "no-cache, no-store, must-revalidate", "Pragma": "no-cache", "Expires": "0"}
+    )
 
 # --- WebSocket ---
 @app.websocket("/ws")
