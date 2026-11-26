@@ -125,7 +125,8 @@ body.app-body {
   padding: 0 16px;
   background: transparent;
   border: none;
-  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
   color: #cbd5e1;
   font-family: var(--font-ui);
   font-size: 14px;
