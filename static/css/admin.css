@@ -93,18 +93,18 @@ body.app-body {
 
 .brand-name {
   font-family: var(--font-ui);
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0.4px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
   color: #ffffff;
   line-height: 1.15;
 }
 
 .brand-subtitle {
   font-family: var(--font-ui);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--gold-primary);
+  font-size: 13px;
+  font-weight: 700;
+  color: #fbbf24;
   letter-spacing: 0.3px;
 }
 
@@ -116,46 +116,49 @@ body.app-body {
   gap: 4px;
   height: 100%;
 }
-  height: 100%;
-}
 
 .nav-btn {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
   height: 100%;
-  padding: 0 14px;
+  padding: 0 16px;
   background: transparent;
   border: none;
-  border-bottom: 2px solid transparent;
-  color: var(--text-muted);
+  border-bottom: 3px solid transparent;
+  color: #cbd5e1;
   font-family: var(--font-ui);
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.15s ease;
 }
 
 .nav-btn .tab-icon {
-  width: 15px;
-  height: 15px;
-  stroke: currentColor;
-  stroke-width: 1.8;
+  width: 17px;
+  height: 17px;
+  stroke: #cbd5e1;
+  stroke-width: 2;
   fill: none;
 }
 
 .nav-btn:hover {
-  color: var(--text-main);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-btn:hover .tab-icon {
+  stroke: #ffffff;
 }
 
 .nav-btn.active {
-  color: var(--gold-primary);
-  border-bottom-color: var(--gold-primary);
-  font-weight: 600;
+  color: #fbbf24;
+  border-bottom-color: #fbbf24;
+  font-weight: 700;
 }
 
 .nav-btn.active .tab-icon {
-  stroke: var(--gold-primary);
+  stroke: #fbbf24;
 }
 
 /* Right Feed Output Buttons */
@@ -169,31 +172,48 @@ body.app-body {
 .feed-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  height: 32px;
-  padding: 0 12px;
+  gap: 7px;
+  height: 36px;
+  padding: 0 14px;
   border-radius: 6px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  color: var(--text-main);
+  background: #18202c;
+  border: 1px solid #334155;
+  color: #ffffff;
   font-family: var(--font-ui);
-  font-size: 12px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.15s ease;
 }
 
 .feed-btn:hover {
-  border-color: var(--gold-primary);
-  color: var(--gold-light);
+  background: #232d3d;
+  border-color: #fbbf24;
+  color: #fbbf24;
+}
+
+.feed-btn:hover .feed-icon {
+  stroke: #fbbf24;
 }
 
 .feed-icon {
-  width: 14px;
-  height: 14px;
-  stroke: currentColor;
-  stroke-width: 1.8;
+  width: 16px;
+  height: 16px;
+  stroke: #f8fafc;
+  stroke-width: 2;
   fill: none;
+}
+
+.feed-btn.alert-trigger-btn {
+  background: rgba(245, 158, 11, 0.16);
+  border: 1px solid #f59e0b;
+  color: #fbbf24;
+  font-weight: 700;
+}
+
+.feed-btn.alert-trigger-btn .feed-icon {
+  stroke: #fbbf24;
+}
 }
 
 /* =========================================================================
@@ -1886,8 +1906,8 @@ kbd {
   }
 
   .brand-name {
-    font-size: 14px;
-    font-weight: 700;
+    font-size: 15px;
+    font-weight: 800;
     color: #ffffff;
     white-space: nowrap;
     overflow: hidden;
@@ -1896,15 +1916,16 @@ kbd {
   }
 
   .brand-subtitle {
-    font-size: 11px;
-    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 700;
+    color: #fbbf24;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     line-height: 1.2;
   }
 
-  /* Feed Buttons in Header on Mobile: compact 34px icon buttons */
+  /* Feed Buttons in Header on Mobile: high-contrast, crisp controls */
   .header-right {
     display: flex !important;
     align-items: center !important;
@@ -1914,16 +1935,18 @@ kbd {
   }
 
   .feed-btn {
-    height: 34px;
-    width: 34px;
-    padding: 0;
+    height: 36px;
+    padding: 0 10px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 5px;
     border-radius: 6px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--border-color);
-    color: var(--text-muted);
+    background: #1a222f;
+    border: 1px solid #334155;
+    color: #f8fafc;
+    font-size: 12px;
+    font-weight: 600;
     transition: all 0.15s ease;
     flex-shrink: 0;
   }
@@ -1931,34 +1954,44 @@ kbd {
   .feed-btn .feed-icon {
     width: 16px;
     height: 16px;
+    stroke: #f8fafc;
+    stroke-width: 2;
+    fill: none;
+    flex-shrink: 0;
   }
 
   .feed-btn .feed-btn-label {
-    display: none !important;
-  }
-
-  .feed-btn span {
-    display: none !important;
-  }
-
-  .feed-btn::after {
-    display: none !important;
-    content: none !important;
+    display: inline-block;
   }
 
   .feed-btn:hover, .feed-btn:active {
-    background: rgba(255, 255, 255, 0.08);
+    background: #253042;
     color: #ffffff;
-    border-color: var(--border-focus);
+    border-color: #fbbf24;
   }
 
   .feed-btn.alert-trigger-btn {
-    background: rgba(214, 168, 79, 0.12);
-    border-color: var(--border-gold);
-    color: var(--gold-light);
+    background: rgba(245, 158, 11, 0.2);
+    border: 1px solid #f59e0b;
+    color: #fbbf24;
+    font-weight: 700;
   }
 
-  /* Horizontal Scrollable Tabs on Row 2 */
+  .feed-btn.alert-trigger-btn .feed-icon {
+    stroke: #fbbf24;
+  }
+
+  @media (max-width: 410px) {
+    .feed-btn {
+      width: 36px;
+      padding: 0;
+    }
+    .feed-btn .feed-btn-label {
+      display: none !important;
+    }
+  }
+
+  /* Horizontal Scrollable Tabs on Row 2: High Contrast */
   .header-center.sub-nav {
     display: flex;
     overflow-x: auto;
@@ -1966,8 +1999,8 @@ kbd {
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     gap: 6px;
-    padding: 4px 0 2px 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 6px 0 2px 0;
+    border-top: 1px solid #202736;
     width: 100%;
     margin: 0;
   }
@@ -1977,17 +2010,48 @@ kbd {
   }
 
   .nav-btn {
-    height: 34px;
-    padding: 0 12px;
-    font-size: 12px;
+    height: 36px;
+    padding: 0 14px;
+    font-size: 13px;
+    font-weight: 600;
     border-radius: 6px;
     flex-shrink: 0;
-    background: rgba(255, 255, 255, 0.03);
-    border-bottom: none;
+    background: #161c26;
+    border: 1px solid #2a3444;
+    color: #cbd5e1;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+  }
+
+  .nav-btn .tab-icon {
+    width: 16px;
+    height: 16px;
+    stroke: #cbd5e1;
+    stroke-width: 2;
+    fill: none;
+  }
+
+  .nav-btn:hover {
+    color: #ffffff;
+    background: #202836;
+  }
+
+  .nav-btn:hover .tab-icon {
+    stroke: #ffffff;
   }
 
   .nav-btn.active {
-    background: var(--gold-dim);
+    background: rgba(245, 158, 11, 0.2);
+    color: #fbbf24;
+    border: 1px solid #f59e0b;
+    font-weight: 700;
+  }
+
+  .nav-btn.active .tab-icon {
+    stroke: #fbbf24;
+  }
     color: var(--gold-primary);
     border: 1px solid var(--border-gold);
   }
