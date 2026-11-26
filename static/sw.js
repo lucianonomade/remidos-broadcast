@@ -1,15 +1,15 @@
-const CACHE_NAME = 'remidos-broadcast-v5.1';
+const CACHE_NAME = 'remidos-broadcast-v6.0';
 const STATIC_ASSETS = [
   '/',
   '/admin',
   '/stage',
   '/projector',
-  '/static/css/admin.css?v=5.1',
-  '/static/css/stage.css?v=5.1',
-  '/static/css/projector.css?v=5.1',
-  '/static/js/admin.js?v=5.1',
-  '/static/js/stage.js?v=5.1',
-  '/static/js/projector.js?v=5.1',
+  '/static/css/admin.css?v=6.0',
+  '/static/css/stage.css?v=6.0',
+  '/static/css/projector.css?v=6.0',
+  '/static/js/admin.js?v=6.0',
+  '/static/js/stage.js?v=6.0',
+  '/static/js/projector.js?v=6.0',
   '/static/img/logo_transparent.png',
   '/static/img/icons/icon-192.png',
   '/static/manifest.json'
