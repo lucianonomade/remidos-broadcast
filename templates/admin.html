@@ -10,7 +10,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Remidos Media">
   <link rel="apple-touch-icon" href="/static/img/icons/icon-192.png">
-  <link rel="stylesheet" href="/static/css/admin.css?v=5.0">
+  <link rel="stylesheet" href="/static/css/admin.css?v=5.1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -109,13 +109,39 @@
       <!-- TAB 1: BÍBLIA -->
       <div id="tab-bible" class="tab-pane active">
         
-        <!-- SEARCH ROW WITH SOLID GOLD BUTTON -->
+        <!-- SEARCH ROW WITH SMART REFERENCE & VOICE BUTTON -->
         <div class="search-capsule">
           <svg class="search-lead-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-          <input type="text" id="bible-search-input" placeholder="Pesquisar versículo ou livro..." autocomplete="off">
+          <input type="text" id="bible-search-input" placeholder="Ex: jo 3 16, sl 23 1-6 ou palavra..." autocomplete="off">
+          <button id="btn-voice-search" class="voice-search-btn" title="Buscar por voz (fale a passagem)" aria-label="Microfone de busca por voz">
+            <svg class="btn-mic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              <line x1="12" x2="12" y1="19" y2="22"/>
+            </svg>
+          </button>
           <button id="btn-bible-search" class="gold-search-btn">
             <svg class="btn-search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             <span>Buscar</span>
+          </button>
+        </div>
+
+        <!-- VOICE LISTENING BANNER -->
+        <div id="voice-status-bar" class="voice-status-bar" style="display: none;">
+          <span class="voice-pulse-dot"></span>
+          <span id="voice-status-text" class="voice-status-text">Ouvindo... Fale a referência bíblica</span>
+          <button id="btn-cancel-voice" class="voice-cancel-btn" title="Cancelar busca por voz">&times;</button>
+        </div>
+
+        <!-- SMART REFERENCE LIVE DETECTION BANNER -->
+        <div id="smart-ref-bar" class="smart-ref-bar" style="display: none;">
+          <div class="smart-ref-info">
+            <span class="smart-ref-badge">Smart Ref</span>
+            <span id="smart-ref-label" class="smart-ref-label">João 3:16</span>
+          </div>
+          <button id="btn-smart-project" class="smart-project-btn" title="Projetar este versículo imediatamente no telão">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <span>Projetar Agora (Enter)</span>
           </button>
         </div>
 
@@ -985,6 +1011,6 @@ Te amo, Deus, Tua graça nunca falha...
     </div>
   </div>
 
-  <script src="/static/js/admin.js?v=5.0"></script>
+  <script src="/static/js/admin.js?v=5.1"></script>
 </body>
 </html>

@@ -41,6 +41,13 @@ document.addEventListener('DOMContentLoaded', function() {
   // Bible Tab Elements
   const bibleSearchInput = document.getElementById('bible-search-input');
   const btnBibleSearch = document.getElementById('btn-bible-search');
+  const btnVoiceSearch = document.getElementById('btn-voice-search');
+  const voiceStatusBar = document.getElementById('voice-status-bar');
+  const voiceStatusText = document.getElementById('voice-status-text');
+  const btnCancelVoice = document.getElementById('btn-cancel-voice');
+  const smartRefBar = document.getElementById('smart-ref-bar');
+  const smartRefLabel = document.getElementById('smart-ref-label');
+  const btnSmartProject = document.getElementById('btn-smart-project');
   const bibleBookSelect = document.getElementById('bible-book-select');
   const bibleChapterSelect = document.getElementById('bible-chapter-select');
   const bibleVersionSelect = document.getElementById('bible-version-select');
@@ -488,7 +495,53 @@ document.addEventListener('DOMContentLoaded', function() {
     })), `${data.book_name} ${data.chapter}`);
   });
 
-  async function performBibleSearch(query) {
+  // Lightweight Smart Reference client-side detection for real-time instant banner
+  function checkSmartRefInput(query) {
+    if (!query || !query.trim() || !smartRefBar) {
+      if (smartRefBar) smartRefBar.style.display = 'none';
+      return null;
+    }
+    const clean = query.trim().toLowerCase();
+    const pattern = /^(\d\s*|[iI]{1,3}\s*)?([a-zA-ZÀ-ÿ]+)\s*(\d+)(?:(?:\s*[:,\.]\s*|\s+)(\d+)(?:\s*(?:-|a|ao|at[ée])\s*(\d+))?)?$/;
+    const match = clean.match(pattern);
+    if (match) {
+      const numPrefix = (match[1] || '').trim();
+      const bookPart = match[2];
+      const chapter = match[3];
+      const startV = match[4];
+      const endV = match[5];
+      
+      let refDisplay = `${numPrefix ? numPrefix + ' ' : ''}${bookPart} ${chapter}`;
+      if (startV && endV) {
+        refDisplay += `:${startV}-${endV}`;
+      } else if (startV) {
+        refDisplay += `:${startV}`;
+      }
+      
+      smartRefLabel.textContent = refDisplay.toUpperCase();
+      smartRefBar.style.display = 'flex';
+      return refDisplay;
+    } else {
+      smartRefBar.style.display = 'none';
+      return null;
+    }
+  }
+
+  function flashSmartRefSuccess(title) {
+    if (!smartRefBar || !smartRefLabel) return;
+    smartRefLabel.textContent = `Projetado no telão: ${title}`;
+    smartRefBar.style.display = 'flex';
+    smartRefBar.style.borderColor = 'var(--gold-primary)';
+    smartRefBar.style.background = 'rgba(217, 164, 65, 0.2)';
+    setTimeout(() => {
+      if (smartRefBar) {
+        smartRefBar.style.borderColor = '';
+        smartRefBar.style.background = '';
+      }
+    }, 3500);
+  }
+
+  async function performBibleSearch(query, autoProject = false) {
     if (!query || !query.trim()) return;
     const version = bibleVersionSelect.value;
     bibleResultsTitle.textContent = `Buscando "${query}"...`;
@@ -497,29 +550,146 @@ document.addEventListener('DOMContentLoaded', function() {
       const res = await fetch(`/api/bible/search?q=${encodeURIComponent(query)}&version=${version}`);
       const data = await res.json();
       const title = data.type === 'reference' ? data.reference_text : `Resultados para "${query}"`;
-      renderBibleVerses(data.results, title);
+      const formattedSlides = renderBibleVerses(data.results, title);
+
+      // Instant projection if single verse or passage range detected
+      if (autoProject && formattedSlides && formattedSlides.length > 0) {
+        if (data.is_single_verse || data.is_range) {
+          loadDeck(title, 'Passagem Bíblica', formattedSlides, 0);
+          await pushCurrentDeckSlide(0);
+          flashSmartRefSuccess(title);
+        }
+      }
     } catch (err) {
       console.error('Search error:', err);
     }
   }
 
   btnBibleSearch.addEventListener('click', () => {
-    performBibleSearch(bibleSearchInput.value);
+    performBibleSearch(bibleSearchInput.value, true);
   });
+
+  if (btnSmartProject) {
+    btnSmartProject.addEventListener('click', () => {
+      performBibleSearch(bibleSearchInput.value, true);
+    });
+  }
 
   bibleSearchInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
-      performBibleSearch(bibleSearchInput.value);
+      e.preventDefault();
+      performBibleSearch(bibleSearchInput.value, true);
     }
+  });
+
+  bibleSearchInput.addEventListener('input', (e) => {
+    checkSmartRefInput(e.target.value);
   });
 
   quickRefChips.forEach(chip => {
     chip.addEventListener('click', () => {
       const ref = chip.getAttribute('data-ref');
       bibleSearchInput.value = ref;
-      performBibleSearch(ref);
+      checkSmartRefInput(ref);
+      performBibleSearch(ref, true);
     });
   });
+
+  // --- VOICE SEARCH (SPEECH-TO-TEXT) ---
+  let speechRec = null;
+  let isListening = false;
+
+  function stopVoiceSearch() {
+    isListening = false;
+    if (btnVoiceSearch) btnVoiceSearch.classList.remove('listening');
+    if (voiceStatusBar) voiceStatusBar.style.display = 'none';
+  }
+
+  function initVoiceSearch() {
+    const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRec) {
+      if (btnVoiceSearch) {
+        btnVoiceSearch.title = 'Reconhecimento de voz não suportado neste navegador';
+        btnVoiceSearch.addEventListener('click', () => {
+          alert('Reconhecimento de voz por microfone requer Google Chrome, Microsoft Edge ou Safari.');
+        });
+      }
+      return;
+    }
+
+    try {
+      speechRec = new SpeechRec();
+      speechRec.lang = 'pt-BR';
+      speechRec.continuous = false;
+      speechRec.interimResults = false;
+      speechRec.maxAlternatives = 1;
+
+      speechRec.onstart = () => {
+        isListening = true;
+        if (btnVoiceSearch) btnVoiceSearch.classList.add('listening');
+        if (voiceStatusBar) {
+          voiceStatusBar.style.display = 'flex';
+          voiceStatusText.textContent = 'Ouvindo... Fale a passagem (ex: João 3 16)';
+        }
+      };
+
+      speechRec.onresult = (event) => {
+        const transcript = event.results && event.results[0] && event.results[0][0] ? event.results[0][0].transcript : '';
+        if (transcript) {
+          bibleSearchInput.value = transcript;
+          checkSmartRefInput(transcript);
+          performBibleSearch(transcript, true);
+        }
+      };
+
+      speechRec.onerror = (event) => {
+        console.warn('Speech recognition error:', event.error);
+        if (voiceStatusText) {
+          if (event.error === 'not-allowed') {
+            voiceStatusText.textContent = 'Permissão de microfone negada no navegador.';
+          } else if (event.error === 'no-speech') {
+            voiceStatusText.textContent = 'Nenhuma voz detectada. Tente novamente.';
+          } else {
+            voiceStatusText.textContent = `Aviso de áudio: ${event.error}`;
+          }
+        }
+        setTimeout(stopVoiceSearch, 2500);
+      };
+
+      speechRec.onend = () => {
+        stopVoiceSearch();
+      };
+
+      if (btnVoiceSearch) {
+        btnVoiceSearch.addEventListener('click', () => {
+          if (isListening) {
+            speechRec.stop();
+            stopVoiceSearch();
+          } else {
+            try {
+              speechRec.start();
+            } catch (err) {
+              console.warn('Recognition start error:', err);
+            }
+          }
+        });
+      }
+
+      if (btnCancelVoice) {
+        btnCancelVoice.addEventListener('click', () => {
+          if (speechRec && isListening) {
+            speechRec.stop();
+          }
+          stopVoiceSearch();
+        });
+      }
+    } catch (err) {
+      console.warn('Failed to initialize speech recognition:', err);
+    }
+  }
+
+  // Initialize voice search
+  initVoiceSearch();
 
   function renderBibleVerses(verses, groupTitle) {
     bibleResultsTitle.textContent = groupTitle;
@@ -533,7 +703,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <p>Nenhum versículo encontrado para essa consulta.</p>
         </div>
       `;
-      return;
+      return [];
     }
 
     // Convert verses to slide format for deck
@@ -579,6 +749,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
       bibleResultsList.appendChild(item);
     });
+
+    return formattedSlides;
   }
 
   // --- SONGS TAB LOGIC ---

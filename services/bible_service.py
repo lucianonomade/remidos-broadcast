@@ -22,11 +22,11 @@ BOOK_ALIASES = {
     "ed": 15, "esd": 15, "esdras": 15,
     "ne": 16, "nee": 16, "neemias": 16,
     "et": 17, "est": 17, "ester": 17,
-    "jo": 18, "jó": 18,
-    "sl": 19, "sal": 19, "salmo": 19, "salmos": 19,
-    "pv": 20, "prov": 20, "proverbios": 20, "provérbios": 20,
+    "jo": 18, "jó": 18, "job": 18,
+    "sl": 19, "sal": 19, "salmo": 19, "salmos": 19, "ps": 19,
+    "pv": 20, "pr": 20, "prov": 20, "proverbios": 20, "provérbios": 20,
     "ec": 21, "ecl": 21, "eclesiastes": 21,
-    "ct": 22, "cant": 22, "cantares": 22,
+    "ct": 22, "cant": 22, "cantares": 22, "canticos": 22, "cânticos": 22,
     "is": 23, "isa": 23, "isaias": 23, "isaías": 23,
     "jr": 24, "jer": 24, "jeremias": 24,
     "lm": 25, "lam": 25, "lamentacoes": 25, "lamentações": 25,
@@ -54,7 +54,7 @@ BOOK_ALIASES = {
     "2co": 47, "2 co": 47, "2corintios": 47, "2 coríntios": 47,
     "gl": 48, "gal": 48, "galatas": 48, "gálatas": 48,
     "ef": 49, "efe": 49, "efesios": 49, "efésios": 49,
-    "fp": 50, "fil": 50, "filipenses": 50,
+    "fp": 50, "fl": 50, "flp": 50, "fil": 50, "filipenses": 50,
     "cl": 51, "col": 51, "colossenses": 51,
     "1ts": 52, "1 ts": 52, "1tessalonicenses": 52, "1 tessalonicenses": 52,
     "2ts": 53, "2 ts": 53, "2tessalonicenses": 53, "2 tessalonicenses": 53,
@@ -64,14 +64,52 @@ BOOK_ALIASES = {
     "fm": 57, "flm": 57, "filemom": 57,
     "hb": 58, "heb": 58, "hebreus": 58,
     "tg": 59, "tia": 59, "tiago": 59,
-    "1pe": 60, "1 pe": 60, "1pedro": 60, "1 pedro": 60,
-    "2pe": 61, "2 pe": 61, "2pedro": 61, "2 pedro": 61,
+    "1pe": 60, "1 pe": 60, "1ped": 60, "1 ped": 60, "1pedro": 60, "1 pedro": 60,
+    "2pe": 61, "2 pe": 61, "2ped": 61, "2 ped": 61, "2pedro": 61, "2 pedro": 61,
     "1jo": 62, "1 jo": 62, "1joao": 62, "1 joão": 62,
     "2jo": 63, "2 jo": 63, "2joao": 63, "2 joão": 63,
     "3jo": 64, "3 jo": 64, "3joao": 64, "3 joão": 64,
     "jd": 65, "jud": 65, "judas": 65,
-    "ap": 66, "apo": 66, "apocalipse": 66
+    "ap": 66, "apo": 66, "apoc": 66, "apocalipse": 66
 }
+
+WORD_TO_NUM = {
+    'um': 1, 'uma': 1, 'dois': 2, 'duas': 2, 'tres': 3, 'três': 3, 'quatro': 4, 'cinco': 5,
+    'seis': 6, 'sete': 7, 'oito': 8, 'nove': 9, 'dez': 10, 'onze': 11, 'doze': 12,
+    'treze': 13, 'quatorze': 14, 'catorze': 14, 'quinze': 15, 'dezesseis': 16, 'dezasseis': 16,
+    'dezessete': 17, 'dezoito': 18, 'dezenove': 19, 'vinte': 20, 'trinta': 30, 'quarenta': 40,
+    'cinquenta': 50, 'sessenta': 60, 'setenta': 70, 'oitenta': 80, 'noventa': 90, 'cem': 100, 'cento': 100
+}
+
+def normalize_speech_to_ref(q: str) -> str:
+    """Normalizes voice transcriptions or natural spoken text to standardized reference format."""
+    s = q.lower().strip()
+    s = re.sub(r'^(iii|3[ªº]?)\s*', '3 ', s)
+    s = re.sub(r'^(ii|2[ªº]?)\s*', '2 ', s)
+    s = re.sub(r'^(i|1[ªº]?)\s*', '1 ', s)
+    s = re.sub(r'\b(primeira|primeiro|1ª|1º)\b', '1', s)
+    s = re.sub(r'\b(segunda|segundo|2ª|2º)\b', '2', s)
+    s = re.sub(r'\b(terceira|terceiro|3ª|3º)\b', '3', s)
+    s = re.sub(r'\b(cap[íi]tulo|cap\.?)\b', ' ', s)
+    s = re.sub(r'\b(vers[íi]culo|versos?|v\.?)\b', ' ', s)
+    s = re.sub(r'\s+(a|ao|at[ée])\s+', '-', s)
+    
+    # Tens + units (e.g. vinte e três -> 23)
+    for tens in ['noventa', 'oitenta', 'setenta', 'sessenta', 'cinquenta', 'quarenta', 'trinta', 'vinte']:
+        for units in ['um', 'uma', 'dois', 'duas', 'três', 'tres', 'quatro', 'cinco', 'seis', 'sete', 'oito', 'nove']:
+            val = WORD_TO_NUM[tens] + WORD_TO_NUM[units]
+            s = re.sub(rf'\b{tens}\s+e\s+{units}\b', str(val), s)
+            
+    # Hundreds (e.g. cento e dezenove -> 119)
+    for comp in ['noventa', 'oitenta', 'setenta', 'sessenta', 'cinquenta', 'quarenta', 'trinta', 'vinte', 'dezenove', 'dezoito', 'dezessete', 'dezesseis', 'quinze', 'quatorze', 'treze', 'doze', 'onze', 'dez']:
+        val = 100 + WORD_TO_NUM[comp]
+        s = re.sub(rf'\bcento\s+e\s+{comp}\b', str(val), s)
+        
+    for k, v in WORD_TO_NUM.items():
+        s = re.sub(rf'\b{k}\b', str(v), s)
+        
+    s = re.sub(r'\s+', ' ', s).strip()
+    return s
 
 def get_db():
     conn = sqlite3.connect(DB_PATH)
@@ -146,35 +184,42 @@ def get_verse(book_id: int, chapter: int, verse: int, version: str = "NVI"):
 
 def parse_reference(query: str):
     """
-    Parses strings like:
-    - Jo 3:16
-    - João 3:16-18
-    - 1 Co 13:4
-    - Salmos 23
-    - Gn 1
+    Parses natural and smart reference strings:
+    - jo 3 16
+    - jo 3:16
+    - joão 3 16-18
+    - 1 co 13 4
+    - sl 23
+    - sl 23 1-6
+    - fl 4 13
+    - rm 8 28
+    - apoc 3 20
     """
-    q = query.strip()
-    # Normalize spaces and lowercase
-    # Match patterns like: (optional 1/2/3)? (letters) (chapter):?(verse)?(-verse_end)?
-    pattern = r'^(\d\s*)?([a-zA-ZÀ-ÿ]+)\s*(\d+)(?:[:,\.](\d+)(?:-(\d+))?)?'
+    if not query:
+        return None
+    q = normalize_speech_to_ref(query)
+    
+    # Regex supporting space, colon, comma or dot between chapter and verse:
+    pattern = r'^(\d\s*|[iI]{1,3}\s*)?([a-zA-ZÀ-ÿ]+)\s*(\d+)(?:(?:\s*[:,\.]\s*|\s+)(\d+)(?:\s*(?:-|a|ao|at[ée])\s*(\d+))?)?$'
     m = re.match(pattern, q)
     if not m:
         return None
     
     num_prefix, book_part, chapter, start_v, end_v = m.groups()
-    book_key = (num_prefix.strip() if num_prefix else "") + book_part.strip().lower()
+    book_key = ((num_prefix.strip() if num_prefix else '') + book_part.strip()).lower()
+    
     # Remove accents for alias matching
     book_clean = book_key.replace("ã", "a").replace("á", "a").replace("â", "a") \
                          .replace("é", "e").replace("ê", "e").replace("í", "i") \
                          .replace("ó", "o").replace("ô", "o").replace("ú", "u")
     
-    # Special fix: "jo" vs "jó" vs "joao"
-    if book_key in ["jó", "jo"] and ("jo" in query.lower() and not "jó" in query.lower() and int(chapter) > 3):
-        # Jó has 42 chapters, but if someone typed 'jo 3:16' it's João!
-        if int(chapter) <= 42 and start_v:
-            pass # could be Jó
+    # Handle Jó vs João: in church context 'jo' followed by chapter:verse is almost always João (43)
+    # Book 18 (Jó) is only selected if explicitly typed with accent 'jó' or 'job'
     if book_clean in ["jo", "joo", "joao"]:
-        book_id = 43 # João (most common in church)
+        if "jó" in query.lower() or book_key == "jó" or book_key == "job":
+            book_id = 18
+        else:
+            book_id = 43
     else:
         book_id = BOOK_ALIASES.get(book_clean) or BOOK_ALIASES.get(book_key)
         
@@ -182,7 +227,7 @@ def parse_reference(query: str):
         return None
         
     chap_num = int(chapter)
-    v_start = int(start_v) if start_v else 1
+    v_start = int(start_v) if start_v else None
     v_end = int(end_v) if end_v else (int(start_v) if start_v else None)
     
     return {
@@ -192,7 +237,7 @@ def parse_reference(query: str):
         "verse_end": v_end
     }
 
-def search_bible(query: str, version: str = "NVI", limit: int = 30):
+def search_bible(query: str, version: str = "NVI", limit: int = 40):
     ref = parse_reference(query)
     conn = get_db()
     c = conn.cursor()
@@ -203,18 +248,38 @@ def search_bible(query: str, version: str = "NVI", limit: int = 30):
         v_start = ref["verse_start"]
         v_end = ref["verse_end"]
         
-        c.execute("SELECT name FROM books WHERE id = ?", (book_id,))
-        b_name = c.fetchone()["name"]
+        c.execute("SELECT name, abbrev FROM books WHERE id = ?", (book_id,))
+        b_row = c.fetchone()
+        b_name = b_row["name"]
+        b_abbrev = b_row["abbrev"]
         
-        if v_end:
-            c.execute("""
-                SELECT v.id, v.chapter, v.verse, v.text, b.name as book_name, b.id as book_id
-                FROM verses v
-                JOIN books b ON b.id = v.book_id
-                WHERE v.book_id = ? AND v.chapter = ? AND v.verse >= ? AND v.verse <= ? AND v.version = ?
-                ORDER BY v.verse ASC
-            """, (book_id, chapter, v_start, v_end, version))
+        if v_start is not None and v_end is not None:
+            if v_start == v_end:
+                # Single verse
+                c.execute("""
+                    SELECT v.id, v.chapter, v.verse, v.text, b.name as book_name, b.id as book_id
+                    FROM verses v
+                    JOIN books b ON b.id = v.book_id
+                    WHERE v.book_id = ? AND v.chapter = ? AND v.verse = ? AND v.version = ?
+                    ORDER BY v.verse ASC
+                """, (book_id, chapter, v_start, version))
+                reference_text = f"{b_name} {chapter}:{v_start}"
+                is_single = True
+                is_range = False
+            else:
+                # Verse range (e.g. 1-6)
+                c.execute("""
+                    SELECT v.id, v.chapter, v.verse, v.text, b.name as book_name, b.id as book_id
+                    FROM verses v
+                    JOIN books b ON b.id = v.book_id
+                    WHERE v.book_id = ? AND v.chapter = ? AND v.verse >= ? AND v.verse <= ? AND v.version = ?
+                    ORDER BY v.verse ASC
+                """, (book_id, chapter, v_start, v_end, version))
+                reference_text = f"{b_name} {chapter}:{v_start}-{v_end}"
+                is_single = False
+                is_range = True
         else:
+            # Full chapter
             c.execute("""
                 SELECT v.id, v.chapter, v.verse, v.text, b.name as book_name, b.id as book_id
                 FROM verses v
@@ -222,11 +287,22 @@ def search_bible(query: str, version: str = "NVI", limit: int = 30):
                 WHERE v.book_id = ? AND v.chapter = ? AND v.version = ?
                 ORDER BY v.verse ASC
             """, (book_id, chapter, version))
+            reference_text = f"{b_name} {chapter}"
+            is_single = False
+            is_range = False
+            
         rows = [dict(row) for row in c.fetchall()]
         conn.close()
         return {
             "type": "reference",
-            "reference_text": f"{b_name} {chapter}" + (f":{v_start}" if v_start == v_end else f":{v_start}-{v_end}" if v_end else ""),
+            "reference_text": reference_text,
+            "book_name": b_name,
+            "book_abbrev": b_abbrev,
+            "chapter": chapter,
+            "verse_start": v_start,
+            "verse_end": v_end,
+            "is_single_verse": is_single and len(rows) == 1,
+            "is_range": is_range and len(rows) > 0,
             "results": rows
         }
     
@@ -258,5 +334,7 @@ def search_bible(query: str, version: str = "NVI", limit: int = 30):
     return {
         "type": "text_search",
         "query": query,
+        "is_single_verse": False,
+        "is_range": False,
         "results": rows
     }
